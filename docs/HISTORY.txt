@@ -1,0 +1,42 @@
+Changelog
+=========
+
+0.3 - unreleased
+----------------
+
+* Add German translation.
+  [saily]
+
+0.2 - 2008-06-20
+----------------
+
+* Fix usage of NumberDataConverter with zope.i18n >= 3.4 as the
+  previous test setup was partial and did not register all adapters
+  from z3c.form (some of them depends on zope >= 3.4)
+  [gotcha, jfroche]
+
+* More tests
+  [gotcha, jfroche]
+
+0.1 - 2008-05-21
+----------------
+
+* Provide and *register* default form and subform templates.  These
+  allow forms to be used with the style provided in this package
+  without having to declare ``form = ViewPageTemplateFile('form.pt')``.
+
+  This does not hinder you from overriding with your own ``form``
+  attribute like usual.  You can also still register a more
+  specialized IPageTemplate for your form.
+
+* Add custom FileUploadDataConverter that converts a Zope 2 FileUpload
+  object to a Zope 3 one before handing it to the original
+  implementation.  Also add support for different enctypes.
+  [skatja, nouri]
+
+* Added Archetypes reference selection widget (queryselect)
+  [malthe]
+  
+* Moved generic Zope 2 compatibility code for z3c.form and a few
+  goodies from Singing & Dancing into this new package.
+  [nouri]

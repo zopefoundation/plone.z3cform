@@ -1,0 +1,2 @@
+Please refer to this online HOWTO for installation instructions for Plone:
+http://plone.org/documentation/how-to/easy-forms-with-plone3
