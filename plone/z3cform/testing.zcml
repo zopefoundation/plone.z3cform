@@ -8,8 +8,8 @@
     <include file="configure.zcml" package="Products.Five"/>
     <include file="meta.zcml" package="z3c.form"/>
     <include file="configure.zcml" package="z3c.form"/>
-    <includeOverrides file="overrides.zcml" package="plone.z3cform"/>
 
+    <includeOverrides file="overrides.zcml" package="plone.z3cform"/>
     <include file="configure.zcml" package="plone.z3cform"/>
 
 </configure>

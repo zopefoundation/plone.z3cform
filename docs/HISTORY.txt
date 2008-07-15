@@ -4,6 +4,20 @@ Changelog
 0.3 - unreleased
 ----------------
 
+* Move out Plone-specific subpackages to ``plone.app.z3cform``.  These
+  are:
+
+  - wysywig: Kupu/Plone integration
+
+  - queryselect: use z3c.formwidget.query with Archetypes
+
+  Clean up testing code and development ``buildout.cfg`` to not pull
+  in Plone anymore.
+  [nouri]
+
+* Relicensed under the ZPL 2.1 and moved into the Zope repository.
+  [nouri]
+
 * Add German translation.
   [saily]
 

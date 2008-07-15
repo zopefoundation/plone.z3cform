@@ -1,15 +1,16 @@
+import os
 import unittest
-from zope.testing import doctest
 
+from zope.testing import doctest
 from zope import component
 from zope import interface
+from zope.component import testing
+from zope.app.testing.functional import ZCMLLayer
 import zope.traversing.adapters
 import zope.traversing.namespace
-from zope.component import testing
 import zope.publisher.interfaces.browser
 import z3c.form.testing
-import plone.z3cform
-import os
+
 import plone.z3cform.templates
 
 def create_eventlog(event=interface.Interface):
@@ -49,37 +50,22 @@ def setup_defaults():
         (None, None, None, None, None, None),
         z3c.form.interfaces.IErrorViewSnippet)
 
-from zope.app.testing.functional import ZCMLLayer
-testingZCMLPath = os.path.join(os.path.dirname(__file__), 'testing.zcml')
-fullZ3CFormLayer = ZCMLLayer(testingZCMLPath,
-                             'plone.z3cform',
-                             'fullZ3CFormLayer')
+testing_zcml_path = os.path.join(os.path.dirname(__file__), 'testing.zcml')
+testing_zcml_layer = ZCMLLayer(
+    testing_zcml_path, 'plone.z3cform', 'testing_zcml_layer')
 
 def test_suite():
-    fullZ3CForm = doctest.DocFileSuite('base.txt')
-    fullZ3CForm.layer = fullZ3CFormLayer
+    base_txt = doctest.DocFileSuite('base.txt')
+    base_txt.layer = testing_zcml_layer
     
-    fieldsets = doctest.DocFileSuite('fieldsets/README.txt')
-    fieldsets.layer = fullZ3CFormLayer
+    fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
+    fieldsets_txt.layer = testing_zcml_layer
     
     return unittest.TestSuite([
+        base_txt, fieldsets_txt,
 
         doctest.DocFileSuite(
            'crud/README.txt',
-           setUp=testing.setUp, tearDown=testing.tearDown,
-           ),
-
-        fullZ3CForm,
-        
-        fieldsets,
-
-        doctest.DocFileSuite(
-           'wysiwyg/README.txt',
-           setUp=testing.setUp, tearDown=testing.tearDown,
-           ),
-
-        doctest.DocFileSuite(
-           'queryselect/README.txt',
            setUp=testing.setUp, tearDown=testing.tearDown,
            ),
 
@@ -87,10 +73,4 @@ def test_suite():
            'plone.z3cform.crud.crud',
            setUp=testing.setUp, tearDown=testing.tearDown,
            ),
-
-        doctest.DocTestSuite(
-           'plone.z3cform.wysiwyg.widget',
-           setUp=testing.setUp, tearDown=testing.tearDown,
-           ),
-
         ])
