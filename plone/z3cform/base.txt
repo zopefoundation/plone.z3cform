@@ -57,16 +57,55 @@ Let's verify that worked:
     >>> getMultiAdapter((context, request), name=u"test-form")
     ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
     <MyFormWrapper object ...>
-    >>> del context, request
 
+We can also use a function called ``wrap_form`` to wrap our form in a
+layout.  We define a custom layout template first:
+
+    >>> import os
+    >>> import tempfile
+    >>> from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+    >>> handle, path = tempfile.mkstemp()
+    >>> f = open(path, 'w')
+    >>> f.write("""
+    ... <html>Hello, this is your layout speaking:
+    ... <div tal:content="structure view/contents"></div>
+    ... </html>""")
+    >>> f.close()
+    >>> layout = ViewPageTemplateFile(path, _prefix='')
+
+Note that the ``_prefix`` argument passed to Five's
+ViewPageTemplateFile is unnecessary when used outside of a test.  We
+can now make the actual call to ``wrap_form`` and register the view
+class it returns.  Normally, you'd register this view class using
+ZCML, like with any other view.
+    
+    >>> from plone.z3cform.base import wrap_form
+    >>> view_class = wrap_form(MyWrappedForm, index=layout)
+    >>> provideAdapter(adapts=(Interface, IBrowserRequest),
+    ...                provides=Interface,
+    ...                factory=view_class,
+    ...                name=u"test-form2")
+
+To satisfy permission checking, we'll wrap the view in a Zope2-ish
+object before we render it.  Again, you usually don't have to worry
+about this:
+
+    >>> from Acquisition import Implicit
+    >>> class Bar(Implicit):
+    ...     __allow_access_to_unprotected_subobjects__ = 1
+    ...     implements(Interface)
+    >>> context = Bar()
+
+    >>> view = getMultiAdapter(
+    ...     (context, request), name=u"test-form2").__of__(context)
+    >>> print view() # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+    <html>Hello, this is your layout speaking:...Age...</html>
+    >>> os.unlink(path)
+    
 Send bad data to the form:
 
     >>> request = make_request(form={'form.widgets.age': '12.1'})
     >>> from zope.interface import Interface, implements
-    >>> from Acquisition import Implicit
-    >>> class Bar(Implicit):
-    ...     implements(Interface)
-    >>> context = Bar()
     >>> formWrapper = getMultiAdapter((context, request), name=u"test-form")
     >>> form = formWrapper.form(context, request)
     >>> form.update()
@@ -81,9 +120,6 @@ And then send correct data to the form:
     >>> request = make_request(form={'form.widgets.age': '12'})
     >>> from zope.interface import Interface, implements
     >>> from Acquisition import Implicit
-    >>> class Bar(Implicit):
-    ...     implements(Interface)
-    >>> context = Bar()
     >>> formWrapper = getMultiAdapter((context, request), name=u"test-form")
     >>> form = formWrapper.form(context, request)
     >>> form.update()

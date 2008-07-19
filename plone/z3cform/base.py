@@ -46,3 +46,11 @@ class FormWrapper(BrowserView):
         attribute works as well.
         """
         return self.form.label
+
+def wrap_form(form, **kwargs):
+    class MyFormWrapper(FormWrapper):
+        pass
+    MyFormWrapper.form = form
+    for name, value in kwargs.items():
+        setattr(MyFormWrapper, name, value)
+    return MyFormWrapper
