@@ -64,8 +64,8 @@ layout.  We define a custom layout template first:
     >>> import os
     >>> import tempfile
     >>> from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-    >>> handle, path = tempfile.mkstemp()
-    >>> f = open(path, 'w')
+    >>> fd, path = tempfile.mkstemp()
+    >>> f = os.fdopen(fd, 'w')
     >>> f.write("""
     ... <html>Hello, this is your layout speaking:
     ... <div tal:content="structure view/contents"></div>
