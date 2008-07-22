@@ -4,6 +4,12 @@ Changelog
 0.3 - unreleased
 ----------------
 
+* Moved Plone layout wrapper to ``plone.app.z3cform.layout``.  If you
+  were using ``plone.z3cform.base.FormWrapper`` to get the Plone
+  layout before, you'll have to use
+  ``plone.app.z3cform.layout.FormWrapper`` instead now.  (Also, make
+  sure you include plone.app.z3cform's ZCML in this case.)
+
 * Move out Plone-specific subpackages to ``plone.app.z3cform``.  These
   are:
 
