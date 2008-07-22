@@ -1,5 +1,14 @@
-Base
-====
+Layout
+======
+
+plone.z3cform tries to avoid mixing Acqusition into your forms.  Also,
+it tries to separate form templates from layout templates (aka main
+template), so that your forms are usable in different contexts,
+e.g. in viewlets.
+
+Use the ``wrap_form`` function defined in the ``layout`` module to
+create a view that's suitable for registration with a ``browser:page``
+directive.
 
 Testing the FormWrapper class::
 
@@ -19,7 +28,7 @@ Then we create a simple z3c form::
 
     >>> from zope import interface, schema
     >>> from z3c.form import form, field, button
-    >>> from plone.z3cform.base import FormWrapper
+    >>> from plone.z3cform.layout import FormWrapper
 
     >>> class MySchema(interface.Interface):
     ...     age = schema.Int(title=u"Age")
@@ -79,7 +88,7 @@ can now make the actual call to ``wrap_form`` and register the view
 class it returns.  Normally, you'd register this view class using
 ZCML, like with any other view.
     
-    >>> from plone.z3cform.base import wrap_form
+    >>> from plone.z3cform.layout import wrap_form
     >>> view_class = wrap_form(MyWrappedForm, index=layout)
     >>> provideAdapter(adapts=(Interface, IBrowserRequest),
     ...                provides=Interface,

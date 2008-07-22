@@ -55,14 +55,14 @@ testing_zcml_layer = ZCMLLayer(
     testing_zcml_path, 'plone.z3cform', 'testing_zcml_layer')
 
 def test_suite():
-    base_txt = doctest.DocFileSuite('base.txt')
-    base_txt.layer = testing_zcml_layer
+    layout_txt = doctest.DocFileSuite('layout.txt')
+    layout_txt.layer = testing_zcml_layer
     
     fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
     fieldsets_txt.layer = testing_zcml_layer
     
     return unittest.TestSuite([
-        base_txt, fieldsets_txt,
+        layout_txt, fieldsets_txt,
 
         doctest.DocFileSuite(
            'crud/README.txt',
