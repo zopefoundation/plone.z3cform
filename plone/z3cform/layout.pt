@@ -1,0 +1,21 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="plone.z3cform">
+
+  <head>
+    <title tal:content="view/label">Title</title>
+  </head>
+
+  <body>
+      <h1 tal:content="view/label">Title</h1>
+      
+      <div id="contents">
+	<span tal:replace="structure view/contents" />
+      </div>
+  </body>
+
+</html>
+

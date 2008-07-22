@@ -7,10 +7,14 @@ from plone.z3cform import z2
 class FormWrapper(BrowserView):
     """Use this as a base class for your Five view and override the
     'form' attribute with your z3c.form form class.  Your form will
-    then be rendered in the contents area of a Plone main template.
+    then be rendered in the contents area of a layout template, the
+    'index' attribute.
+
+    Use the 'wrap' function in this module if you don't like defining
+    classes.
     """
-    index = ViewPageTemplateFile('plone_skeleton.pt')
-    form = None # override this
+    index = ViewPageTemplateFile('layout.pt')
+    form = None # override this with a form class.
     request_layer = z3c.form.interfaces.IFormLayer
     
     def __call__(self):
