@@ -22,23 +22,14 @@
              tal:condition="view/status" tal:content="view/status">
 	</div>
 
-	<tal:comment condition="nothing">
-          <ul tal:define="errors view/widgets/errors"
-              tal:condition="errors">
-            <li tal:repeat="error errors">
-              <tal:block replace="error/widget/label"/>:
-              <tal:block replace="structure error/render" />
-            </li>
-          </ul>
-	</tal:comment>
 
-	<form class="rowlike" action="." method="post"
+	<form action="." method="post"
               tal:attributes="action request/getURL; enctype view/enctype">
 
           <metal:define define-macro="fields">
             
             <tal:widgets repeat="widget view/widgets/values">
-              <div class="row horizontal"
+              <div class="row"
                    tal:define="hidden python:widget.mode == 'hidden'"
                    tal:omit-tag="hidden">
 		
@@ -46,18 +37,17 @@
                   <div class="field"
                        tal:define="error widget/error"
                        tal:attributes="class python:'field' + (error and ' error' or '')">
-                    
-                    <label for="" class="horizontal"
+                    <label for=""
                            tal:attributes="for widget/id"
                            tal:condition="not:hidden">
                       <span i18n:translate=""
                             tal:content="widget/label">label</span>
                     </label>
                     
-                    <span class="fieldRequired horizontal" title="Required"
+                    <span class="fieldRequired" title="Required"
                           tal:condition="python:widget.required and not hidden"
                           i18n:translate="label_required"
-                          i18n:attributes="title title_required;">
+                          i18n:attributes="title">
                       (Required)
                     </span>
                     
@@ -73,7 +63,7 @@
                       Error
                     </div>
                     
-                    <div class="widget horizontal">
+                    <div class="widget">
                       <input type="text" tal:replace="structure widget/render" />
                     </div>  
                   </div>
@@ -85,7 +75,7 @@
           </metal:define>
 
           <metal:define define-macro="actions">
-            <div class="action horizontal" tal:repeat="action view/actions/values|nothing">
+            <div class="action" tal:repeat="action view/actions/values|nothing">
               <input type="submit" tal:replace="structure action/render" />
             </div>
           </metal:define>
