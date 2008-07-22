@@ -51,8 +51,8 @@ class FormWrapper(BrowserView):
         """
         return self.form.label
 
-def wrap_form(form, **kwargs):
-    class MyFormWrapper(FormWrapper):
+def wrap_form(form, __wrapper_class=FormWrapper, **kwargs):
+    class MyFormWrapper(__wrapper_class):
         pass
     MyFormWrapper.form = form
     for name, value in kwargs.items():
