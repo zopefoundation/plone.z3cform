@@ -77,6 +77,7 @@ layout.  We define a custom layout template first:
     >>> f = os.fdopen(fd, 'w')
     >>> f.write("""
     ... <html>Hello, this is your layout speaking:
+    ... <h1 tal:content="view/label">View Title</h1>
     ... <div tal:content="structure view/contents"></div>
     ... </html>""")
     >>> f.close()
@@ -89,7 +90,7 @@ class it returns.  Normally, you'd register this view class using
 ZCML, like with any other view.
     
     >>> from plone.z3cform.layout import wrap_form
-    >>> view_class = wrap_form(MyWrappedForm, index=layout)
+    >>> view_class = wrap_form(MyWrappedForm, index=layout, label=u"My label")
     >>> provideAdapter(adapts=(Interface, IBrowserRequest),
     ...                provides=Interface,
     ...                factory=view_class,
@@ -108,7 +109,7 @@ about this:
     >>> view = getMultiAdapter(
     ...     (context, request), name=u"test-form2").__of__(context)
     >>> print view() # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
-    <html>Hello, this is your layout speaking:...Age...</html>
+    <html>Hello, this is your layout speaking:...My label...Age...</html>
     >>> os.unlink(path)
     
 Send bad data to the form:
