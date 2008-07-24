@@ -4,6 +4,8 @@ Changelog
 0.4 - Unreleased
 ----------------
 
+* Make the default layout template CMFDefault- compatible.
+
 0.3 - 2008-07-24
 ----------------
 

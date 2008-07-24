@@ -22,8 +22,10 @@ A quick example:
 
   >>> MyView = wrap_form(MyForm)
 
+Then, register ``MyView`` as a ``browser:page``.
+
 The ``wrap_form`` function returns a browser view that embeds your
-form in a layout template.  Register ``MyView`` as a ``browser:page``.
+form in a CMF layout template.  See the ``layout`` module for details.
 
 For more examples, please refer to the `z3c.form docs`_ and to `this
 how-to`_.
