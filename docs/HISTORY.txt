@@ -1,7 +1,10 @@
 Changelog
 =========
 
-0.3 - unreleased
+0.4 - Unreleased
+----------------
+
+0.3 - 2008-07-24
 ----------------
 
 * Moved Plone layout wrapper to ``plone.app.z3cform.layout``.  If you
