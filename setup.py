@@ -14,8 +14,8 @@ def description():
 
 setup(name='plone.z3cform',
       version=version,
-      description="A library that allows use of z3c.form with Zope 2 "
-      "(and Plone)",
+      description="plone.z3cform is a library that allows use of z3c.form "
+      "with Zope 2 and the CMF.",
       long_description=description(),
       classifiers=[
         "Framework :: Plone",
