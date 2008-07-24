@@ -65,6 +65,11 @@ def test_suite():
         layout_txt, fieldsets_txt,
 
         doctest.DocFileSuite(
+           'README.txt',
+           setUp=testing.setUp, tearDown=testing.tearDown,
+           ),
+
+        doctest.DocFileSuite(
            'crud/README.txt',
            setUp=testing.setUp, tearDown=testing.tearDown,
            ),
