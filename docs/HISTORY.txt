@@ -1,7 +1,11 @@
 Changelog
 =========
 
-0.4 - Unreleased
+0.5 - Unreleased
+----------------
+
+
+0.4 - 2008-07-25
 ----------------
 
 * Depend on zope.component<3.5 to avoid ``TypeError("Missing
