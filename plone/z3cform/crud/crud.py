@@ -43,6 +43,9 @@ class ICrudForm(interface.Interface):
 
         The `data` mapping corresponds to the schema returned by
         `add_schema`.
+
+        May raise zope.schema.ValidationError to indicate that there's
+        a problem with the add form data.
         """
 
     def remove((id, item)):
@@ -281,9 +284,13 @@ class AddForm(form.Form):
         if errors:
             self.status = form.AddForm.formErrorsMessage
             return
-        item = self.context.add(data)
-        zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(item))
-        self.status = _(u"Item added successfully.")
+        try:
+            item = self.context.add(data)
+        except zope.schema.ValidationError, e:
+            self.status = e
+        else:
+            zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(item))
+            self.status = _(u"Item added successfully.")
 
 class NullForm(object):
     def __init__(self, context, request):

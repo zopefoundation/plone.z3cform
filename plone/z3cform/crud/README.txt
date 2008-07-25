@@ -213,6 +213,40 @@ Added items should show up right away:
   >>> log
   []
 
+What if we try to add "Daniel" twice?  Our current implementation of
+the add form will simply overwrite the data:
+
+  >>> save_daniel = storage['Daniel']
+  >>> html = MyForm(None, request)()
+  >>> "Item added successfully" in html
+  True
+  >>> save_daniel is storage['Daniel']
+  False
+  >>> log.pop().object is storage['Daniel']
+  True
+
+Let's implement a class that prevents this:
+
+  >>> class MyCarefulForm(MyForm):
+  ...     def add(self, data):
+  ...         name = data['name']
+  ...         if name not in storage:
+  ...             return super(MyCarefulForm, self).add(data)
+  ...         else:
+  ...             raise schema.ValidationError(
+  ...                 u"There's already an item with the name '%s'" % name)
+
+  >>> save_daniel = storage['Daniel']
+  >>> html = MyCarefulForm(None, request)()
+  >>> "Item added successfully" in html
+  False
+  >>> "There's already an item with the name 'Daniel'" in html
+  True
+  >>> save_daniel is storage['Daniel']
+  True
+  >>> len(log) == 0
+  True
+
 Render some of the fields in view mode
 --------------------------------------
 

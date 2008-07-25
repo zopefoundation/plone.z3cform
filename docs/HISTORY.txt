@@ -4,6 +4,9 @@ Changelog
 0.4 - Unreleased
 ----------------
 
+* Allow ICrudForm.add to raise ValidationError, which allows for
+  displaying a user-friendly error message.
+
 * Make the default layout template CMFDefault- compatible.
 
 0.3 - 2008-07-24
