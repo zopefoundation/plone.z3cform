@@ -24,6 +24,10 @@ class ICrudForm(interface.Interface):
     add_schema = interface.Attribute(
         "Schema for use in the add form; defaults to ``update_schema``.")
 
+    editform_factory = interface.Attribute("Factory used for the edit form.")
+
+    addform_factory = interface.Attribute("Factory used for the add form.")
+
     def get_items():
         """Subclasses must a list of all items to edit.
 
