@@ -4,6 +4,9 @@ Changelog
 0.4 - Unreleased
 ----------------
 
+* Depend on zope.component<3.5 to avoid ``TypeError("Missing
+  'provides' attribute")`` error.
+
 * Allow ICrudForm.add to raise ValidationError, which allows for
   displaying a user-friendly error message.
 
