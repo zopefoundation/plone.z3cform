@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.5dev'
+version = '0.5.1dev'
 
 
 def description():
@@ -40,6 +40,6 @@ setup(name='plone.z3cform',
           'setuptools',
           'z3c.form',
           'zope.i18n>=3.4',
-          'zope.component<3.5dev',
+          'zope.component',
       ],
       )
