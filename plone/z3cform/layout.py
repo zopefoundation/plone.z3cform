@@ -42,7 +42,9 @@ class FormWrapper(BrowserView):
         Override this method if you need to pass a different context
         to your form, or if you need to render a number of forms.
         """
-        return self.form(self.context.aq_inner, self.request)()
+        form = self.form(self.context.aq_inner, self.request)
+        form.__name__ = self.__name__
+        return form()
 
     def label(self):
         """Override this method to use a different way of acquiring a
