@@ -10,8 +10,6 @@ Use the ``wrap_form`` function defined in the ``layout`` module to
 create a view that's suitable for registration with a ``browser:page``
 directive.
 
-Testing the FormWrapper class::
-
     >>> from zope.interface import alsoProvides
     >>> from zope.publisher.browser import TestRequest
     >>> from zope.annotation.interfaces import IAttributeAnnotatable
@@ -24,7 +22,7 @@ Testing the FormWrapper class::
     ...     alsoProvides(request, IAttributeAnnotatable)
     ...     return request
 
-Then we create a simple z3c form::
+Then we create a simple z3c form:
 
     >>> from zope import interface, schema
     >>> from z3c.form import form, field, button
@@ -35,7 +33,7 @@ Then we create a simple z3c form::
 
     >>> from z3c.form.interfaces import IFieldsForm
     >>> from zope.interface import implements
-    >>> class MyWrappedForm(form.Form):
+    >>> class MyForm(form.Form):
     ...     implements(IFieldsForm)
     ...     fields = field.Fields(MySchema)
     ...     ignoreContext = True # don't use context to get widget data
@@ -46,7 +44,7 @@ Then we create a simple z3c form::
     ...         print data['age'] # ... or do stuff
 
     >>> class MyFormWrapper(FormWrapper):
-    ...     form = MyWrappedForm
+    ...     form = MyForm
     ...     label = u"Please enter your age"
 
     >>> from zope.component import provideAdapter
@@ -58,10 +56,19 @@ Then we create a simple z3c form::
     ...                factory=MyFormWrapper,
     ...                name=u"test-form")
 
+For our context, we define a class that inherits from Acquisition.
+This is to satisfy permission checking later on, and it'll allow the
+layout view to call ``aq_inner`` on the context:
+
+    >>> from Acquisition import Implicit
+    >>> class Bar(Implicit):
+    ...     __allow_access_to_unprotected_subobjects__ = 1
+    ...     implements(Interface)
+
 Let's verify that worked:
 
     >>> from zope.component import getMultiAdapter
-    >>> context = object()
+    >>> context = Bar()
     >>> request = make_request()
     >>> getMultiAdapter((context, request), name=u"test-form")
     ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
@@ -84,34 +91,39 @@ layout.  We define a custom layout template first:
     >>> layout = ViewPageTemplateFile(path, _prefix='')
 
 Note that the ``_prefix`` argument passed to Five's
-ViewPageTemplateFile is unnecessary when used outside of a test.  We
-can now make the actual call to ``wrap_form`` and register the view
-class it returns.  Normally, you'd register this view class using
-ZCML, like with any other view.
+ViewPageTemplateFile is unnecessary when outside of a test.  We can
+now make the actual call to ``wrap_form`` and register the view class
+it returns.  Normally, you'd register this view class using ZCML, like
+with any other view.
     
     >>> from plone.z3cform.layout import wrap_form
-    >>> view_class = wrap_form(MyWrappedForm, index=layout, label=u"My label")
+    >>> view_class = wrap_form(MyForm, index=layout, label=u"My label")
     >>> provideAdapter(adapts=(Interface, IBrowserRequest),
     ...                provides=Interface,
     ...                factory=view_class,
     ...                name=u"test-form2")
 
-To satisfy permission checking, we'll wrap the view in a Zope2-ish
-object before we render it.  Again, you usually don't have to worry
-about this:
-
-    >>> from Acquisition import Implicit
-    >>> class Bar(Implicit):
-    ...     __allow_access_to_unprotected_subobjects__ = 1
-    ...     implements(Interface)
-    >>> context = Bar()
+Let's render this view:
 
     >>> view = getMultiAdapter(
     ...     (context, request), name=u"test-form2").__of__(context)
     >>> print view() # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
     <html>Hello, this is your layout speaking:...My label...Age...</html>
+
+If we don't pass the label to ``wrap_form``, it'll try to look up the
+label from the form instance:
+
+    >>> class MyLabelledForm(MyForm):
+    ...     @property
+    ...     def label(self):
+    ...         return 'Another label'
+
+    >>> view_class = wrap_form(MyLabelledForm, index=layout)
+    >>> view = view_class(context, request).__of__(context)
+    >>> print view() # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
+    <html>Hello, this is your layout speaking:...Another label...Age...</html>
     >>> os.unlink(path)
-    
+
 Send bad data to the form:
 
     >>> request = make_request(form={'form.widgets.age': '12.1'})

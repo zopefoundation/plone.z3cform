@@ -4,6 +4,9 @@ Changelog
 0.5.1 - Unreleased
 ------------------
 
+* In ``plone.z3cform.layout``, allow labels to be defined per form
+  instance, and not only per form class.
+
 0.5.0 - 2008-07-30
 ------------------
 

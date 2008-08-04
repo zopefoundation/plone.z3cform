@@ -17,6 +17,12 @@ class FormWrapper(BrowserView):
     form = None # override this with a form class.
     request_layer = z3c.form.interfaces.IFormLayer
     
+    def __init__(self, context, request):
+        super(FormWrapper, self).__init__(context, request)
+        if self.form is not None:
+            self._form = self.form(self.context.aq_inner, self.request)
+            self._form.__name__ = self.__name__
+
     def __call__(self):
         """This method renders the outer skeleton template, which in
         turn calls the 'contents' method below.
@@ -42,23 +48,14 @@ class FormWrapper(BrowserView):
         Override this method if you need to pass a different context
         to your form, or if you need to render a number of forms.
         """
-        return self._form()()
+        return self._form()
 
     def label(self):
         """Override this method to use a different way of acquiring a
         label or title for your page.  Overriding this with a simple
         attribute works as well.
         """
-        return self._form().label
-        
-    def _form(self):
-        form = getattr(self, '_cached_form', None)
-        if form is not None:
-            return form
-        self._cached_form = self.form(self.context.aq_inner, self.request)
-        self._cached_form.__name__ = self.__name__
-        return self._cached_form
-            
+        return self._form.label
 
 def wrap_form(form, __wrapper_class=FormWrapper, **kwargs):
     class MyFormWrapper(__wrapper_class):
