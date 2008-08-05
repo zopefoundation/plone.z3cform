@@ -4,6 +4,8 @@ Changelog
 0.5.1 - Unreleased
 ------------------
 
+* Add a Grok support for AddForm, EditForm, Form and DisplayForm.
+
 0.5.0 - 2008-07-30
 ------------------
 
