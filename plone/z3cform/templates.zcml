@@ -14,5 +14,6 @@
 
   <adapter factory=".templates.form_factory" />
   <adapter factory=".templates.subform_factory" />
+  <adapter factory=".templates.grok_form_factory" />
 
 </configure>

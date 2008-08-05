@@ -12,6 +12,7 @@ import z3c.form.interfaces
 from z3c.form.form import FormTemplateFactory
 
 import plone.z3cform
+import plone.z3cform.components
 
 path = lambda p: os.path.join(os.path.dirname(plone.z3cform.__file__), p)
 
@@ -19,6 +20,11 @@ form_factory = FormTemplateFactory(
     path('form.pt'), form=z3c.form.interfaces.IForm)
 subform_factory = FormTemplateFactory(
     path('subform.pt'), form=z3c.form.interfaces.ISubForm)
+
+# I am not sure the form.pt work with grok, and I can test since I
+# don't have plone, so no main template. 
+grok_form_factory = FormTemplateFactory(
+    path('macros.pt'), form=plone.z3cform.components.IGrokForm)
 
 class Macros(zope.publisher.browser.BrowserView):
     template = zope.app.pagetemplate.viewpagetemplatefile.ViewPageTemplateFile(
