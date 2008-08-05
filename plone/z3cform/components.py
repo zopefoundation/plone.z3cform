@@ -1,10 +1,13 @@
 
 from zope import interface
+from zope import component
 from zope.component.interfaces import IFactory
 from zope.publisher.publish import mapply
+from zope.pagetemplate.interfaces import IPageTemplate
 
 import martian
 from grokcore import view
+from grokcore.view.interfaces import ITemplate as IGrokTemplate
 from z3c.form import form, field
 
 from plone.z3cform import z2
@@ -32,6 +35,9 @@ class GrokForm(object):
     def __init__(self, context, request):
         super(GrokForm, self).__init__(context, request)
         self.__name__ = self.__view_name__ # For Zope2 publisher
+        self.static = component.queryAdapter(
+            self.request, interface.Interface,
+            name = self.module_info.package_dotted_name)
 
     def update(self):
         """Subclasses can override this method just like on regular
@@ -47,13 +53,23 @@ class GrokForm(object):
         """
         super(GrokForm, self).update()
 
+    def _render_template(self):
+        assert not (self.template is None)
+        if IGrokTemplate.providedBy(self.template):
+            return super(GrokForm, self)._render_template()
+        return self.template()
 
     def render(self):
         """People don't have to define a render method here, and we
         have to use the one provided by z3c.form (people can provide
-        render method in grok).
+        render method in grok), but we have to call the template
+        correctly.
         """
-        return super(GrokForm, self).render()
+
+        if self.template is None:
+            self.template = component.getMultiAdapter((self, self.request), IPageTemplate)
+        return self._render_template()
+
 
     render.base_method = True   # Mark the method to prevent people to
                                 # override it.
