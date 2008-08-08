@@ -6,7 +6,7 @@ from zope.publisher.publish import mapply
 from zope.pagetemplate.interfaces import IPageTemplate
 
 import martian
-from grokcore import view
+from five import grok
 from grokcore.view.interfaces import ITemplate as IGrokTemplate
 from z3c.form import form, field
 
@@ -44,7 +44,7 @@ class GrokForm(object):
         grok.Views. It will be called before any form processing
         happens."""
 
-    def update_form(self):
+    def updateForm(self):
         """Update the form, i.e. process form input using widgets.
 
         On z3c.form forms, this is what the update() method is.
@@ -82,18 +82,18 @@ class GrokForm(object):
             return
 
         z2.switch_on(self, request_layer=IFormLayer)
-        self.update_form()
+        self.updateForm()
         return self.render()
 
 
-class Form(GrokForm, form.Form, view.View):
+class Form(GrokForm, form.Form, grok.View):
     """Normal z3c form.
     """
 
     martian.baseclass()
 
 
-class AddForm(GrokForm, form.AddForm, view.View):
+class AddForm(GrokForm, form.AddForm, grok.View):
     """z3c add form.
     """
 
@@ -101,14 +101,14 @@ class AddForm(GrokForm, form.AddForm, view.View):
     martian.baseclass()
 
 
-class EditForm(GrokForm, form.EditForm, view.View):
+class EditForm(GrokForm, form.EditForm, grok.View):
     """z3c edit form.
     """
 
     martian.baseclass()
 
 
-class DisplayForm(GrokForm, form.DisplayForm, view.View):
+class DisplayForm(GrokForm, form.DisplayForm, grok.View):
     """z3c display form.
     """
     
