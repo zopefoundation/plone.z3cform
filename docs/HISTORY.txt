@@ -4,6 +4,11 @@ Changelog
 0.5.1 - Unreleased
 ------------------
 
+* Look up the layout template as an IPageTemplate adapter. This means that
+  it is possible for Plone to provide a "Ploneish" default template for forms
+  that don't opt into this, without those forms having a direct Plone
+  dependency.
+
 * Default to the titleless form template, since the layout template will
   provide a title anyway.
 

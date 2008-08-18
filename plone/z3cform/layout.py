@@ -1,7 +1,14 @@
 import z3c.form.interfaces
+
+import zope.interface
+import zope.component
+
 from Products.Five import BrowserView
+
+from zope.pagetemplate.interfaces import IPageTemplate
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+from plone.z3cform import interfaces
 from plone.z3cform import z2
 
 class FormWrapper(BrowserView):
@@ -13,15 +20,19 @@ class FormWrapper(BrowserView):
     Use the 'wrap' function in this module if you don't like defining
     classes.
     """
-    index = ViewPageTemplateFile('layout.pt')
+    
+    zope.interface.implements(interfaces.IFormWrapper)
+    
     form = None # override this with a form class.
+    
+    index = None # override with a page template, or rely on an adapter
     request_layer = z3c.form.interfaces.IFormLayer
     
     def __init__(self, context, request):
         super(FormWrapper, self).__init__(context, request)
         if self.form is not None:
-            self._form = self.form(self.context.aq_inner, self.request)
-            self._form.__name__ = self.__name__
+            self.form_instance = self.form(self.context.aq_inner, self.request)
+            self.form_instance.__name__ = self.__name__
 
     def __call__(self):
         """This method renders the outer skeleton template, which in
@@ -29,8 +40,12 @@ class FormWrapper(BrowserView):
 
         We use an indirection to 'self.index' here to allow users to
         override the skeleton template through the 'browser' zcml
-        directive.
+        directive. If no index template is set, we look up a an adapter from
+        (self, request) to IPageTemplate and use that instead.
         """
+        if self.index is None:
+            template = zope.component.getMultiAdapter((self, self.request), IPageTemplate)
+            return template.__of__(self)(self)
         return self.index()
 
     def contents(self):
@@ -48,14 +63,14 @@ class FormWrapper(BrowserView):
         Override this method if you need to pass a different context
         to your form, or if you need to render a number of forms.
         """
-        return self._form()
+        return self.form_instance()
 
     def label(self):
         """Override this method to use a different way of acquiring a
         label or title for your page.  Overriding this with a simple
         attribute works as well.
         """
-        return self._form.label
+        return self.form_instance.label
 
 def wrap_form(form, __wrapper_class=FormWrapper, **kwargs):
     class MyFormWrapper(__wrapper_class):
