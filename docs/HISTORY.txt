@@ -4,6 +4,9 @@ Changelog
 0.5.1 - Unreleased
 ------------------
 
+* Default to the titleless form template, since the layout template will
+  provide a title anyway.
+
 * In ``plone.z3cform.layout``, allow labels to be defined per form
   instance, and not only per form class.
 
