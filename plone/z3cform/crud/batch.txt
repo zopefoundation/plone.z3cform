@@ -1,0 +1,67 @@
+Batching
+========
+
+The BatchNavigation adapter is for rendering batch navigation.
+
+  >>> from z3c.batching.batch import Batch
+  >>> from plone.z3cform.crud.crud import BatchNavigation
+
+Here's a little batch, set to three items per page and starting at the
+third item:
+
+  >>> l = [10, 11, 12, 20, 21, 22, 30, 31, 32, 40, 41, 42, 50, 51, 52]
+  >>> batch = Batch(l, start=3, size=3)
+  >>> list(batch)
+  [20, 21, 22]
+
+We can create the BatchNavigation now.  We set the make_link attribute
+to be a function that takes an argument (the page number) and returns
+a link to it:
+
+  >>> def make_link(page):
+  ...     return u"linkto?page=%s" % page
+
+  >>> from z3c.form.testing import TestRequest
+  >>> view = BatchNavigation(batch, TestRequest())
+  >>> view.make_link = make_link
+
+We monkey-patch the template to see what's being passed:
+
+  >>> from pprint import pprint
+  >>> def template(self, **kwargs):
+  ...     pprint(kwargs)
+  >>> BatchNavigation.template = template
+  >>> view()
+  {'batch': <Batch start=3, size=3>,
+   'pages': [{'link': u'linkto?page=0', 'label': u'Previous'},
+             {'link': u'linkto?page=0', 'label': u'1'},
+             {'link': None, 'label': u'2'},
+             {'link': u'linkto?page=2', 'label': u'3'},
+             {'link': u'linkto?page=3', 'label': u'4'},
+             {'link': u'linkto?page=4', 'label': u'5'},
+             {'link': u'linkto?page=2', 'label': u'Next'}]}
+
+Rendering for the first and last page, we can see that "Previous" and
+"Next" links are ommitted accordingly:
+
+  >>> batch = Batch(l, start=0, size=3)
+  >>> view.context = batch
+  >>> view()
+  {'batch': <Batch start=0, size=3>,
+   'pages': [{'link': None, 'label': u'1'},
+             {'link': u'linkto?page=1', 'label': u'2'},
+             {'link': u'linkto?page=2', 'label': u'3'},
+             {'link': u'linkto?page=3', 'label': u'4'},
+             {'link': u'linkto?page=4', 'label': u'5'},
+             {'link': u'linkto?page=1', 'label': u'Next'}]}
+
+  >>> batch = Batch(l, start=12, size=3)
+  >>> view.context = batch
+  >>> view()
+  {'batch': <Batch start=12, size=3>,
+   'pages': [{'link': u'linkto?page=3', 'label': u'Previous'},
+             {'link': u'linkto?page=0', 'label': u'1'},
+             {'link': u'linkto?page=1', 'label': u'2'},
+             {'link': u'linkto?page=2', 'label': u'3'},
+             {'link': u'linkto?page=3', 'label': u'4'},
+             {'link': None, 'label': u'5'}]}

@@ -1,13 +1,18 @@
+import sys
+
 from ZODB.POSException import ConflictError
 from zope import interface
 import zope.event
 import zope.lifecycleevent
+import zope.publisher.browser
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 import z3c.form.widget
 from z3c.form.interfaces import DISPLAY_MODE, INPUT_MODE, NOVALUE
 from zope.app.pagetemplate import viewpagetemplatefile
+import z3c.batching.batch
+
 
 from plone.z3cform.widget import singlecheckboxwidget_factory
 from plone.z3cform import MessageFactory as _
@@ -27,6 +32,9 @@ class ICrudForm(interface.Interface):
     editform_factory = interface.Attribute("Factory used for the edit form.")
 
     addform_factory = interface.Attribute("Factory used for the add form.")
+
+    batch_size = interface.Attribute(
+        "Set this to a value greater than 0 to display n items per page.")
 
     def get_items():
         """Subclasses must a list of all items to edit.
@@ -76,6 +84,7 @@ class AbstractCrudForm(object):
 
     update_schema = None
     view_schema = None
+    batch_size = 0
 
     @property
     def add_schema(self):
@@ -174,10 +183,42 @@ class EditSubForm(form.EditForm):
             freakList.append(item.field.title)
         return freakList
         
+class BatchItem(object):
+    def __init__(self, label, link=None):
+        self.label = label
+        self.link = link
+
+class BatchNavigation(zope.publisher.browser.BrowserView):
+    template = viewpagetemplatefile.ViewPageTemplateFile('batch.pt')
+
+    def make_link(self, page):
+        raise NotImplementedError()
+
+    def __call__(self):
+        pages = []
+        batch = self.context
+        if batch.total == 1:
+            return u""
+        else:
+            if batch.number > 1:
+                pages.append(dict(label=_("Previous"),
+                                  link=self.make_link(page=batch.number-2)))
+
+            for index in range(batch.total):
+                link = (index != batch.number-1 and
+                        self.make_link(page=index) or None)
+                pages.append(dict(label=unicode(index+1), link=link))
+
+            if batch.number < batch.total:
+                pages.append(dict(label=_("Next"),
+                                  link=self.make_link(page=batch.number)))
+
+            return self.template(batch=batch, pages=pages)
+
 class EditForm(form.Form):
     label = _(u"Edit")
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-table.pt')
-        
+
     @property
     def prefix(self):
         parent_prefix = getattr(self.context, 'prefix', '')
@@ -189,12 +230,32 @@ class EditForm(form.Form):
     
     def _update_subforms(self):
         self.subforms = []
-        for id, item in self.context.get_items():
+        for id, item in self.batch:
             subform = EditSubForm(self, self.request)
             subform.content = item
             subform.content_id = id
             subform.update()
             self.subforms.append(subform)
+
+    @property
+    def batch(self):
+        items = self.context.get_items()
+        batch_size = self.context.batch_size or sys.maxint
+        page = self._page()
+        return z3c.batching.batch.Batch(
+            items, start=page*batch_size, size=batch_size)
+    #batch = zope.cachedescriptors.property.CachedProperty(batch)
+
+    def render_batch_navigation(self):
+        navigation = BatchNavigation(self.batch, self.request)
+        def make_link(page):
+            return "%s?%spage=%s" % (self.request.getURL(), self.prefix, page)
+        navigation.make_link = make_link
+        return navigation()
+
+    def _page(self):
+        name = '%spage' % self.prefix
+        return int(self.request.get(name, '0'))
 
     @button.buttonAndHandler(_('Apply changes'), name='edit')
     def handle_edit(self, action):

@@ -422,3 +422,37 @@ We *cannot* use any of the other buttons:
   False
   >>> 'Thomas' in storage
   True
+
+Using batching
+--------------
+
+The CrudForm base class supports batching.  When setting the
+``batch_size`` attribute to a value greater than ``0``, we'll only get
+as many items displayed per page.
+
+  >>> class MyBatchingForm(MyForm):
+  ...     batch_size = 2
+  >>> request = TestRequest()
+  >>> html = MyBatchingForm(None, request)()
+  >>> "Daniel" in html, "Maria" in html
+  (True, True)
+  >>> "THOMAS" in html
+  False
+
+  >>> request.form['crud-edit.form.page'] = '1'
+  >>> html = MyBatchingForm(None, request)()
+  >>> "Daniel" in html, "Maria" in html
+  (False, False)
+  >>> "THOMAS" in html
+  True
+
+Let's change Thomas' age on the second page:
+
+  >>> request.form['crud-edit.Thomas.widgets.name'] = u'Thomas'
+  >>> request.form['crud-edit.Thomas.widgets.age'] = 911
+  >>> request.form['crud-edit.form.buttons.edit'] = u'Apply changes'
+  >>> html = MyBatchingForm(None, request)()
+  >>> "Successfully updated" in html
+  True
+  >>> "911" in html
+  True

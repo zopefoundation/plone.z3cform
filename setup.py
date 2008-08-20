@@ -39,6 +39,7 @@ setup(name='plone.z3cform',
       install_requires=[
           'setuptools',
           'z3c.form',
+          'z3c.batching',
           'zope.i18n>=3.4',
           'zope.component',
       ],

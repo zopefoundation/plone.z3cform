@@ -1,0 +1,9 @@
+<ul class="batch-navigation">
+  <li tal:repeat="page options/pages">
+    <a tal:content="page/label"
+       tal:attributes="href page/link"
+       tal:omit-tag="python:page['link'] is None">
+      Previous
+    </a>
+  </li>
+</ul>

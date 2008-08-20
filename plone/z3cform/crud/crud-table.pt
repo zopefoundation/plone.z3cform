@@ -15,6 +15,16 @@
 
   <form action="." method="post" tal:attributes="action request/getURL">
 
+    <ul tal:replace="structure view/render_batch_navigation">
+    </ul>
+    
+    <input type="hidden"
+           tal:define="batch view/batch"
+           tal:condition="python:batch.total &gt; 1"
+           tal:attributes="name python:'%spage' % view.prefix;
+                           value python:batch.number-1"
+           />
+
     <table class="crud-table" tal:define="rows view/subforms">
         <thead tal:define="row1 python:len(rows) and rows[0] or None"
                tal:condition="python:row1 is not None">
