@@ -4,6 +4,7 @@ Changelog
 0.5.2 - Unreleased
 ------------------
 
+* Add batching to ``plone.z3cform.crud`` CrudForm.
 
 0.5.1 - 2008-08-21
 ------------------
