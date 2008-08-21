@@ -4,10 +4,10 @@ Changelog
 0.5.2 - Unreleased
 ------------------
 
-* Add batching to ``plone.z3cform.crud`` CrudForm.
-
 0.5.1 - 2008-08-21
 ------------------
+
+* Add batching to ``plone.z3cform.crud`` CrudForm.
 
 * Look up the layout template as an IPageTemplate adapter. This means that
   it is possible for Plone to provide a "Ploneish" default template for forms
