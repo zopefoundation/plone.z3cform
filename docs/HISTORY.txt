@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.1 - Unreleased
+0.5.1 - 2008-08-21
 ------------------
 
 * Look up the layout template as an IPageTemplate adapter. This means that
