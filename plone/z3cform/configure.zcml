@@ -10,6 +10,8 @@
   <includeOverrides file="overrides.zcml" />
   <include file="templates.zcml" />
 
+  <adapter factory=".traversal.WidgetTraversal" name="widget" />
+
   <i18n:registerTranslations directory="locales"/>
 
 </configure>

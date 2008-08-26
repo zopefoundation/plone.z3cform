@@ -4,6 +4,9 @@ Changelog
 0.5.2 - Unreleased
 ------------------
 
+* Add a namespace traversal adpater that allows traversal to widgets. This
+  is useful for AJAX calls, for example.
+
 0.5.1 - 2008-08-21
 ------------------
 
