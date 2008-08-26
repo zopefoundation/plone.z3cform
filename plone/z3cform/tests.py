@@ -61,8 +61,11 @@ def test_suite():
     fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
     fieldsets_txt.layer = testing_zcml_layer
     
+    traversal_txt = doctest.DocFileSuite('traversal.txt')
+    traversal_txt.layer = testing_zcml_layer
+    
     return unittest.TestSuite([
-        layout_txt, fieldsets_txt,
+        layout_txt, fieldsets_txt, traversal_txt,
 
         doctest.DocFileSuite(
            'README.txt',
@@ -83,4 +86,5 @@ def test_suite():
            'plone.z3cform.crud.crud',
            setUp=testing.setUp, tearDown=testing.tearDown,
            ),
+           
         ])

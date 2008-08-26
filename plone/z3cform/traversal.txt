@@ -1,0 +1,74 @@
+Traversal
+=========
+
+plone.z3cform allows you to traverse to a widget using the ++wiget++ namespace
+adapter on a form view. Note that widgets may need to mix in
+Acquisition.Explicit to be truly traversable in Zope 2.
+
+First, we create a simple form and context.
+
+    >>> from zope.interface import alsoProvides
+    >>> from zope.publisher.browser import TestRequest
+    >>> from zope.annotation.interfaces import IAttributeAnnotatable
+    >>> from z3c.form.interfaces import IFormLayer
+
+    >>> def make_request(form={}):
+    ...     request = TestRequest()
+    ...     request.form.update(form)
+    ...     alsoProvides(request, IFormLayer)
+    ...     alsoProvides(request, IAttributeAnnotatable)
+    ...     return request
+
+    >>> from zope import interface, schema
+    >>> from z3c.form import form, field, button
+    >>> from plone.z3cform.layout import FormWrapper
+
+    >>> class MySchema(interface.Interface):
+    ...     age = schema.Int(title=u"Age")
+
+    >>> from z3c.form.interfaces import IFieldsForm
+    >>> from zope.interface import implements
+    >>> class MyForm(form.Form):
+    ...     implements(IFieldsForm)
+    ...     fields = field.Fields(MySchema)
+    ...     ignoreContext = True # don't use context to get widget data
+    ...     
+    ...     def update(self):
+    ...         print "Updating test form"
+    ...         super(MyForm, self).update()
+
+    >>> class MyFormWrapper(FormWrapper):
+    ...     form = MyForm
+    ...     label = u"Please enter your age"
+
+    >>> from zope.component import provideAdapter
+    >>> from zope.publisher.interfaces.browser import IBrowserRequest
+    >>> from zope.interface import Interface
+
+    >>> provideAdapter(adapts=(Interface, IBrowserRequest),
+    ...                provides=Interface,
+    ...                factory=MyFormWrapper,
+    ...                name=u"test-form")
+
+    >>> from Acquisition import Implicit
+    >>> class Bar(Implicit):
+    ...     __allow_access_to_unprotected_subobjects__ = 1
+    ...     implements(Interface)
+
+    >>> from zope.component import getMultiAdapter
+    >>> context = Bar()
+    >>> request = make_request()
+
+Now, let's emulate the publisher and look up the namespace traversal
+adapter. For example, let's say we'd traversed to
+../@@test-form/++widget++age. The publisher would then do:
+
+    >>> form = getMultiAdapter((context, request), name=u"test-form")
+
+    >>> from zope.traversing.interfaces import ITraversable
+    >>> traverser = getMultiAdapter((form, request), name=u"widget")
+    >>> traverser.traverse('age', [])
+    Updating test form
+    <TextWidget 'form.widgets.age'>
+
+Please note that this point, the form has been updated, but not rendered.
