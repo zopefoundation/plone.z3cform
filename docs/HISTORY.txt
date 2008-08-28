@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.2 - Unreleased
+0.5.2 - 2008-08-28
 ------------------
 
 * Add a namespace traversal adpater that allows traversal to widgets. This
