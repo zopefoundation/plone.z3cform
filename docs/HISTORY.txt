@@ -4,6 +4,10 @@ Changelog
 0.5.3 - unreleased
 ------------------
 
+* Copy translation files to an english folder, so if your browser
+  negociate to ``en,nl``, you will get english translations instead of
+  dutch ones (like expected).
+
 * Send an event IAfterWidgetUpdateEvent after updating display widgets
   manually in a CRUD form.
 

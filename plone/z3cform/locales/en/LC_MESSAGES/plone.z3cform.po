@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: Tue Apr 22 22:59:18 2008\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Silva i18n team <walco@infrae.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/translation_files/extract.py\n"
+
+#: /crud/crud.py:136
+msgid "select"
+msgstr ""
+
+#: /crud/crud.py:177
+msgid "Edit"
+msgstr ""
+
+#: /crud/crud.py:194
+msgid "Apply changes"
+msgstr ""
+
+#: /crud/crud.py:196
+msgid "Successfully updated"
+msgstr ""
+
+#: /crud/crud.py:197
+msgid "Some of your changes could not be applied."
+msgstr ""
+
+#: /crud/crud.py:198
+msgid "No changes made."
+msgstr ""
+
+#: /crud/crud.py:229
+msgid "Delete"
+msgstr ""
+
+#: /crud/crud.py:233
+msgid "Successfully deleted items."
+msgstr ""
+
+#: /crud/crud.py:239
+msgid "Please select items to delete."
+msgstr ""
+
+#: /crud/crud.py:252
+#: /crud/crud.py:262
+msgid "Add"
+msgstr ""
+
+#: /crud/crud.py:270
+msgid "Item added successfully."
+msgstr ""
+
+#: /macros.pt:56
+# Default: "(Required)"
+msgid "label_required"
+msgstr ""
+
+#: /macros.pt:56
+# Default: "Required"
+msgid "title_required"
+msgstr ""
+
