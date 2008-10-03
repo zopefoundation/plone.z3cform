@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.5.3 - unreleased
+------------------
+
+* Send an event IAfterWidgetUpdateEvent after updating display widgets
+  manually in a CRUD form.
+
 0.5.2 - 2008-08-28
 ------------------
 

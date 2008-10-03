@@ -288,8 +288,10 @@ class EditForm(form.Form):
 
                 # If there were changes, we'll update the view widgets
                 # again, so that they'll actually display the changes
-                [w.update() for w in subform.widgets.values()
-                 if w.mode == DISPLAY_MODE]
+                for widget in  subform.widgets.values():
+                    if widget.mode == DISPLAY_MODE:
+                        widget.update()
+                        zope.event.notify(z3c.form.widget.AfterWidgetUpdateEvent(widget))
         self.status = status
 
     @button.buttonAndHandler(_('Delete'), name='delete')
