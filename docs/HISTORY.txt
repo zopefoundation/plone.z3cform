@@ -3,6 +3,11 @@ Changelog
 
 0.5.3 - unreleased
 ------------------
+* Added support for an editsubform_factory for an EditForm so you can
+  override the default behavior for a sub form now.
+
+* Changed css in crud-table.pt for a table to "listing" so that tables
+  now look like plone tables.
 
 * Copy translation files to an english folder, so if your browser
   negociate to ``en,nl``, you will get english translations instead of

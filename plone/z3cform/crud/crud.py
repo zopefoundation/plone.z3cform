@@ -218,6 +218,9 @@ class BatchNavigation(zope.publisher.browser.BrowserView):
 class EditForm(form.Form):
     label = _(u"Edit")
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-table.pt')
+    
+    #exposes the edit sub form for your own derivatives
+    editsubform_factory = EditSubForm
 
     @property
     def prefix(self):
@@ -231,7 +234,7 @@ class EditForm(form.Form):
     def _update_subforms(self):
         self.subforms = []
         for id, item in self.batch:
-            subform = EditSubForm(self, self.request)
+            subform = self.editsubform_factory(self, self.request)
             subform.content = item
             subform.content_id = id
             subform.update()
