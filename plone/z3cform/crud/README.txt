@@ -423,6 +423,41 @@ We *cannot* use any of the other buttons:
   >>> 'Thomas' in storage
   True
 
+Customizing sub forms
+---------------------
+
+The EditForm class allows you to specify an editsubform_factory-a classs 
+inherits from EditSubForm.  This allows you to say, override the crud-row.pt
+page template and customize the look of the fields.
+
+  >>> import zope.schema
+  >>> class MyCustomEditSubForm(crud.EditSubForm):
+  ...
+  ...     def _select_field(self):
+  ...         """I want to customize the field that it comes with..."""
+  ...         select_field = field.Field(
+  ...         zope.schema.TextLine(__name__='select',
+  ...                              required=False,
+  ...                              title=u'select'))
+  ...         return select_field
+
+  >>> class MyCustomEditForm(MyEditForm):
+  ...     editsubform_factory = MyCustomEditSubForm
+
+  >>> class MyCustomFormWithCustomSubForm(MyCustomForm):
+  ...     editform_factory = MyCustomEditForm
+
+  >>> request = TestRequest()
+  >>> html = MyCustomFormWithCustomSubForm(None, TestRequest())()
+
+Still uses same form as before
+  >>> "Delete" in html, "Apply changes" in html, "Capitalize" in html
+  (False, False, True)
+
+Just changes the widget used for selecting...
+  >>> 'type="checkbox"' in html
+  False
+
 Using batching
 --------------
 
