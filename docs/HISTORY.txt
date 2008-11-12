@@ -3,6 +3,8 @@ Changelog
 
 0.5.3 - unreleased
 ------------------
+* Declare xmlnamespace into 'layout.pt' and 'subform.pt' templates
+
 * Added support for an editsubform_factory for an EditForm so you can
   override the default behavior for a sub form now.
 
