@@ -75,7 +75,7 @@ class ICrudForm(interface.Interface):
 class AbstractCrudForm(object):
     """The AbstractCrudForm is not a form but implements methods
     necessary to comply with the ``ICrudForm`` interface:
-    
+
       >>> from zope.interface.verify import verifyClass
       >>> verifyClass(ICrudForm, AbstractCrudForm)
       True
@@ -136,7 +136,7 @@ class EditSubForm(form.EditForm):
                 if not f.__name__.startswith('view_'):
                     f.__name__ = 'view_' + f.__name__
             fields += view_fields
-            
+
         return fields
 
     def getContent(self):
@@ -149,7 +149,7 @@ class EditSubForm(form.EditForm):
                              title=_(u'select')))
         select_field.widgetFactory[INPUT_MODE] = singlecheckboxwidget_factory
         return select_field
-        
+
     # XXX: The three following methods, 'getCombinedWidgets',
     # 'getTitleWidgets', and 'getNiceTitles' are hacks to support the
     # page template.  Let's get rid of them.
@@ -170,19 +170,19 @@ class EditSubForm(form.EditForm):
                 if widget not in seen:
                     combined.append((widget,))
         return combined
-             
+
     def getTitleWidgets(self):
         combinedWidgets = self.getCombinedWidgets()
         widgetsForTitles = [w[0] for w in combinedWidgets]
         return widgetsForTitles
 
     def getNiceTitles(self):
-        widgetsForTitles = self.getTitleWidgets()        
+        widgetsForTitles = self.getTitleWidgets()
         freakList = []
         for item in widgetsForTitles:
             freakList.append(item.field.title)
         return freakList
-        
+
 class BatchItem(object):
     def __init__(self, label, link=None):
         self.label = label
@@ -218,7 +218,7 @@ class BatchNavigation(zope.publisher.browser.BrowserView):
 class EditForm(form.Form):
     label = _(u"Edit")
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-table.pt')
-    
+
     #exposes the edit sub form for your own derivatives
     editsubform_factory = EditSubForm
 
@@ -230,7 +230,7 @@ class EditForm(form.Form):
     def update(self):
         self._update_subforms()
         super(EditForm, self).update()
-    
+
     def _update_subforms(self):
         self.subforms = []
         for id, item in self.batch:
@@ -260,7 +260,9 @@ class EditForm(form.Form):
         name = '%spage' % self.prefix
         return int(self.request.get(name, '0'))
 
-    @button.buttonAndHandler(_('Apply changes'), name='edit')
+    @button.buttonAndHandler(_('Apply changes'),
+                             name='edit',
+                             condition=lambda form: form.context.update_schema)
     def handle_edit(self, action):
         success = _(u"Successfully updated")
         partly_success = _(u"Some of your changes could not be applied.")
@@ -313,7 +315,7 @@ class EditForm(form.Form):
                     # unexpected behavior:
                     self.status = _(u'Unable to remove one or more items.')
                     break
-        
+
             # We changed the amount of entries, so we update the subforms again.
             self._update_subforms()
         else:

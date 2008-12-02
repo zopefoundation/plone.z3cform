@@ -3,6 +3,10 @@ Changelog
 
 0.5.3 - unreleased
 ------------------
+
+* Don't display an 'Apply changes' button if you don't define an
+  update_schema.
+
 * Declare xmlnamespace into 'layout.pt' and 'subform.pt' templates
 
 * Added support for an editsubform_factory for an EditForm so you can
