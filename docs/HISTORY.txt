@@ -4,6 +4,9 @@ Changelog
 0.5.3 - unreleased
 ------------------
 
+* Fixes for Zope 2.12 compatibility.
+  [davisagli]
+
 * Don't display an 'Apply changes' button if you don't define an
   update_schema.
 

@@ -1,3 +1,4 @@
+from Acquisition import aq_inner
 import z3c.form.interfaces
 
 import zope.interface
@@ -6,7 +7,12 @@ import zope.component
 from Products.Five import BrowserView
 
 from zope.pagetemplate.interfaces import IPageTemplate
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+try:
+    from Products.Five.browser.pagetemplatefile import BoundPageTemplate
+    HAS_BOUND_PAGETEMPLATE = True
+except ImportError:
+    HAS_BOUND_PAGETEMPLATE = False
 
 from plone.z3cform import interfaces
 from plone.z3cform import z2
@@ -31,7 +37,7 @@ class FormWrapper(BrowserView):
     def __init__(self, context, request):
         super(FormWrapper, self).__init__(context, request)
         if self.form is not None:
-            self.form_instance = self.form(self.context.aq_inner, self.request)
+            self.form_instance = self.form(aq_inner(self.context), self.request)
             self.form_instance.__name__ = self.__name__
 
     def __call__(self):
@@ -45,7 +51,10 @@ class FormWrapper(BrowserView):
         """
         if self.index is None:
             template = zope.component.getMultiAdapter((self, self.request), IPageTemplate)
-            return template.__of__(self)(self)
+            if HAS_BOUND_PAGETEMPLATE:
+                return BoundPageTemplate(template, self)()
+            else:
+                return template.__of__(self)(self)
         return self.index()
 
     def contents(self):
