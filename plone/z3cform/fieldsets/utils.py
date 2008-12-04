@@ -53,7 +53,6 @@ def remove(form, field_name, prefix=None):
 def move(form, field_name, before=None, after=None, prefix=None, relative_prefix=None):
     """Move the field with the given name before or after another field.
     """
-    
     if prefix:
         field_name = expandPrefix(prefix) + field_name
     
@@ -64,14 +63,14 @@ def move(form, field_name, before=None, after=None, prefix=None, relative_prefix
     if after:
         offset = 1
     
-    relative = before or after
+    relative = orig_relative = before or after
     if relative_prefix:
         relative = expandPrefix(relative_prefix) + relative
     
     if field_name not in form.fields:
         raise KeyError("Field %s not found" % field_name)
     
-    if relative not in form.fields:
+    if relative != '*' and relative not in form.fields:
         found = False
         for group in form.groups:
             if relative in group.fields:
@@ -87,11 +86,21 @@ def move(form, field_name, before=None, after=None, prefix=None, relative_prefix
     
     if relative in form.fields:
         index = form.fields.keys().index(relative)
+    elif orig_relative == '*' and relative_prefix is None:
+        if before:
+            index = 0
+        else:
+            index = len(form.fields.keys()) - 1
     else:
         for group in form.groups:
             if relative in group.fields:
                 index = group.fields.keys().index(relative)
                 break
+            elif orig_relative == '*' and relative_prefix == group.prefix:
+                if before:
+                    index = 0
+                else:
+                    index = len(group.fields.keys()) - 1
     
     if index is None:
         raise KeyError("Field %s not found" % relative)

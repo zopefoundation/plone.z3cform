@@ -4,6 +4,10 @@ Changelog
 0.5.3 - unreleased
 ------------------
 
+* Added wildcard support to the 'before' and 'after' parameters of the
+  fieldset 'move' utility function.
+  [davisagli]
+
 * Fixes for Zope 2.12 compatibility.
   [davisagli]
 
