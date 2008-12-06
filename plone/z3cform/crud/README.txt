@@ -75,9 +75,9 @@ form fires for us:
   >>> request.form['crud-edit.Martha.widgets.select-empty-marker'] = u'1'
   >>> request.form['crud-edit.Peter.widgets.select-empty-marker'] = u'1'
   >>> request.form['crud-edit.Martha.widgets.name'] = u'Martha'
-  >>> request.form['crud-edit.Martha.widgets.age'] = 55
+  >>> request.form['crud-edit.Martha.widgets.age'] = u'55'
   >>> request.form['crud-edit.Peter.widgets.name'] = u'Franz'
-  >>> request.form['crud-edit.Peter.widgets.age'] = 16
+  >>> request.form['crud-edit.Peter.widgets.age'] = u'16'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply changes'
   >>> html = MyForm(None, request)()
   >>> "Successfully updated" in html
@@ -135,7 +135,7 @@ Instead, we'll select one time.  This shouldn't do anything, since we
 clicked the 'Apply changes' button:
 
   >>> request.form['crud-edit.Maria.widgets.name'] = u'Maria'
-  >>> request.form['crud-edit.Maria.widgets.age'] = 55
+  >>> request.form['crud-edit.Maria.widgets.age'] = u'55'
   >>> request.form['crud-edit.Maria.widgets.select'] = [u'selected']
   >>> html = MyRenamingForm(None, request)()
   >>> "No changes" in html
@@ -145,7 +145,7 @@ clicked the 'Apply changes' button:
 
 And what if we do have changes *and* click the checkbox?
 
-  >>> request.form['crud-edit.Maria.widgets.age'] = 50
+  >>> request.form['crud-edit.Maria.widgets.age'] = u'50'
   >>> html = MyRenamingForm(None, request)()
   >>> "Successfully updated" in html
   True
@@ -195,7 +195,7 @@ Add an item with our form
 
   >>> request = TestRequest()
   >>> request.form['crud-add.form.widgets.name'] = u'Daniel'
-  >>> request.form['crud-add.form.widgets.age'] = 28
+  >>> request.form['crud-add.form.widgets.age'] = u'28'
   >>> request.form['crud-add.form.buttons.add'] = u'Add'
   >>> html = MyForm(None, request)()
   >>> "Item added successfully" in html
@@ -267,8 +267,8 @@ wanted the name of our persons to be viewable only in the table:
 We can still edit the age of our Persons:
 
   >>> request = TestRequest()
-  >>> request.form['crud-edit.Maria.widgets.age'] = 40
-  >>> request.form['crud-edit.Daniel.widgets.age'] = 35
+  >>> request.form['crud-edit.Maria.widgets.age'] = u'40'
+  >>> request.form['crud-edit.Daniel.widgets.age'] = u'35'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply Changes'
   >>> html = MyAdvancedForm(None, request)()
   >>> "Successfully updated" in html
@@ -283,7 +283,7 @@ We can still add a Person using both name and age:
 
   >>> request = TestRequest()
   >>> request.form['crud-add.form.widgets.name'] = u'Thomas'
-  >>> request.form['crud-add.form.widgets.age'] = 28
+  >>> request.form['crud-add.form.widgets.age'] = u'28'
   >>> request.form['crud-add.form.buttons.add'] = u'Add'
   >>> html = MyAdvancedForm(None, request)()
   >>> "Item added successfully" in html
@@ -327,8 +327,8 @@ Wikipedia link immediately:
 
   >>> request = TestRequest()
   >>> for name in 'Daniel', 'Maria', 'Thomas':
-  ...     request.form['crud-edit.%s.widgets.name' % name] = storage[name].name
-  ...     request.form['crud-edit.%s.widgets.age' % name] = storage[name].age
+  ...     request.form['crud-edit.%s.widgets.name' % name] = unicode(storage[name].name)
+  ...     request.form['crud-edit.%s.widgets.age' % name] = unicode(storage[name].age)
   >>> request.form['crud-edit.Thomas.widgets.name'] = u'Dracula'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply Changes'
 
@@ -484,7 +484,7 @@ as many items displayed per page.
 Let's change Thomas' age on the second page:
 
   >>> request.form['crud-edit.Thomas.widgets.name'] = u'Thomas'
-  >>> request.form['crud-edit.Thomas.widgets.age'] = 911
+  >>> request.form['crud-edit.Thomas.widgets.age'] = '911'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply changes'
   >>> html = MyBatchingForm(None, request)()
   >>> "Successfully updated" in html
