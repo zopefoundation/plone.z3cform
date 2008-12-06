@@ -24,13 +24,17 @@ class SingleCheckboxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
                 ))
         return self.terms
 
-    def extract(self, default=z3c.form.interfaces.NOVALUE):
+    def extract(self, default=z3c.form.interfaces.NOVALUE, setErrors=True):
         # The default implementation returns [] here.
         if (self.name not in self.request and
             self.name+'-empty-marker' in self.request):
             return default
         else:
-            return super(SingleCheckboxWidget, self).extract(default)
+            try:
+                return super(SingleCheckboxWidget, self).extract(default, setErrors=setErrors)
+            except TypeError:
+                # for z3c.form <= 1.9.0
+                return super(SingleCheckboxWidget, self).extract(default)
 
 @interface.implementer(z3c.form.interfaces.IDataConverter)
 def singlecheckboxwidget_factory(field, request):

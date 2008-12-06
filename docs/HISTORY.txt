@@ -4,6 +4,9 @@ Changelog
 0.5.3 - unreleased
 ------------------
 
+* Handle changed signature for widget extract method in z3c.form > 1.9.0
+  [davisagli]
+
 * Added wildcard support to the 'before' and 'after' parameters of the
   fieldset 'move' utility function.
   [davisagli]
