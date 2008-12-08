@@ -1,66 +1,82 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: Tue Apr 22 22:59:18 2008\n"
+"Project-Id-Version: z3cform trunk"
+"POT-Creation-Date: Mon Dec  8 12:16:22 2008\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Silva i18n team <walco@infrae.com>\n"
+"Language-Team: Silva Translators <eric+i18n@infrae.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: zope/app/translation_files/extract.py\n"
+"X-Generated-By: zope/app/translation_files/extract.py\n"
 
-#: /crud/crud.py:136
+#: /crud/crud.py:149
 msgid "select"
 msgstr ""
 
-#: /crud/crud.py:177
+#: /crud/crud.py:204
+msgid "Previous"
+msgstr ""
+
+#: /crud/crud.py:213
+msgid "Next"
+msgstr ""
+
+#: /crud/crud.py:219
 msgid "Edit"
 msgstr ""
 
-#: /crud/crud.py:194
+#: /crud/crud.py:263
 msgid "Apply changes"
 msgstr ""
 
-#: /crud/crud.py:196
+#: /crud/crud.py:267
 msgid "Successfully updated"
 msgstr ""
 
-#: /crud/crud.py:197
+#: /crud/crud.py:268
 msgid "Some of your changes could not be applied."
 msgstr ""
 
-#: /crud/crud.py:198
+#: /crud/crud.py:269
 msgid "No changes made."
 msgstr ""
 
-#: /crud/crud.py:229
+#: /crud/crud.py:302
 msgid "Delete"
 msgstr ""
 
-#: /crud/crud.py:233
+#: /crud/crud.py:306
 msgid "Successfully deleted items."
 msgstr ""
 
-#: /crud/crud.py:239
+#: /crud/crud.py:316
+msgid "Unable to remove one or more items."
+msgstr ""
+
+#: /crud/crud.py:322
 msgid "Please select items to delete."
 msgstr ""
 
-#: /crud/crud.py:252
-#: /crud/crud.py:262
+#: /crud/crud.py:335
+#: /crud/crud.py:349
 msgid "Add"
 msgstr ""
 
-#: /crud/crud.py:270
+#: /crud/crud.py:361
 msgid "Item added successfully."
 msgstr ""
 
-#: /macros.pt:56
-# Default: "(Required)"
-msgid "label_required"
+#: /fieldsets/extensible.py:55
+msgid "Default"
 msgstr ""
 
-#: /macros.pt:56
-# Default: "Required"
-msgid "title_required"
+#: /macros.pt:47
+msgid "Required"
+msgstr ""
+
+#: /macros.pt:47
+# Default: "(Required)"
+msgid "label_required"
 msgstr ""
 

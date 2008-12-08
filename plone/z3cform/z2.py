@@ -13,7 +13,7 @@ def setup_locale(request):
     envadapter = IUserPreferredLanguages(request, None)
     if envadapter is None:
         return None
-    
+
     langs = envadapter.getPreferredLanguages()
     for httplang in langs:
         parts = (httplang.split('-') + [None, None])[:3]

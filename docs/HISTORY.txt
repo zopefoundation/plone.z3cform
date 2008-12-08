@@ -4,6 +4,9 @@ Changelog
 0.5.3 - unreleased
 ------------------
 
+* Add translation marker for batch, update translation files.
+  [thefunny42]
+
 * Handle changed signature for widget extract method in z3c.form > 1.9.0
   [davisagli]
 
@@ -16,6 +19,7 @@ Changelog
 
 * Don't display an 'Apply changes' button if you don't define an
   update_schema.
+  [thefunny42]
 
 * Declare xmlnamespace into 'layout.pt' and 'subform.pt' templates
 
@@ -28,9 +32,11 @@ Changelog
 * Copy translation files to an english folder, so if your browser
   negociate to ``en,nl``, you will get english translations instead of
   dutch ones (like expected).
+  [thefunny42]
 
 * Send an event IAfterWidgetUpdateEvent after updating display widgets
   manually in a CRUD form.
+  [thefunny42]
 
 0.5.2 - 2008-08-28
 ------------------
@@ -125,7 +131,7 @@ Changelog
 
 * Added Archetypes reference selection widget (queryselect)
   [malthe]
-  
+
 * Moved generic Zope 2 compatibility code for z3c.form and a few
   goodies from Singing & Dancing into this new package.
   [nouri]

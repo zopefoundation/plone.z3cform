@@ -17,7 +17,7 @@
 
     <ul tal:replace="structure view/render_batch_navigation">
     </ul>
-    
+
     <input type="hidden"
            tal:define="batch view/batch"
            tal:condition="python:batch.total &gt; 1"
@@ -32,7 +32,7 @@
             <th tal:define="widgetsForTitles row1/getTitleWidgets;
                             niceTitles row1/getNiceTitles"
                 tal:repeat="widget widgetsForTitles">
-              
+
               <span tal:define="idx repeat/widget/index"
                     tal:content="python: niceTitles[idx]"
                     tal:attributes="title widget/field/description;
