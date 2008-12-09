@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.3 - unreleased
+0.5.3 - 2008-12-09
 ------------------
 
 * Add translation marker for batch, update translation files.
