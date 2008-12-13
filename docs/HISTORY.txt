@@ -4,7 +4,9 @@ Changelog
 0.5.4 - unreleased
 ------------------
 
-* ...
+* Copied the basic textlines widget from z3c.form trunk for use until
+  it is released.
+  [davisagli]
 
 0.5.3 - 2008-12-09
 ------------------
