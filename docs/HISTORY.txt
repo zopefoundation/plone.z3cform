@@ -4,6 +4,9 @@ Changelog
 0.5.4 - unreleased
 ------------------
 
+* Use chameleon-based page templates from five.pt if available.
+  [davisagli]
+
 * Copied the basic textlines widget from z3c.form trunk for use until
   it is released.
   [davisagli]

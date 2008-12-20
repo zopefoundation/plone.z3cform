@@ -11,7 +11,10 @@ import zope.app.pagetemplate.viewpagetemplatefile
 import z3c.form.interfaces
 from z3c.form.form import FormTemplateFactory
 
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+try:
+    from five.pt.pagetemplate import ViewPageTemplateFile
+except ImportError:
+    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 import plone.z3cform
 import plone.z3cform.layout
