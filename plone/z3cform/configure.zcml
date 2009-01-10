@@ -5,6 +5,8 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="plone.z3cform">
 
+  <include file="templates.zcml" />
+
   <include package="z3c.form" file="meta.zcml" />
   <include package="z3c.form" />
 
@@ -12,7 +14,6 @@
     zcml:condition="not-installed z3c.form.browser.textlines"/>
 
   <includeOverrides file="overrides.zcml" />
-  <include file="templates.zcml" />
 
   <adapter factory=".traversal.WidgetTraversal" name="widget" />
 
