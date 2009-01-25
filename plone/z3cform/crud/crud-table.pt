@@ -41,8 +41,7 @@
               </span>
 
               <span class="fieldRequired"
-                    tal:condition="python:widget.required and widget.mode == 'input'"
-                    i18n:attributes="title">
+                    tal:condition="python:widget.required and widget.mode == 'input'">
                 *
               </span>
             </th>
