@@ -23,10 +23,18 @@ class WidgetTraversal(object):
         self.request = request
 
     def traverse(self, name, ignored):
-        name = name.split('.')[-1]
         
         form = self.context.form_instance
         z2.switch_on(self.context, request_layer=self.context.request_layer)
         
         form.update()
-        return form.widgets.get(name)
+        
+        # Find the widget - it may be in a group
+        if name in form.widgets:
+            return form.widgets.get(name)
+        elif form.groups is not None:
+            for group in form.groups:
+                if name in group.widgets:
+                    return group.widgets.get(name)
+        
+        return None
