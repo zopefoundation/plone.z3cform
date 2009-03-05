@@ -11,6 +11,10 @@ class Group(group.Group):
     __name__ = u""
     label = u""
     description = u""
+    
+    def getContent(self):
+        # Default to sharing content with parent
+        return self.__parent__.getContent()
 
 class GroupFactory(object):
     implements(IGroupFactory)
