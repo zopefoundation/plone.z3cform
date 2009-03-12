@@ -54,14 +54,43 @@ class TextLinesConverter(converter.BaseDataConverter):
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
             return u''
-        return "\n".join(value)
+        return u'\n'.join(unicode(v) for v in value)
 
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         widget = self.widget
         collectionType = self.field._type
+        if isinstance(collectionType, tuple):
+            collectionType = collectionType[-1]
         if not len(value):
             return self.field.missing_value
         valueType = self.field.value_type._type
-        values = [valueType(v) for v in value.split()]
-        return collectionType(values)
+        if isinstance(valueType, tuple):
+            valueType = valueType[0]
+        return collectionType(valueType(v) for v in value.split())
+
+class TextLinesSetConverter(TextLinesConverter):
+    """Data converter for ITextLinesWidget operating on a set."""
+
+    zope.component.adapts(
+        zope.schema.interfaces.ISet, ITextLinesWidget)
+
+    def toWidgetValue(self, value):
+        """Convert from text lines to HTML representation."""
+        # if the value is the missing value, then an empty list is produced.
+        if value is self.field.missing_value:
+            return u''
+        return u'\n'.join(unicode(v) for v in sorted(value))
+        
+class TextLinesFrozenSetConverter(TextLinesConverter):
+    """Data converter for ITextLinesWidget operating on a frozenset."""
+
+    zope.component.adapts(
+        zope.schema.interfaces.IFrozenSet, ITextLinesWidget)
+
+    def toWidgetValue(self, value):
+        """Convert from text lines to HTML representation."""
+        # if the value is the missing value, then an empty list is produced.
+        if value is self.field.missing_value:
+            return u''
+        return u'\n'.join(unicode(v) for v in sorted(value))
