@@ -4,6 +4,9 @@ Changelog
 0.5.4 - unreleased
 ------------------
 
+* Fix obvious bugs and dodgy naming in SingleCheckBoxWidget.
+  [optilude]
+
 * Use chameleon-based page templates from five.pt if available.
   [davisagli]
 

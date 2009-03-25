@@ -1,18 +1,21 @@
-from zope import interface
 from zope.schema import vocabulary
+
+import zope.interface
+import zope.component
+import zope.schema.interfaces
 
 import z3c.form.term
 import z3c.form.browser.checkbox
 import z3c.form.interfaces
 
-class SingleCheckboxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
+class SingleCheckBoxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
     """XXX: We need to refactor this and patch z3c.form where
     it makes sense.
     """
 
     def update(self):
         self.ignoreContext = True
-        super(SingleCheckboxWidget, self).update()
+        super(SingleCheckBoxWidget, self).update()
 
     def updateTerms(self):
         # The default implementation would render "selected" as a
@@ -31,12 +34,15 @@ class SingleCheckboxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
             return default
         else:
             try:
-                return super(SingleCheckboxWidget, self).extract(default, setErrors=setErrors)
+                return super(SingleCheckBoxWidget, self).extract(default, setErrors=setErrors)
             except TypeError:
                 # for z3c.form <= 1.9.0
-                return super(SingleCheckboxWidget, self).extract(default)
+                return super(SingleCheckBoxWidget, self).extract(default)
 
-@interface.implementer(z3c.form.interfaces.IDataConverter)
-def singlecheckboxwidget_factory(field, request):
-    widget = SingleCheckboxWidget(request)
-    return z3c.form.widget.FieldWidget(field, widget)
+@zope.component.adapter(zope.schema.interfaces.IBool, z3c.form.interfaces.IFormLayer)
+@zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
+def SingleCheckBoxFieldWidget(field, request):
+    return z3c.form.widget.FieldWidget(field, SingleCheckBoxWidget(request))
+    
+# BBB:
+singlecheckboxwidget_factory = SingleCheckBoxFieldWidget
