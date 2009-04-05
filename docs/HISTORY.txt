@@ -4,6 +4,9 @@ Changelog
 0.5.4 - unreleased
 ------------------
 
+* Added monkey patch to fix a bug in z3c.form's ChoiceTerms on z3c.form 1.9.0.
+  [optilude]
+
 * Fix obvious bugs and dodgy naming in SingleCheckBoxWidget.
   [optilude]
 
