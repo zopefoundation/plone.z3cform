@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.4 - unreleased
+0.5.4 - 2009-04-17
 ------------------
 
 * Added monkey patch to fix a bug in z3c.form's ChoiceTerms on z3c.form 1.9.0.
