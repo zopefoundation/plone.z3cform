@@ -4,8 +4,9 @@ Changelog
 0.5.5 - 2009-07-26
 ------------------
 
-* Removed explicit <includeOverrides /> call from configure.zcml. This casues
-  race condition type errors in ZCML loading.
+* Removed explicit <includeOverrides /> call from configure.zcml. This causes
+  race condition type errors in ZCML loading when overrides are included 
+  later.
   [optilude]
 
 0.5.4 - 2009-04-17
