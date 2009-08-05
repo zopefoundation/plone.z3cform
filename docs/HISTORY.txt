@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.5.6 - unreleased
+------------------
+
+* Added title_required msgid in macros.pt to be the same as plone.app.z3cform
+  because macros.pt from plone.app.z3cform uses plone.z3cform translations.
+  Added French translation and fixed German and Dutch translations
+  for label_required and title_required messages.
+  [vincentfretin] 
+
 0.5.5 - 2009-07-26
 ------------------
 
