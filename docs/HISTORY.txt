@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.6 - unreleased
+0.5.6 - 2009-09-25
 ------------------
 
 * Added title_required msgid in macros.pt to be the same as plone.app.z3cform
