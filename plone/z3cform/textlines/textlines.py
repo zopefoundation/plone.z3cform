@@ -20,54 +20,71 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
-from z3c.form import interfaces
-from z3c.form import widget
-from z3c.form import converter
-from z3c.form.browser import textarea
+try:
 
-class ITextLinesWidget(interfaces.IWidget):
-    """Text lines widget."""
+    # z3c.form 2.0 or later
 
-class TextLinesWidget(textarea.TextAreaWidget):
-    """Input type sequence widget implementation."""
-    zope.interface.implementsOnly(ITextLinesWidget)
+    from z3c.form.interfaces import ITextLinesWidget
+    from z3c.form.browser.textlines import TextLinesWidget
+    from z3c.form.browser.textlines import TextLinesFieldWidget
+    from z3c.form.browser.textlines import TextLinesFieldWidgetFactory
+    from z3c.form.converter import TextLinesConverter
 
-
-def TextLinesFieldWidget(field, request):
-    """IFieldWidget factory for TextLinesWidget."""
-    return widget.FieldWidget(field, TextLinesWidget(request))
+except ImportError:
+    
+    # backport for z3c.form 1.9
 
 
-@zope.interface.implementer(interfaces.IFieldWidget)
-def TextLinesFieldWidgetFactory(field, value_type, request):
-    """IFieldWidget factory for TextLinesWidget."""
-    return TextLinesFieldWidget(field, request)
+    from z3c.form import interfaces
+    from z3c.form import widget
+    from z3c.form import converter
+    from z3c.form.browser import textarea
 
-class TextLinesConverter(converter.BaseDataConverter):
-    """Data converter for ITextLinesWidget."""
+    class ITextLinesWidget(interfaces.IWidget):
+        """Text lines widget."""
 
-    zope.component.adapts(
-        zope.schema.interfaces.ISequence, ITextLinesWidget)
+    class TextLinesWidget(textarea.TextAreaWidget):
+        """Input type sequence widget implementation."""
+        zope.interface.implementsOnly(ITextLinesWidget)
 
-    def toWidgetValue(self, value):
-        """Convert from text lines to HTML representation."""
-        # if the value is the missing value, then an empty list is produced.
-        if value is self.field.missing_value:
-            return u''
-        return u'\n'.join(unicode(v) for v in value)
 
-    def toFieldValue(self, value):
-        """See interfaces.IDataConverter"""
-        widget = self.widget
-        collectionType = self.field._type
-        if isinstance(collectionType, tuple):
-            collectionType = collectionType[-1]
-        if not len(value):
-            return self.field.missing_value
-        valueType = self.field.value_type._type
-        if isinstance(valueType, tuple):
-            valueType = valueType[0]
-        return collectionType(valueType(v) for v in value.split())
+    def TextLinesFieldWidget(field, request):
+        """IFieldWidget factory for TextLinesWidget."""
+        return widget.FieldWidget(field, TextLinesWidget(request))
+
+
+    @zope.interface.implementer(interfaces.IFieldWidget)
+    def TextLinesFieldWidgetFactory(field, value_type, request):
+        """IFieldWidget factory for TextLinesWidget."""
+        return TextLinesFieldWidget(field, request)
+
+    class TextLinesConverter(converter.BaseDataConverter):
+        """Data converter for ITextLinesWidget."""
+
+        zope.component.adapts(
+            zope.schema.interfaces.ISequence, ITextLinesWidget)
+
+        def toWidgetValue(self, value):
+            """Convert from text lines to HTML representation."""
+            # if the value is the missing value, then an empty list is produced.
+            if value is self.field.missing_value:
+                return u''
+            return u'\n'.join(unicode(v) for v in value)
+
+        def toFieldValue(self, value):
+            """See interfaces.IDataConverter"""
+            widget = self.widget
+            collectionType = self.field._type
+            if isinstance(collectionType, tuple):
+                collectionType = collectionType[-1]
+            if not len(value):
+                return self.field.missing_value
+            valueType = self.field.value_type._type
+            if isinstance(valueType, tuple):
+                valueType = valueType[0]
+            return collectionType(valueType(v) for v in value.split())
+
+# additional
 
 class TextLinesSetConverter(TextLinesConverter):
     """Data converter for ITextLinesWidget operating on a set."""
@@ -81,7 +98,7 @@ class TextLinesSetConverter(TextLinesConverter):
         if value is self.field.missing_value:
             return u''
         return u'\n'.join(unicode(v) for v in sorted(value))
-        
+    
 class TextLinesFrozenSetConverter(TextLinesConverter):
     """Data converter for ITextLinesWidget operating on a frozenset."""
 
