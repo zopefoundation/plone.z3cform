@@ -29,17 +29,14 @@ We monkey-patch the template to see what's being passed:
 
   >>> from pprint import pprint
   >>> def template(self, **kwargs):
-  ...     pprint(kwargs)
+  ...     print "Batch", kwargs['batch']
+  ...     print "Links", [p['link'] for p in kwargs['pages']]
+  ...     print "Labels", [p['label'] for p in kwargs['pages']]
   >>> BatchNavigation.template = template
   >>> view()
-  {'batch': <Batch start=3, size=3>,
-   'pages': [{'link': u'linkto?page=0', 'label': u'Previous'},
-             {'link': u'linkto?page=0', 'label': u'1'},
-             {'link': None, 'label': u'2'},
-             {'link': u'linkto?page=2', 'label': u'3'},
-             {'link': u'linkto?page=3', 'label': u'4'},
-             {'link': u'linkto?page=4', 'label': u'5'},
-             {'link': u'linkto?page=2', 'label': u'Next'}]}
+  Batch <Batch start=3, size=3>
+  Links [u'linkto?page=0', u'linkto?page=0', None, u'linkto?page=2', u'linkto?page=3', u'linkto?page=4', u'linkto?page=2']
+  Labels [u'Previous', u'1', u'2', u'3', u'4', u'5', u'Next']
 
 Rendering for the first and last page, we can see that "Previous" and
 "Next" links are ommitted accordingly:
@@ -47,21 +44,13 @@ Rendering for the first and last page, we can see that "Previous" and
   >>> batch = Batch(l, start=0, size=3)
   >>> view.context = batch
   >>> view()
-  {'batch': <Batch start=0, size=3>,
-   'pages': [{'link': None, 'label': u'1'},
-             {'link': u'linkto?page=1', 'label': u'2'},
-             {'link': u'linkto?page=2', 'label': u'3'},
-             {'link': u'linkto?page=3', 'label': u'4'},
-             {'link': u'linkto?page=4', 'label': u'5'},
-             {'link': u'linkto?page=1', 'label': u'Next'}]}
+  Batch <Batch start=0, size=3>
+  Links [None, u'linkto?page=1', u'linkto?page=2', u'linkto?page=3', u'linkto?page=4', u'linkto?page=1']
+  Labels [u'1', u'2', u'3', u'4', u'5', u'Next']
 
   >>> batch = Batch(l, start=12, size=3)
   >>> view.context = batch
   >>> view()
-  {'batch': <Batch start=12, size=3>,
-   'pages': [{'link': u'linkto?page=3', 'label': u'Previous'},
-             {'link': u'linkto?page=0', 'label': u'1'},
-             {'link': u'linkto?page=1', 'label': u'2'},
-             {'link': u'linkto?page=2', 'label': u'3'},
-             {'link': u'linkto?page=3', 'label': u'4'},
-             {'link': None, 'label': u'5'}]}
+  Batch <Batch start=12, size=3>
+  Links [u'linkto?page=3', u'linkto?page=0', u'linkto?page=1', u'linkto?page=2', u'linkto?page=3', None]
+  Labels [u'Previous', u'1', u'2', u'3', u'4', u'5']
