@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.7 - unreleased
+0.5.7 - 2009-11-17
 ------------------
 
 * Fix silly doctests so that they don't break in Python 2.6 / Zope 2.12
