@@ -1,10 +1,11 @@
 Changelog
 =========
 
-0.5.9 - unreleased
+0.5.9 - 2010-01-08
 ------------------
 
-* Nothing changed yet.
+* Fix security problem with the ++widget++ namespace
+  [optilude]
 
 0.5.8 - 2009-11-24
 ------------------
