@@ -55,17 +55,8 @@ class FormWrapper(BrowserView):
         """
         self.update()
         if self.request.response.getStatus() in (302, 303):
-            return
+            return u""
         return self.render()
-
-    def contents(self):
-        """This method renders the wrapped form using its render method.
-        Note that this method does *not* check the redirection. The form
-        will be rendered as if nothing happened.
-
-        Override this method if you have more than one form.
-        """
-        return self.form_instance.render()
 
     def render(self):
         """This method renders the outer skeleton template, which in
@@ -76,6 +67,12 @@ class FormWrapper(BrowserView):
         directive. If no index template is set, we look up a an adapter from
         (self, request) to IPageTemplate and use that instead.
         """
+        # A z3c.form.form.AddForm do a redirect in its render method.
+        # So we have to render the form to see if we have a redirection.
+        # In the case of redirection, we don't render the layout at all.
+        self.contents = self.form_instance.render()
+        if self.request.response.getStatus() in (302, 303):
+            return u""
         if self.index is None:
             template = zope.component.getMultiAdapter(
                 (self, self.request), IPageTemplate)

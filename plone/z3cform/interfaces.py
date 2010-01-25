@@ -16,10 +16,6 @@ class IFormWrapper(Interface):
         """We use the content provider update/render couple.
         """
     
-    def contents():
-        """Renders the wrapped form.
-        """
-
     form = Attribute("The form class. Should be set at class level")
     
     form_instance = schema.Object(
