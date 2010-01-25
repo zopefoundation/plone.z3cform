@@ -43,4 +43,7 @@ setup(name='plone.z3cform',
           'zope.i18n>=3.4',
           'zope.component',
       ],
+      extras_require = {
+        'test': ['lxml']
+      }
       )
