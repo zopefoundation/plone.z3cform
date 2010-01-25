@@ -9,6 +9,8 @@ Changelog
   In the case of redirection, we don't render the layout at all.
   This version remove the contents method on FormWrapper,
   it's now an attribute.
+  This change fixes status message not shown because it was consumed by
+  the never shown rendered form.
   [vincentfretin]
 
 0.5.9 - 2010-01-08
