@@ -48,14 +48,16 @@ class FormWrapper(BrowserView):
         """
         z2.switch_on(self, request_layer=self.request_layer)
         self.form_instance.update()
+        # A z3c.form.form.AddForm do a redirect in its render method.
+        # So we have to render the form to see if we have a redirection.
+        # In the case of redirection, we don't render the layout at all.
+        self.contents = self.form_instance.render()
 
     def __call__(self):
         """We use the update/render pattern. If a redirect happens in the
         meantime, we simply skip the rendering.
         """
         self.update()
-        if self.request.response.getStatus() in (302, 303):
-            return u""
         return self.render()
 
     def render(self):
@@ -67,10 +69,6 @@ class FormWrapper(BrowserView):
         directive. If no index template is set, we look up a an adapter from
         (self, request) to IPageTemplate and use that instead.
         """
-        # A z3c.form.form.AddForm do a redirect in its render method.
-        # So we have to render the form to see if we have a redirection.
-        # In the case of redirection, we don't render the layout at all.
-        self.contents = self.form_instance.render()
         if self.request.response.getStatus() in (302, 303):
             return u""
         if self.index is None:

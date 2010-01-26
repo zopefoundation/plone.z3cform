@@ -8,7 +8,7 @@ Changelog
   So we have to render the form to see if we have a redirection.
   In the case of redirection, we don't render the layout at all.
   This version remove the contents method on FormWrapper,
-  it's now an attribute.
+  it's now an attribute set during the FormWrapper.update.
   This change fixes status message not shown because it was consumed by
   the never shown rendered form.
   [vincentfretin]
@@ -24,6 +24,8 @@ Changelog
 
 * Don't do the rendering if there is a redirection, use the update/render
   pattern for that.
+  See http://dev.plone.org/plone/ticket/10022 for an example how 
+  to adapt your code, in particular if you used FormWrapper with ViewletBase.
   [vincentfretin]
 
 0.5.7 - 2009-11-17
