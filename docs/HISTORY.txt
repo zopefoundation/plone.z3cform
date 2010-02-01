@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.10 - unreleased
+0.5.10 - 2010-02-01
 -------------------
 
 * A z3c.form.form.AddForm do a redirect in its render method.
