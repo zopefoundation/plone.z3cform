@@ -333,7 +333,6 @@ class EditForm(form.Form):
 
 class AddForm(form.Form):
     label = _(u"Add")
-    template = viewpagetemplatefile.ViewPageTemplateFile('../form.pt')
     ignoreContext = True
     ignoreRequest = True
 

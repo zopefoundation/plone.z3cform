@@ -13,13 +13,18 @@
       name="ploneform-macros"
       for="*"
       class=".templates.Macros"
-      template="macros.pt"
+      template="templates/macros.pt"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public"
       />
 
-  <adapter factory=".templates.form_factory" />
-  <adapter factory=".templates.subform_factory" />
+  <!-- Form templates for wrapped layout use case -->
   <adapter factory=".templates.layout_factory" />
-
+  <adapter factory=".templates.wrapped_form_factory" />
+  <adapter factory=".templates.wrapped_subform_factory" />
+  
+  <!-- Form templates for standalone form use case -->
+  <adapter factory=".templates.standalone_form_factory" />
+  <adapter factory=".templates.standalone_subform_factory" />
+  
 </configure>

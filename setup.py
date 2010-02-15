@@ -42,6 +42,7 @@ setup(name='plone.z3cform',
           'z3c.batching',
           'zope.i18n>=3.4',
           'zope.component',
+          'collective.monkeypatcher',
       ],
       extras_require = {
         'test': ['lxml']

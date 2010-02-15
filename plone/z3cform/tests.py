@@ -13,6 +13,8 @@ import z3c.form.testing
 
 import plone.z3cform.templates
 
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
 def create_eventlog(event=interface.Interface):
     value = []
     @component.adapter(event)
@@ -32,6 +34,9 @@ def setup_defaults():
         zope.traversing.namespace.view, (None, None), name='view')
 
     # Setup ploneform macros
+    
+    plone.z3cform.templates.Macros.index = ViewPageTemplateFile(plone.z3cform.templates.path('macros.pt'))
+    
     component.provideAdapter(
         plone.z3cform.templates.Macros,
         (None, None),
@@ -41,7 +46,7 @@ def setup_defaults():
     from zope.pagetemplate.interfaces import IPageTemplate
 
     component.provideAdapter(
-        plone.z3cform.templates.form_factory,
+        plone.z3cform.templates.wrapped_form_factory,
         (None, None),
         IPageTemplate)
 

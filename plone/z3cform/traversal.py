@@ -4,14 +4,16 @@ from zope.component import adapts
 from zope.traversing.interfaces import ITraversable
 from zope.publisher.interfaces.browser import IBrowserRequest
 
+from z3c.form.interfaces import IForm
+
 from plone.z3cform.interfaces import IFormWrapper
 from plone.z3cform import z2
 
 from Acquisition import aq_inner
 
-class WidgetTraversal(object):
+class FormWidgetTraversal(object):
     """Allow traversal to widgets via the ++widget++ namespace. The context
-    is the from layout wrapper.
+    is the from itself (used when the layout wrapper view is not used).
     
     Note that to support security in Zope 2.10, the widget being traversed to
     must have an __of__ method, i.e. it must support acquisition. The easiest
@@ -31,16 +33,18 @@ class WidgetTraversal(object):
     """
     
     implements(ITraversable)
-    adapts(IFormWrapper, IBrowserRequest)
+    adapts(IForm, IBrowserRequest)
     
     def __init__(self, context, request=None):
         self.context = context
         self.request = request
-
+    
+    def _prepareForm(self):
+        return self.context
+    
     def traverse(self, name, ignored):
         
-        form = self.context.form_instance
-        z2.switch_on(self.context, request_layer=self.context.request_layer)
+        form = self._prepareForm()
         
         form.update()
         
@@ -59,3 +63,17 @@ class WidgetTraversal(object):
             return widget
         
         return None
+
+class WrapperWidgetTraversal(FormWidgetTraversal):
+    """Allow traversal to widgets via the ++widget++ namespace. The context
+    is the from layout wrapper.
+    
+    The caveat about security above still applies!
+    """
+    
+    adapts(IFormWrapper, IBrowserRequest)
+    
+    def _prepareForm(self):
+        form = self.context.form_instance
+        z2.switch_on(self.context, request_layer=self.context.request_layer)
+        return form
