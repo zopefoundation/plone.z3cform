@@ -2,7 +2,7 @@ Traversal
 =========
 
 plone.z3cform allows you to traverse to a widget using the ++widget++
-namespace adapter on a form view.
+namespace adapter on a form wrapper view or standalone form view.
 
 Note that widgets may need to mix in Acquisition.Explicit to be truly
 traversable in Zope 2.10. In Zope 2.12, that is not required. However, you

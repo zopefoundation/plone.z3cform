@@ -1,14 +1,23 @@
-Layout
-======
+Layout form wrapper
+===================
 
-plone.z3cform tries to avoid mixing Acqusition into your forms.  Also,
-it tries to separate form templates from layout templates (aka main
-template), so that your forms are usable in different contexts,
-e.g. in viewlets.
+Layout wrapper views are used for two purposes:
 
-Use the ``wrap_form`` function defined in the ``layout`` module to
-create a view that's suitable for registration with a ``browser:page``
-directive.
+* To avoid having to mix Zope2-isms into form classes in Zope 2.11 and
+  earlier. (In Zope 2.12, the changes to the acquisition mechanism means that
+  standard z3c.form forms can be used directly without having to mix in
+  acquisition anyway)
+* To avoid separate form templates from layout templates (aka the main
+  template), to allow a single form to be usable in different contexts,
+  e.g. as a standalone form or a viwelet.
+
+If you are using Zope 2.12 or later, you don't need to use the wrapper view
+if you don't want to, so long as you have loaded the plone.z3cform
+configuration.
+
+To use the wrapper, you can call the ``wrap_form`` function defined in the
+``layout`` module to create a view that's suitable for registration with a
+``browser:page`` directive.
 
     >>> from zope.interface import alsoProvides
     >>> from zope.publisher.browser import TestRequest
@@ -22,7 +31,7 @@ directive.
     ...     alsoProvides(request, IAttributeAnnotatable)
     ...     return request
 
-Then we create a simple z3c form:
+Then we create a simple form:
 
     >>> from zope import interface, schema
     >>> from z3c.form import form, field, button
@@ -122,7 +131,7 @@ label from the form instance:
     >>> view = view_class(context, request).__of__(context)
     >>> print view() # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
     <html>Hello, this is your layout speaking:...Another label...Age...</html>
-    
+
 
 Send bad data to the form:
 

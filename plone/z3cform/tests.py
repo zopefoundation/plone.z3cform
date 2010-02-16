@@ -26,6 +26,7 @@ def create_eventlog(event=interface.Interface):
 def setup_defaults():
     # Set up z3c.form defaults
     z3c.form.testing.setupFormDefaults()
+    
     # Make traversal work; register both the default traversable
     # adapter and the ++view++ namespace adapter
     component.provideAdapter(
@@ -33,8 +34,7 @@ def setup_defaults():
     component.provideAdapter(
         zope.traversing.namespace.view, (None, None), name='view')
 
-    # Setup ploneform macros
-    
+    # Setup ploneform macros, simlulating the ZCML directive
     plone.z3cform.templates.Macros.index = ViewPageTemplateFile(plone.z3cform.templates.path('macros.pt'))
     
     component.provideAdapter(
@@ -42,7 +42,8 @@ def setup_defaults():
         (None, None),
         zope.publisher.interfaces.browser.IBrowserView,
         name='ploneform-macros')
-    # setup plone.z3cform template
+    
+    # setup plone.z3cform templates
     from zope.pagetemplate.interfaces import IPageTemplate
 
     component.provideAdapter(
@@ -63,6 +64,9 @@ def test_suite():
     layout_txt = doctest.DocFileSuite('layout.txt')
     layout_txt.layer = testing_zcml_layer
     
+    inputs_txt = doctest.DocFileSuite('inputs.txt')
+    inputs_txt.layer = testing_zcml_layer
+    
     fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
     fieldsets_txt.layer = testing_zcml_layer
     
@@ -70,7 +74,7 @@ def test_suite():
     traversal_txt.layer = testing_zcml_layer
     
     return unittest.TestSuite([
-        layout_txt, fieldsets_txt, traversal_txt,
+        layout_txt, inputs_txt, fieldsets_txt, traversal_txt,
 
         doctest.DocFileSuite(
            'README.txt',

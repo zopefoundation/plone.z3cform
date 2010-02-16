@@ -14,9 +14,6 @@
 
   <i18n:registerTranslations directory="locales"/>
   
-  <!-- TODO: Remove -->
-  <include package=".demo" />
-  
   <!-- Monkey patch BaseForm/GroupForm's update() to apply Zope 2 input
        parameter processing. Without this, we'll get errors because Zope is
        sending encoded str's when z3c.form wants decoded unicode's.
