@@ -1,13 +1,13 @@
-Fieldsets and extensible forms
-==============================
+Fieldsets and form extenders
+============================
 
-The ``fieldsets`` package provides support for groups/fieldsets and other
-modifications via "extender" adapters. The idea is that a third party
-component can modify the fields in the form and the way that they are grouped
-and ordered.
+The ``plone.z3cform.fieldsets`` package provides support for z3c.form groups
+(fieldsets) and other modifications via "extender" adapters. The idea is that
+a third party component can modify the fields in the form and the way that
+they are grouped and ordered.
 
 This support relies on a mixin class, which is itself a subclass of 
-z3c.form's GroupForm.
+z3c.form's ``GroupForm``.
 
     >>> from plone.z3cform.fieldsets import group, extensible
 
@@ -29,7 +29,7 @@ To use this, you have to mix it into another form as the *first* base class:
   ...     fields = field.Fields(ITest)
 
 Here, note the order of the base classes. Also note that we use an ordinary
-set of fields. This known as the default fieldset.
+set of fields directly on the form. This known as the default fieldset.
 
 This form should work as-is, i.e. we can update it:
 
@@ -111,7 +111,6 @@ to exercise these methods.
   ...         
   ...         # Move 'baz' after 'bar'. This means it also moves gropu.
   ...         self.move('extra.baz', after='extra.bar')
-
   
   >>> provideAdapter(factory=ExtraBehaviorExtender, name=u"test.extender")
     

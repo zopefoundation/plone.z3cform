@@ -1,7 +1,8 @@
 Batching
-========
+--------
 
-The BatchNavigation adapter is for rendering batch navigation.
+The BatchNavigation adapter is used for rendering batch navigation in CRUD
+forms.
 
   >>> from z3c.batching.batch import Batch
   >>> from plone.z3cform.crud.crud import BatchNavigation

@@ -1,10 +1,11 @@
-Crud
-====
+CRUD (Create, Read, Update and Delete) forms
+============================================
 
-This module gives you an abstract base class to make CRUD forms with.
-These forms give you by default a tabular view of the objects, where
-attributes of the object can be edited in-place.  Please refer to the
-``ICrudForm`` interface for more details.
+This module provides an abstract base class to create CRUD forms.
+By default, such forms provide a tabular view of multiple objects, whose
+attributes can be edited in-place.
+
+Please refer to the ``ICrudForm`` interface for more details.
 
   >>> from plone.z3cform.crud import crud
 

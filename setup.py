@@ -7,9 +7,9 @@ version = '0.5.11dev'
 def description():
     join = lambda *paths: os.path.join('plone', 'z3cform', *paths)
     return (open('README.txt').read() + '\n' +
-            open(join('README.txt')).read() + '\n' +
-            open(join('crud', 'README.txt')).read() + '\n' +
             open(join('fieldsets', 'README.txt')).read() + '\n' +
+            open(join('crud', 'README.txt')).read() + '\n' +
+            open(join('crud', 'batch.txt')).read() + '\n' +
             open(os.path.join('docs', 'HISTORY.txt')).read() + '\n')
 
 setup(name='plone.z3cform',
