@@ -6,9 +6,6 @@ Changelog
 
 * Fixed tests in Plone 3.
 
-* Make it possible to use z3c.form forms without a FormWrapper in Plone 3.
-  [davisagli]
-
 * [placeholder for optilude's changelog]
 
 0.5.10 - 2010-02-01
