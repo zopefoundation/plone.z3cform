@@ -5,6 +5,8 @@ The default templates draw from a macro page template which you can use by
 itself to render parts of it.
 """
 
+from Acquisition import IAcquirer, ImplicitAcquisitionWrapper
+
 import os
 import zope.publisher.browser
 import zope.app.pagetemplate.viewpagetemplatefile
@@ -47,7 +49,7 @@ class FormTemplateFactory(z3c.form.form.FormTemplateFactory):
             util.getSpecification(form),
             util.getSpecification(request))(self)
         zope.interface.implementer(IPageTemplate)(self)
-
+    
 class ZopeTwoFormTemplateFactory(z3c.form.form.FormTemplateFactory):
     """Form template factory for Zope 2 page templates.
     
@@ -61,6 +63,13 @@ class ZopeTwoFormTemplateFactory(z3c.form.form.FormTemplateFactory):
             util.getSpecification(form),
             util.getSpecification(request))(self)
         zope.interface.implementer(IPageTemplate)(self)
+
+    def __call__(self, form, request):
+        template = self.template
+        if IAcquirer.providedBy(template):
+            return ImplicitAcquisitionWrapper(template, form)
+        else:
+            return template
 
 class ZopeTwoWidgetTemplateFactory(z3c.form.widget.WidgetTemplateFactory):
     """A variant of z3c.form's widget.WidgetTemplateFactory which uses Zope 2

@@ -22,8 +22,12 @@ To use this, you have to mix it into another form as the *first* base class:
   ...     title = schema.TextLine(title=u"Title")
 
   >>> class Test(object):
+  ...     # avoid needing an acl_users for this test in Zope 2.10
+  ...     __allow_access_to_unprotected_subobjects__ = 1
   ...     implements(ITest, IAttributeAnnotatable)
   ...     title = u""
+  ...     def getPhysicalRoot(self): # needed for template to acquire REQUEST in Zope 2.10
+  ...         return self
 
   >>> class TestForm(extensible.ExtensibleForm, form.Form):
   ...     fields = field.Fields(ITest)
@@ -31,14 +35,22 @@ To use this, you have to mix it into another form as the *first* base class:
 Here, note the order of the base classes. Also note that we use an ordinary
 set of fields directly on the form. This known as the default fieldset.
 
-This form should work as-is, i.e. we can update it:
+This form should work as-is, i.e. we can update it. First we need to fake a
+request.
 
   >>> from z3c.form.testing import TestRequest
 
   >>> request = TestRequest()
+  >>> request.other = {}
   >>> context = Test()
+  >>> context.REQUEST = request
 
   >>> form = TestForm(context, request)
+  >>> try: # Zope 2.10 templates need a proper acquisition chain
+  ...     from Acquisition import ImplicitAcquisitionWrapper
+  ...     form = ImplicitAcquisitionWrapper(form, context)
+  ... except:
+  ...     pass
   >>> form.update()
   >>> _ = form.render()
 
