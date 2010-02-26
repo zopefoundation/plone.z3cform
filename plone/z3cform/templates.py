@@ -105,9 +105,6 @@ layout_factory = ZopeTwoFormTemplateFactory(path('layout.pt'),
 wrapped_form_factory = FormTemplateFactory(path('wrappedform.pt'),
         form=plone.z3cform.interfaces.IWrappedForm,
     )
-wrapped_subform_factory = FormTemplateFactory(path('wrappedsubform.pt'),
-        form=plone.z3cform.interfaces.IWrappedSubForm,
-    )
 
 # Default templates for the standalone form use case
 
@@ -115,6 +112,8 @@ standalone_form_factory = ZopeTwoFormTemplateFactory(path('form.pt'),
         form=z3c.form.interfaces.IForm
     )
 
-standalone_subform_factory = ZopeTwoFormTemplateFactory(path('subform.pt'),
+# Default templates for subforms
+
+subform_factory = FormTemplateFactory(path('subform.pt'),
         form=z3c.form.interfaces.ISubForm
     )

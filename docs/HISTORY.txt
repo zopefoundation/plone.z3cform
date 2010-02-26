@@ -4,7 +4,13 @@ Changelog
 0.5.11 - unreleased
 -------------------
 
+* Remove the distinction between wrapped and unwrapped subforms. A subform is
+  always wrapped by the form that contains it, and can use a Zope 3 page
+  template.
+  [davisagli]
+
 * Fixed tests in Plone 3.
+  [davisagli]
 
 * [placeholder for optilude's changelog]
 

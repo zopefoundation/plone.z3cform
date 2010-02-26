@@ -47,9 +47,7 @@ class FormWrapper(BrowserView):
         Override this method if you have more than one form.
         """
         
-        if z3c.form.interfaces.ISubForm.providedBy(self.form_instance):
-            zope.interface.alsoProvides(self.form_instance, interfaces.IWrappedSubForm)
-        else:
+        if not z3c.form.interfaces.ISubForm.providedBy(self.form_instance):
             zope.interface.alsoProvides(self.form_instance, interfaces.IWrappedForm)
         
         z2.switch_on(self, request_layer=self.request_layer)

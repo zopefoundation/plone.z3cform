@@ -47,9 +47,3 @@ class IWrappedForm(Interface):
     
     This allows different handling of templates, for example.
     """
-
-class IWrappedSubForm(IWrappedForm):
-    """Marker interface applied to wrapped sub-forms during rendering.
-    
-    This allows different handling of templates, for example.
-    """
