@@ -12,7 +12,16 @@ Changelog
 * Fixed tests in Plone 3.
   [davisagli]
 
-* [placeholder for optilude's changelog]
+
+* Fixed tests in Plone 4
+  [optilude]
+
+* Made it possible to distinguish wrapped and unwrapped forms via the 
+  IWrappedForm marker interface.
+  [optilude]
+
+* Made it possible to use z3c.form forms without a FormWrapper in Plone 4.
+  [optilude]
 
 0.5.10 - 2010-02-01
 -------------------
