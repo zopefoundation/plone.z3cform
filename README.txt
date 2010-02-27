@@ -119,7 +119,7 @@ In versions of Zope prior to 2.12, z3c.form instances cannot be registered
 as views directly, because they do not support Zope 2 security (via the
 acquisition mechanism). Whilst it may be possible to support this via custom
 mix-ins, the preferred approach is to use a wrapper view, which separates the
-rendering of the form form the page layout.
+rendering of the form from the page layout.
 
 There are a few other reasons why you may want to use the wrapper view, even
 in later versions of Zope:
@@ -128,7 +128,7 @@ in later versions of Zope:
 * To re-use the same form in multiple views or viewlets
 * To use the ``IPageTemplate`` adapter lookup semantics from z3c.form to
   provide a different default or override template for the overall page
-  layout, whilst retaining (or indeed customising independently) the default
+  layout, while retaining (or indeed customising independently) the default
   layout of the form.
 
 When using the wrapper view, you do *not* need to ensure your requests are
@@ -194,12 +194,11 @@ The default ``FormWrapper`` class exposes a few methods and properties:
   once the view has been initialised.
 
 When a form is rendered in a wrapper view, the form instance is temporarily
-marked with either ``plone.z3cform.interfaces.IWrappedForm`` (for standard
-forms) or ``plone.z3cform.interfaces.IWrappedSubForm`` (for sub-forms),
-to allow custom adapter registrations. Specifically, this is used to ensure
-that a form rendered "standalone" gets a full-page template applied, whilst
-a form rendered in a wrapper is rendered using a template that renders the
-form elements only.
+marked with ``plone.z3cform.interfaces.IWrappedForm`` (unless the form is
+a subform), to allow custom adapter registrations. Specifically, this is used
+to ensure that a form rendered "standalone" gets a full-page template applied,
+while a form rendered in a wrapper is rendered using a template that renders
+the form elements only.
 
 Default templates and macros
 ============================
@@ -216,7 +215,7 @@ you can specify a template directly on the form or view, as shown above.
   It uses the CMFDefault ``main_template`` and fills the ``header`` slot.
 * ``templates/wrappedform.pt`` is the default template for wrapped forms.
   It renders the ``titlelessform`` macro from the ``@@ploneform-macros`` view.
-* ``templates/subform.pt`` is the default template for wrapped sub-forms.
+* ``templates/subform.pt`` is the default template for sub-forms.
   It uses the macros in ``@@ploneform-macros`` view to render a heading,
   top/bottom content (verbatim) and the fields and actions of the subform (but
   does not) render the ``<form />`` tag itself.
@@ -224,8 +223,6 @@ you can specify a template directly on the form or view, as shown above.
   the macro ``context/@@standard_macros/page`` (supplied by Five and normally
   delegating to CMF's ``main_template``) to render a form where the form label
   is the page heading.
-* ``templates/subform.pt`` is nearly identical to ``wrappedsubform.pt``, but
-  is used in the unwrapped case.
 
 As hinted, this package also registers a view ``@@ploneform-macros``, which
 contains a set of macros that be used to construct forms with a standard
@@ -295,9 +292,6 @@ As an example, here are the default registrations from this package::
     wrapped_form_factory = FormTemplateFactory(path('wrappedform.pt'),
             form=plone.z3cform.interfaces.IWrappedForm,
         )
-    wrapped_subform_factory = FormTemplateFactory(path('wrappedsubform.pt'),
-            form=plone.z3cform.interfaces.IWrappedSubForm,
-        )
 
     # Default templates for the standalone form use case
 
@@ -305,7 +299,7 @@ As an example, here are the default registrations from this package::
             form=z3c.form.interfaces.IForm
         )
 
-    standalone_subform_factory = ZopeTwoFormTemplateFactory(path('subform.pt'),
+    subform_factory = FormTemplateFactory(path('subform.pt'),
             form=z3c.form.interfaces.ISubForm
         )
 
@@ -314,11 +308,10 @@ These are registered in ZCML like so::
   <!-- Form templates for wrapped layout use case -->
   <adapter factory=".templates.layout_factory" />
   <adapter factory=".templates.wrapped_form_factory" />
-  <adapter factory=".templates.wrapped_subform_factory" />
   
   <!-- Form templates for standalone form use case -->
   <adapter factory=".templates.standalone_form_factory" />
-  <adapter factory=".templates.standalone_subform_factory" />
+  <adapter factory=".templates.subform_factory" />
 
 The widget traverser
 ====================

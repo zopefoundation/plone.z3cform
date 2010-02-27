@@ -12,7 +12,6 @@ Changelog
 * Fixed tests in Plone 3.
   [davisagli]
 
-
 * Fixed tests in Plone 4
   [optilude]
 
