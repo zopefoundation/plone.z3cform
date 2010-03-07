@@ -4,6 +4,9 @@ Changelog
 0.5.11 - unreleased
 -------------------
 
+* Added slots to the ``titlelessform`` macro. See ``README.txt`` for details.
+  [optilude]
+
 * Remove the distinction between wrapped and unwrapped subforms. A subform is
   always wrapped by the form that contains it, and can use a Zope 3 page
   template.

@@ -231,7 +231,10 @@ layout, error message display, and so on. It contains the following macros:
 * ``form`` is a full page form, including the label (output as an ``<h3 />``),
   description, and all the elements of ``titlelessform``.
 * ``titlelessform`` includes the form ``status`` at the top, the ``<form />``
-  element, and the contents of the ``fields`` and ``actions`` macros.
+  element, and the contents of the ``fields`` and ``actions`` macros. It also
+  defines three slots: ``formtop`` is just inside the opening ``<form>`` tag;
+  ``formbottom``` is just inside the closing ``</form>`` tag;
+  ``beforeactions`` is just before the actions (form buttons) are output.
 * ``fields`` iterates over all widgets in the form and renders each, using the
   contents of the ``field`` macro.
 * ``field`` renders a single field. It expects the variable ``widget`` to be

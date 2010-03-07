@@ -18,14 +18,16 @@
            tal:condition="view/description | nothing"
            tal:content="structure view/description">Form description</div>
       <metal:define define-macro="titlelessform">
-	<div class="portalMessage"
+        <div class="portalMessage"
              tal:condition="view/status" tal:content="view/status">
-	</div>
+        </div>
 
 
-	<form action="." method="post"
+        <form action="." method="post"
               tal:attributes="action request/getURL; enctype view/enctype">
-
+          
+          <metal:block define-slot="formtop" />
+          
           <metal:define define-macro="fields">
 
             <tal:widgets repeat="widget view/widgets/values">
@@ -33,7 +35,7 @@
                    tal:define="hidden python:widget.mode == 'hidden'"
                    tal:omit-tag="hidden">
 
-		<metal:field define-macro="field">
+                <metal:field define-macro="field">
                   <div class="field"
                        tal:define="error widget/error"
                        tal:attributes="class python:'field' + (error and ' error' or '')">
@@ -52,14 +54,14 @@
                     </span>
 
                     <div class="formHelp"
-			 tal:define="description widget/field/description"
-			 i18n:translate=""
-			 tal:content="description"
-			 tal:condition="python:description and not hidden"
-			 >field description</div>
+                         tal:define="description widget/field/description"
+                         i18n:translate=""
+                         tal:content="description"
+                         tal:condition="python:description and not hidden"
+                         >field description</div>
 
                     <div tal:condition="error"
-			 tal:content="structure error/render">
+                         tal:content="structure error/render">
                       Error
                     </div>
 
@@ -67,20 +69,24 @@
                       <input type="text" tal:replace="structure widget/render" />
                     </div>
                   </div>
-		</metal:field>
+                </metal:field>
 
               </div>
             </tal:widgets>
 
           </metal:define>
-
+          
+          <metal:block define-slot="beforeactions" />
+          
           <metal:define define-macro="actions">
             <div class="action" tal:repeat="action view/actions/values|nothing">
               <input type="submit" tal:replace="structure action/render" />
             </div>
           </metal:define>
+          
+          <metal:block define-slot="formbottom" />
 
-	</form>
+        </form>
       </metal:define>
       </div>
 
