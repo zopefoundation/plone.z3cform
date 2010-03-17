@@ -241,7 +241,8 @@ layout, error message display, and so on. It contains the following macros:
   defined in the TAL scope, referring to a z3c.form widget instance. It will
   output an error message if there is a field validation error, a label,
   a marker to say whether the field is required, the field description, and 
-  the widget itself (normally just an ``<input />`` element).
+  the widget itself (normally just an ``<input />`` element).  It also defines
+  two slots, ``fieldtop`` and ``fieldbottom``, which wrap the field.
 * ``actions`` renders all actions on the form. This normally results in a row
   of ``<input type="submit" ... />`` elements.
 

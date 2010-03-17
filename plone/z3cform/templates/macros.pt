@@ -36,6 +36,7 @@
                    tal:omit-tag="hidden">
 
                 <metal:field define-macro="field">
+                  <metal:field-slot define-slot="fieldtop" />
                   <div class="field"
                        tal:define="error widget/error"
                        tal:attributes="class python:'field' + (error and ' error' or '')">
@@ -69,6 +70,7 @@
                       <input type="text" tal:replace="structure widget/render" />
                     </div>
                   </div>
+                  <metal:field-slot define-slot="fieldbottom" />
                 </metal:field>
 
               </div>
