@@ -4,6 +4,9 @@ Changelog
 0.5.11 - unreleased
 -------------------
 
+* In the CRUD table, fix odd/even labels, which were reversed.
+  [limi]
+
 * Added slots to the ``titlelessform`` macro. See ``README.txt`` for details.
   [optilude, davisagli]
 
