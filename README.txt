@@ -229,22 +229,25 @@ contains a set of macros that be used to construct forms with a standard
 layout, error message display, and so on. It contains the following macros:
 
 * ``form`` is a full page form, including the label (output as an ``<h3 />``),
-  description, and all the elements of ``titlelessform``.
+  description, and all the elements of ``titlelessform``.  It defines two
+  slots: ``title`` contains the label, and ``description`` contains the
+  description.
 * ``titlelessform`` includes the form ``status`` at the top, the ``<form />``
   element, and the contents of the ``fields`` and ``actions`` macros. It also
-  defines three slots: ``formtop`` is just inside the opening ``<form>`` tag;
+  defines four slots: ``formtop`` is just inside the opening ``<form>`` tag;
   ``formbottom``` is just inside the closing ``</form>`` tag;
-  ``beforeactions`` is just before the actions (form buttons) are output.
+  ``fields`` contains the ``fields`` macro; and ``actions`` contains the
+  ``actions`` macro.
 * ``fields`` iterates over all widgets in the form and renders each, using the
-  contents of the ``field`` macro.
+  contents of the ``field`` macro.  It also defines one slot, ``field`` which
+  contains the ``field`` macro.
 * ``field`` renders a single field. It expects the variable ``widget`` to be
   defined in the TAL scope, referring to a z3c.form widget instance. It will
   output an error message if there is a field validation error, a label,
   a marker to say whether the field is required, the field description, and 
-  the widget itself (normally just an ``<input />`` element).  It also defines
-  two slots, ``fieldtop`` and ``fieldbottom``, which wrap the field.
-* ``actions`` renders all actions on the form. This normally results in a row
-  of ``<input type="submit" ... />`` elements.
+  the widget itself (normally just an ``<input />`` element).
+* ``actions`` renders all actions (buttons) on the form. This normally results
+  in a row of ``<input type="submit" ... />`` elements.
 
 Thus, to use the ``titlelessform`` macro, you could add something like the
 following in a custom form template::
