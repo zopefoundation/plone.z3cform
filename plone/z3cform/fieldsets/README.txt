@@ -68,6 +68,7 @@ form.
   ...     bar = schema.TextLine(title=u"Bar")
   ...     baz = schema.TextLine(title=u"Baz")
   ...     fub = schema.TextLine(title=u"Fub")
+  ...     qux = schema.TextLine(title=u"Qux")
   
 One plausible implementation is to use an annotation to store this data.
 
@@ -82,6 +83,7 @@ One plausible implementation is to use an annotation to store this data.
   ...     bar = u""
   ...     baz = u""
   ...     fub = u""
+  ...     qux = u""
   
   >>> ExtraBehavior = factory(ExtraBehavior)
   >>> provideAdapter(ExtraBehavior)
@@ -93,7 +95,7 @@ to exercise these methods.
  
   >>> class ExtraBehaviorExtender(extensible.FormExtender):
   ...     adapts(Test, TestRequest, TestForm) # context, request, form
-  ...     
+  ...
   ...     def __init__(self, context, request, form):
   ...         self.context = context
   ...         self.request = request
@@ -121,8 +123,14 @@ to exercise these methods.
   ...         self.remove('bar', prefix='extra')
   ...         self.add(all_fields.select('bar', prefix='extra'), group='Second')
   ...         
-  ...         # Move 'baz' after 'bar'. This means it also moves gropu.
+  ...         # Move 'baz' after 'bar'. This means it also moves group.
   ...         self.move('extra.baz', after='extra.bar')
+  ...         
+  ...         # Remove 'qux' and re-insert into 'Second' group,
+  ...         # then move it before 'baz'
+  ...         self.remove('qux', prefix='extra')
+  ...         self.add(all_fields.select('qux', prefix='extra'), group='Second')
+  ...         self.move('qux', before='baz', prefix='extra', relative_prefix='extra')
   
   >>> provideAdapter(factory=ExtraBehaviorExtender, name=u"test.extender")
     
@@ -152,4 +160,4 @@ canonical name.
 This should have the group fields provided by the adapter as well.
 
   >>> form.groups[0].fields.keys()
-  ['extra.bar', 'extra.baz']
+  ['extra.bar', 'extra.qux', 'extra.baz']

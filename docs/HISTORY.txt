@@ -4,6 +4,9 @@ Changelog
 0.6.1 - unreleased
 ------------------
 
+* Fix re-ordering of fields not in the default fieldset. Thanks to Thomas
+  Buchberger for the patch.
+  [optilude]
 
 0.6.0 - 2010-04-20
 ------------------

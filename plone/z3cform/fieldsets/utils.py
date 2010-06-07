@@ -68,7 +68,13 @@ def move(form, field_name, before=None, after=None, prefix=None, relative_prefix
         relative = expandPrefix(relative_prefix) + relative
     
     if field_name not in form.fields:
-        raise KeyError("Field %s not found" % field_name)
+        found = False
+        for group in getattr(form, 'groups', []):
+            if field_name in group.fields:
+                found = True
+                break
+        if not found:
+            raise KeyError("Field %s not found" % field_name)
     
     if relative != '*' and relative not in form.fields:
         found = False
