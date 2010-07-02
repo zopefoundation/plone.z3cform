@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: plone.z3cformPOT-Creation-Date: Mon Dec  8 12:16:22 2008\n"
-"POT-Creation-Date: 2009-08-05 09:11+0000\n"
+"POT-Creation-Date: 2010-07-02 13:45+0000\n"
 "PO-Revision-Date: 2009-08-05 11:04+0100\n"
 "Last-Translator: Vincent Fretin <vincent.fretin@gmail.com>\n"
 "Language-Team: French\n"

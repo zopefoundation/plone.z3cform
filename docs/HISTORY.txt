@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.5.11 - Unreleased
+-------------------
+
+* Added Norwegian translation.
+  [regebro]
+
 0.5.10 - 2010-02-01
 -------------------
 
