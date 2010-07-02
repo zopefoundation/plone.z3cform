@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.11 - Unreleased
+0.5.11 (2010-07-02)
 -------------------
 
 * Added Norwegian translation.

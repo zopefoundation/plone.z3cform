@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.5.11dev'
+version = '0.5.11'
 
 
 def description():
