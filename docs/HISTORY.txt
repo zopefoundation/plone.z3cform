@@ -8,6 +8,9 @@ Changelog
   Buchberger for the patch.
   [optilude]
 
+* Added Norwegian translation.
+  [regebro]
+
 0.6.0 - 2010-04-20
 ------------------
 
