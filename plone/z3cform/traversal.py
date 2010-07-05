@@ -1,4 +1,6 @@
 from zope.interface import implements
+from zope.interface import alsoProvides
+from zope.interface import noLongerProvides
 from zope.component import adapts
 
 from zope.traversing.interfaces import ITraversable
@@ -7,6 +9,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 from z3c.form.interfaces import IForm
 
 from plone.z3cform.interfaces import IFormWrapper
+from plone.z3cform.interfaces import IDeferSecurityCheck
 from plone.z3cform import z2
 
 from Acquisition import aq_inner
@@ -45,8 +48,12 @@ class FormWidgetTraversal(object):
     def traverse(self, name, ignored):
         
         form = self._prepareForm()
-        
+
+        # Since we cannot check security during traversal,
+        # we delegate the check to the widget view.
+        alsoProvides(self.request, IDeferSecurityCheck)
         form.update()
+        noLongerProvides(self.request, IDeferSecurityCheck)
         
         # Find the widget - it may be in a group
         if name in form.widgets:

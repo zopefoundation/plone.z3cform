@@ -47,3 +47,10 @@ class IWrappedForm(Interface):
     
     This allows different handling of templates, for example.
     """
+
+class IDeferSecurityCheck(Interface):
+    """Marker interface applied to the request during traversal.
+    
+    This can be used by other code that wants to skip security
+    checks during traversal.
+    """

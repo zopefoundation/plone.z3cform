@@ -4,6 +4,11 @@ Changelog
 0.6.1 - unreleased
 ------------------
 
+* Add a marker interface which can be used by widgets to defer any security
+  checks they may be doing when they are set up during traversal with the
+  ++widgets++ namespace
+  [dukebody]
+
 * Fix re-ordering of fields not in the default fieldset. Thanks to Thomas
   Buchberger for the patch.
   [optilude]
