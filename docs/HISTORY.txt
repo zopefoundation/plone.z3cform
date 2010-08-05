@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6.1 - unreleased
+0.7.0 - 2010-08-04
 ------------------
 
 * Add a marker interface which can be used by widgets to defer any security
