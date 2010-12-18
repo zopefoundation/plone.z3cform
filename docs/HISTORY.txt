@@ -3,7 +3,9 @@ Changelog
 
 0.7.1dev - unreleased
 ---------------------
-
+* Add zope.app.testing to test dependencies so that it continues to work under
+  Zope 2.13.
+  [esteele]
 
 0.7.0 - 2010-08-04
 ------------------

@@ -45,6 +45,7 @@ setup(name='plone.z3cform',
           'collective.monkeypatcher',
       ],
       extras_require = {
-        'test': ['lxml']
+        'test': ['lxml',
+                 'zope.app.testing']
       }
       )
