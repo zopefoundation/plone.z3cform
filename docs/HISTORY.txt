@@ -1,8 +1,9 @@
 Changelog
 =========
 
-0.7.1dev - unreleased
+0.7.1 - 2011-01-18
 ---------------------
+
 * Add zope.app.testing to test dependencies so that it continues to work under
   Zope 2.13.
   [esteele]
