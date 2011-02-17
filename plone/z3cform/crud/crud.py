@@ -332,6 +332,8 @@ class EditForm(form.Form):
         return tuples
 
 class AddForm(form.Form):
+    template = viewpagetemplatefile.ViewPageTemplateFile('crud-add.pt')
+    
     label = _(u"Add")
     ignoreContext = True
     ignoreRequest = True
