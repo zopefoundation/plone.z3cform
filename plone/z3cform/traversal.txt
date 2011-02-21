@@ -159,3 +159,11 @@ adapter. For example, let's say we'd traversed to
     <TextWidget 'form.widgets.age'>
 
 Please note that this point, the form has been updated, but not rendered.
+
+When a form field does not exist a KeyError is raised.
+
+    >>> traverser = getMultiAdapter((form, request), name=u"widget")
+    >>> traverser.traverse('missing', [])
+    Traceback (most recent call last):
+    ...
+    KeyError: 'missing'

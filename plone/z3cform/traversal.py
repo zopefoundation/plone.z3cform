@@ -12,7 +12,9 @@ from plone.z3cform.interfaces import IFormWrapper
 from plone.z3cform.interfaces import IDeferSecurityCheck
 from plone.z3cform import z2
 
+from Acquisition import aq_base
 from Acquisition import aq_inner
+
 
 class FormWidgetTraversal(object):
     """Allow traversal to widgets via the ++widget++ namespace. The context
@@ -58,10 +60,12 @@ class FormWidgetTraversal(object):
         # Find the widget - it may be in a group
         if name in form.widgets:
             widget = form.widgets.get(name)
-        elif form.groups is not None:
+        elif getattr(aq_base(form), 'groups', None) is not None:
             for group in form.groups:
                 if name in group.widgets:
                     widget = group.widgets.get(name)
+        else:
+            raise KeyError(name)
         
         # Make the parent of the widget the traversal parent.
         # This is required for security to work in Zope 2.12
