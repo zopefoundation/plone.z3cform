@@ -4,6 +4,8 @@ from zope.interface import noLongerProvides
 from zope.component import adapts
 
 from zope.traversing.interfaces import ITraversable
+from zope.traversing.interfaces import TraversalError
+
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 from z3c.form.interfaces import IForm
@@ -58,14 +60,13 @@ class FormWidgetTraversal(object):
         noLongerProvides(self.request, IDeferSecurityCheck)
         
         # Find the widget - it may be in a group
+        widget = None
         if name in form.widgets:
             widget = form.widgets.get(name)
         elif getattr(aq_base(form), 'groups', None) is not None:
             for group in form.groups:
                 if name in group.widgets:
                     widget = group.widgets.get(name)
-        else:
-            raise KeyError(name)
         
         # Make the parent of the widget the traversal parent.
         # This is required for security to work in Zope 2.12
@@ -73,7 +74,7 @@ class FormWidgetTraversal(object):
             widget.__parent__ = aq_inner(self.context)
             return widget
         
-        return None
+        raise TraversalError(name)
 
 class WrapperWidgetTraversal(FormWidgetTraversal):
     """Allow traversal to widgets via the ++widget++ namespace. The context
