@@ -19,12 +19,14 @@
        sending encoded str's when z3c.form wants decoded unicode's.
     -->
   <monkey:patch
+      preconditions="Zope2-=2.13.999"
       description="Zope 2 integration - decode form inputs prior to form processing"
       class="z3c.form.form.BaseForm"
       original="update"
       replacement=".patch.BaseForm_update"
       />
   <monkey:patch
+      preconditions="Zope2-=2.13.999"
       description="Zope 2 integration - decode form inputs prior to form processing"
       class="z3c.form.group.GroupForm"
       original="update"
