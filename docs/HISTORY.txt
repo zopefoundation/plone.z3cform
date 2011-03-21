@@ -6,6 +6,9 @@ Changelog
 
 * Deal with forward compatibility with Zope 2.14.
 
+* Adds Brazilian Portuguese translation.
+  [davilima6]
+
 0.7.3 - 2011-03-02
 ------------------
 
