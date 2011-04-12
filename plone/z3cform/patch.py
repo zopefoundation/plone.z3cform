@@ -12,19 +12,19 @@ _original_BaseForm_update = BaseForm.update
 _original_GroupForm_update = GroupForm.update
 
 def BaseForm_update(self):
-    # This monkey patch ensures that processInputs() is called before 
+    # This monkey patch ensures that processInputs() is called before
     # z3c.form does any work on the request. This is because z3c.form expects
     # charset negotiation to have taken place in the publisher, and will
     # complain about non-unicode strings
-    
+
     processInputs(self.request)
     _original_BaseForm_update(self)
 
 def GroupForm_update(self):
-    # This monkey patch ensures that processInputs() is called before 
+    # This monkey patch ensures that processInputs() is called before
     # z3c.form does any work on the request. This is because z3c.form expects
     # charset negotiation to have taken place in the publisher, and will
     # complain about non-unicode strings
-    
+
     processInputs(self.request)
     _original_GroupForm_update(self)

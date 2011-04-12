@@ -4,17 +4,17 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="plone.z3cform"
       metal:use-macro="context/@@standard_macros/page">
-      
+
     <body metal:fill-slot="body">
-        
+
         <h1 tal:content="view/label | nothing" />
-        
+
         <div class="description"
            tal:condition="view/description | nothing"
            tal:content="structure view/description">Form description</div>
-        
+
         <metal:block use-macro="context/@@ploneform-macros/titlelessform" />
-        
+
     </body>
-    
+
 </html>

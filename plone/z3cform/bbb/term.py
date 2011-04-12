@@ -5,7 +5,7 @@
 import logging
 import types
 from zope.schema.interfaces import IContextSourceBinder
-    
+
 def patched_init(self, context, request, form, field, widget):
     self.context = context
     self.request = request
@@ -22,16 +22,16 @@ def apply_patch():
         from z3c.form.term import ChoiceTerms
     except ImportError:
         return False
-    
+
     if not isinstance(ChoiceTerms, types.TypeType):
         return False
     try:
         version = pkg_resources.get_distribution('z3c.form').version
     except AttributeError:
         return False
-    
+
     if version != '1.9.0':
         return False
-    
+
     logging.getLogger('plone.z3cform').warn("Monkey patching z3c.form.term.ChoiceTerms to correctly bind fields")
     ChoiceTerms.__init__ = patched_init

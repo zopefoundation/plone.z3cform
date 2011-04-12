@@ -13,7 +13,7 @@
   <include package="z3c.form" />
 
   <i18n:registerTranslations directory="locales"/>
-  
+
   <!-- Monkey patch BaseForm/GroupForm's update() to apply Zope 2 input
        parameter processing. Without this, we'll get errors because Zope is
        sending encoded str's when z3c.form wants decoded unicode's.
@@ -32,7 +32,7 @@
       original="update"
       replacement=".patch.GroupForm_update"
       />
-  
+
   <!-- Override the FileUploadDataConverter from z3c.form.
        We register it for the class so that it is more specific than the one
        registered in z3c.form. This avoids the need for a messy
@@ -42,7 +42,7 @@
       for="zope.schema.Bytes z3c.form.interfaces.IFileWidget"
       factory=".converter.FileUploadDataConverter"
       />
-  
+
   <!-- Backported from z3c.from trunk -->
   <include package=".textlines" file="textlines.zcml"
     zcml:condition="not-installed z3c.form.browser.textlines"/>
@@ -50,7 +50,7 @@
   <!-- These are not backported, but represent useful policy -->
   <adapter factory=".textlines.textlines.TextLinesSetConverter" />
   <adapter factory=".textlines.textlines.TextLinesFrozenSetConverter" />
-  
+
   <!-- ++widget++ namespace -->
   <adapter factory=".traversal.FormWidgetTraversal" name="widget" />
   <adapter factory=".traversal.WrapperWidgetTraversal" name="widget" />

@@ -1,5 +1,5 @@
 """This module provides "form template factories" that can be
-registered to provide default form templates for forms and subforms. 
+registered to provide default form templates for forms and subforms.
 
 The default templates draw from a macro page template which you can use by
 itself to render parts of it.
@@ -37,7 +37,7 @@ path = lambda p: os.path.join(os.path.dirname(plone.z3cform.__file__), 'template
 class FormTemplateFactory(z3c.form.form.FormTemplateFactory):
     """Form template factory that will use Chameleon if installed (via
     five.pt), or the Zope 2 ViewPageTemplateFile from Products.Five if not.
-    
+
     You can use this for a wrapped form, but not for a form that is going
     to be rendered as a standalone view. Use ZopeTwoFormTemplateFactory for
     that instead.
@@ -49,10 +49,10 @@ class FormTemplateFactory(z3c.form.form.FormTemplateFactory):
             util.getSpecification(form),
             util.getSpecification(request))(self)
         zope.interface.implementer(IPageTemplate)(self)
-    
+
 class ZopeTwoFormTemplateFactory(z3c.form.form.FormTemplateFactory):
     """Form template factory for Zope 2 page templates.
-    
+
     Use this for any form which is going to be rendered as a view, or any
     form wrapper view.
     """
@@ -76,7 +76,7 @@ class ZopeTwoWidgetTemplateFactory(z3c.form.widget.WidgetTemplateFactory):
     page templates. This should only be necessary if you strictly need the
     extra Zope 2-isms of Five's ViewPageTemplateFile.
     """
-    
+
     def __init__(self, filename, contentType='text/html', context=None,
         request=None, view=None, field=None, widget=None
     ):
@@ -92,7 +92,7 @@ class ZopeTwoWidgetTemplateFactory(z3c.form.widget.WidgetTemplateFactory):
 # View containing common macros
 
 class Macros(zope.publisher.browser.BrowserView):
-    
+
     def __getitem__(self, key):
         return self.index.macros[key]
 

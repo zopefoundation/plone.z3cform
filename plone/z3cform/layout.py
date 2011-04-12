@@ -28,7 +28,7 @@ class FormWrapper(BrowserView):
     classes.
     """
     zope.interface.implements(interfaces.IFormWrapper)
-    
+
     form = None # override this with a form class.
     index = None # override with a page template, or rely on an adapter
     request_layer = z3c.form.interfaces.IFormLayer
@@ -46,10 +46,10 @@ class FormWrapper(BrowserView):
 
         Override this method if you have more than one form.
         """
-        
+
         if not z3c.form.interfaces.ISubForm.providedBy(self.form_instance):
             zope.interface.alsoProvides(self.form_instance, interfaces.IWrappedForm)
-        
+
         z2.switch_on(self, request_layer=self.request_layer)
         self.form_instance.update()
         # A z3c.form.form.AddForm do a redirect in its render method.

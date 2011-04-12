@@ -31,7 +31,7 @@ try:
     from z3c.form.converter import TextLinesConverter
 
 except ImportError:
-    
+
     # backport for z3c.form 1.9
 
 
@@ -98,7 +98,7 @@ class TextLinesSetConverter(TextLinesConverter):
         if value is self.field.missing_value:
             return u''
         return u'\n'.join(unicode(v) for v in sorted(value))
-    
+
 class TextLinesFrozenSetConverter(TextLinesConverter):
     """Data converter for ITextLinesWidget operating on a frozenset."""
 

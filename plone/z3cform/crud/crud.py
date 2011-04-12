@@ -333,7 +333,7 @@ class EditForm(form.Form):
 
 class AddForm(form.Form):
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-add.pt')
-    
+
     label = _(u"Add")
     ignoreContext = True
     ignoreRequest = True

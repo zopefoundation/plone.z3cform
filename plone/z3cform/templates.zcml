@@ -21,11 +21,11 @@
   <!-- Form templates for wrapped layout use case -->
   <adapter factory=".templates.layout_factory" />
   <adapter factory=".templates.wrapped_form_factory" />
-  
+
   <!-- Form templates for standalone form use case -->
   <adapter factory=".templates.standalone_form_factory" />
-  
+
   <!-- Form templates for subform use case -->
   <adapter factory=".templates.subform_factory" />
-  
+
 </configure>

@@ -43,6 +43,6 @@ class SingleCheckBoxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
 @zope.interface.implementer(z3c.form.interfaces.IFieldWidget)
 def SingleCheckBoxFieldWidget(field, request):
     return z3c.form.widget.FieldWidget(field, SingleCheckBoxWidget(request))
-    
+
 # BBB:
 singlecheckboxwidget_factory = SingleCheckBoxFieldWidget

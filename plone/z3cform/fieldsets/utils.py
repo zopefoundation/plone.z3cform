@@ -9,10 +9,10 @@ def add(form, *args, **kwargs):
     to specify the label of a group, which will be found and used or
     created if it doesn't exist.
     """
-    
+
     index = kwargs.pop('index', None)
     group = kwargs.pop('group', None)
-    
+
     new_fields = Fields(*args, **kwargs)
 
     if not group or isinstance(group, basestring):
@@ -23,7 +23,7 @@ def add(form, *args, **kwargs):
     if source is None and group:
         source = GroupFactory(group, new_fields)
         form.groups.append(source)
-    else:        
+    else:
         if index is None or index >= len(source.fields):
             source.fields += new_fields
         else:
@@ -35,10 +35,10 @@ def add(form, *args, **kwargs):
 def remove(form, field_name, prefix=None):
     """Get rid of a field. The omitted field will be returned.
     """
-    
+
     if prefix:
         field_name = expandPrefix(prefix) + field_name
-    
+
     if field_name in form.fields:
         field = form.fields[field_name]
         form.fields = form.fields.omit(field_name)
@@ -55,18 +55,18 @@ def move(form, field_name, before=None, after=None, prefix=None, relative_prefix
     """
     if prefix:
         field_name = expandPrefix(prefix) + field_name
-    
+
     if before and after:
         raise ValueError(u"Only one of 'before' or 'after' is allowed")
-    
+
     offset = 0
     if after:
         offset = 1
-    
+
     relative = orig_relative = before or after
     if relative_prefix:
         relative = expandPrefix(relative_prefix) + relative
-    
+
     if field_name not in form.fields:
         found = False
         for group in getattr(form, 'groups', []):
@@ -75,7 +75,7 @@ def move(form, field_name, before=None, after=None, prefix=None, relative_prefix
                 break
         if not found:
             raise KeyError("Field %s not found" % field_name)
-    
+
     if relative != '*' and relative not in form.fields:
         found = False
         for group in form.groups:
@@ -84,12 +84,12 @@ def move(form, field_name, before=None, after=None, prefix=None, relative_prefix
                 break
         if not found:
             raise KeyError("Field %s not found" % relative)
-    
+
     field = remove(form, field_name)
-    
+
     group = None
     index = None
-    
+
     if relative in form.fields:
         index = form.fields.keys().index(relative)
     elif orig_relative == '*' and relative_prefix is None:
@@ -107,10 +107,10 @@ def move(form, field_name, before=None, after=None, prefix=None, relative_prefix
                     index = 0
                 else:
                     index = len(group.fields.keys()) - 1
-    
+
     if index is None:
         raise KeyError("Field %s not found" % relative)
-    
+
     add(form, field, group=group, index=index+offset)
 
 def find_source(form, group=None):

@@ -24,17 +24,17 @@ def processInputs(request, charsets=None):
     the passed-in list of charsets. If none are passed in, look up the user's
     preferred charsets. The default is to use utf-8.
     """
-    
+
     if IProcessedRequest.providedBy(request):
         return
-    
+
     if charsets is None:
         envadapter = IUserPreferredCharsets(request, None)
         if envadapter is None:
             charsets = ['utf-8']
         else:
             charsets = envadapter.getPreferredCharsets() or ['utf-8']
-    
+
     for name, value in request.form.items():
         if not (isCGI_NAME(name) or name.startswith('HTTP_')):
             if isinstance(value, str):
@@ -45,12 +45,12 @@ def processInputs(request, charsets=None):
                     if isinstance(val, str):
                         val = _decode(val, charsets)
                     newValue.append(val)
-                
+
                 if isinstance(value, tuple):
                     newValue = tuple(value)
-                
+
                 request.form[name] = newValue
-    
+
     interface.alsoProvides(request, IProcessedRequest)
 
 def _decode(text, charsets):
@@ -62,7 +62,7 @@ def _decode(text, charsets):
             pass
     return text
 
-# This is ripped from zope.publisher.http.HTTPRequest; it is only 
+# This is ripped from zope.publisher.http.HTTPRequest; it is only
 # necessary in Zope < 2.11
 def setup_locale(request):
     envadapter = IUserPreferredLanguages(request, None)
@@ -94,18 +94,18 @@ def switch_on(view, request_layer=z3c.form.interfaces.IFormLayer):
     """Fix up the request and apply the given layer. This is mainly useful
     in Zope < 2.10 when using a wrapper layout view.
     """
-    
+
     request = view.request
-    
+
     if (not IFixedUpRequest.providedBy(request) and
         not IBrowserApplicationRequest.providedBy(request)
     ):
-        
+
         interface.alsoProvides(request, IFixedUpRequest)
         interface.alsoProvides(request, request_layer)
-        
+
         if getattr(request, 'locale', None) is None:
             request.locale = setup_locale(request)
-        
+
         if not hasattr(request, 'getURL'):
             add_getURL(request)

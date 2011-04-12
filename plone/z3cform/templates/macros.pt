@@ -29,9 +29,9 @@
 
         <form action="." method="post"
               tal:attributes="action request/getURL; enctype view/enctype">
-          
+
           <metal:block define-slot="formtop" />
-          
+
           <metal:fields-slot define-slot="fields">
             <metal:define define-macro="fields">
 
@@ -83,7 +83,7 @@
 
             </metal:define>
           </metal:fields-slot>
-          
+
           <metal:actions-slot define-slot="actions">
             <metal:define define-macro="actions">
               <div class="action" tal:repeat="action view/actions/values|nothing">
@@ -91,7 +91,7 @@
               </div>
             </metal:define>
           </metal:actions-slot>
-          
+
           <metal:block define-slot="formbottom" />
 
         </form>
