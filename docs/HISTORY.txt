@@ -4,6 +4,10 @@ Changelog
 0.7.4 - unreleased
 ------------------
 
+* Only search a group's widgets if they exist. collective.z3cform.wizard doesn't
+  create widgets for pages/groups other than the current one
+  [lentinj, elro]
+
 * Deal with forward compatibility with Zope 2.14.
 
 * Adds Brazilian Portuguese translation.

@@ -65,7 +65,7 @@ class FormWidgetTraversal(object):
             widget = form.widgets.get(name)
         elif getattr(aq_base(form), 'groups', None) is not None:
             for group in form.groups:
-                if name in group.widgets:
+                if group.widgets and name in group.widgets:
                     widget = group.widgets.get(name)
 
         # Make the parent of the widget the traversal parent.
