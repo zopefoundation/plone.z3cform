@@ -4,6 +4,12 @@ Changelog
 0.7.4 - unreleased
 ------------------
 
+* Ignore "form.widgets." if ++widget++ path begins with it.
+  [lentinj]
+
+* Rework traverser to handle lists and subforms
+  [lentinj]
+
 * Only search a group's widgets if they exist. collective.z3cform.wizard doesn't
   create widgets for pages/groups other than the current one
   [lentinj, elro]

@@ -9,6 +9,7 @@ from zope.traversing.interfaces import TraversalError
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 from z3c.form.interfaces import IForm
+from z3c.form import util
 
 from plone.z3cform.interfaces import IFormWrapper
 from plone.z3cform.interfaces import IDeferSecurityCheck
@@ -59,22 +60,60 @@ class FormWidgetTraversal(object):
         form.update()
         noLongerProvides(self.request, IDeferSecurityCheck)
 
-        # Find the widget - it may be in a group
-        widget = None
-        if name in form.widgets:
-            widget = form.widgets.get(name)
-        elif getattr(aq_base(form), 'groups', None) is not None:
-            for group in form.groups:
-                if group.widgets and name in group.widgets:
-                    widget = group.widgets.get(name)
+        # If name begins with form.widgets., remove it
+        form_widgets_prefix = util.expandPrefix(form.prefix)+util.expandPrefix(form.widgets.prefix)
+        if name.startswith(form_widgets_prefix):
+            name = name[len(form_widgets_prefix):]
+
+        # Split string up into dotted segments and work through
+        target = aq_base(form)
+        parts = name.split('.')
+        while len(parts) > 0:
+            part = parts.pop(0)
+            if type(getattr(target,'widgets',None)) is list: # i.e. a z3c.form.widget.MultiWidget
+                try:
+                    target = target.widgets[int(part)]
+                except IndexError:
+                    raise TraversalError("'"+part+"' not in range")
+                except ValueError:
+                    raise TraversalError("'"+part+"' not valid index")
+            elif hasattr(target,'widgets'): # Either base form, or subform
+                # Check to see if we can find a "Behaviour.widget"
+                new_target = self._form_traverse(target,part+'.'+parts[0]) if len(parts) > 0 else None
+
+                if new_target is not None:
+                    # Remove widget name from stack too
+                    parts.pop(0)
+                else:
+                    # Find widget in form without behaviour prefix
+                    new_target = self._form_traverse(target,part)
+
+                target = new_target
+            elif hasattr(target,'subform'): # subform-containing widget, only option is to go into subform
+                target = target.subform if part=='widgets' else None
+            else:
+               raise TraversalError('Cannot traverse through '+target.__repr__())
+
+            # Could not traverse from target to part
+            if target is None: raise TraversalError(part)
 
         # Make the parent of the widget the traversal parent.
         # This is required for security to work in Zope 2.12
-        if widget is not None:
-            widget.__parent__ = aq_inner(self.context)
-            return widget
-
+        if target is not None:
+            target.__parent__ = aq_inner(self.context)
+            return target
         raise TraversalError(name)
+
+    # Look for name within a form
+    def _form_traverse(self,form,name):
+        if name in form.widgets:
+            return form.widgets.get(name)
+        # If there are no groups, give up now
+        if getattr(aq_base(form), 'groups', None) is None:
+            return None
+        for group in form.groups:
+            if group.widgets and name in group.widgets:
+                return group.widgets.get(name)
 
 
 class WrapperWidgetTraversal(FormWidgetTraversal):
