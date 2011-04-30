@@ -1,7 +1,7 @@
 import os
+import doctest
 import unittest
 
-from zope.testing import doctest
 from zope import component
 from zope import interface
 from zope.component import testing
