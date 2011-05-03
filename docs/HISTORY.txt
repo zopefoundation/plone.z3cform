@@ -4,6 +4,10 @@ Changelog
 0.7.5 - unreleased
 ------------------
 
+* Split traversal tests for Zope2.10, not all traversal functionality is
+  supported on Zope 2.10 and different errors are raised.
+  [elro]
+
 * Revert [120798] as it breaks on Zope2.10 / Plone 3.3. We can deal with Zope
   2.14 in 0.8.x.
   [elro]

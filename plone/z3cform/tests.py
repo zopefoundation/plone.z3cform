@@ -1,4 +1,5 @@
 import os
+import sys
 import doctest
 import unittest
 
@@ -70,8 +71,14 @@ def test_suite():
     fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
     fieldsets_txt.layer = testing_zcml_layer
 
-    traversal_txt = doctest.DocFileSuite('traversal.txt')
-    traversal_txt.layer = testing_zcml_layer
+    if sys.version_info[:2] == (2, 4):
+        # Zope 2.10 raises TraversalError instead of LocationError
+        # and some more advanced functionality breaks.
+        traversal_txt = doctest.DocFileSuite('zope210traversal.txt')
+        traversal_txt.layer = testing_zcml_layer
+    else:
+        traversal_txt = doctest.DocFileSuite('traversal.txt')
+        traversal_txt.layer = testing_zcml_layer        
 
     return unittest.TestSuite([
         layout_txt, inputs_txt, fieldsets_txt, traversal_txt,
