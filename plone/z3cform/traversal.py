@@ -92,9 +92,10 @@ class FormWidgetTraversal(object):
 
                 target = new_target
             elif hasattr(target,'subform'): # subform-containing widget, only option is to go into subform
-                target = None
                 if part=='widgets':
                     target = target.subform
+                else:
+                    target = None
             else:
                raise TraversalError('Cannot traverse through '+target.__repr__())
 
