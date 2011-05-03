@@ -4,6 +4,9 @@ Changelog
 0.7.5 - unreleased
 ------------------
 
+* Revert [120798] as it breaks on Zope2.10 / Plone 3.3. We can deal with Zope
+  2.14 in 0.8.x.
+  [elro]
 
 0.7.4 - 2011-05-03
 ------------------
