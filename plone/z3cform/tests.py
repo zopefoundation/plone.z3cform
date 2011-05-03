@@ -71,13 +71,17 @@ def test_suite():
     fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
     fieldsets_txt.layer = testing_zcml_layer
 
-    if sys.version_info[:2] == (2, 4):
+    if sys.version_info[:2] > (2, 4):
         # Zope 2.10 raises TraversalError instead of LocationError
-        # and some more advanced functionality breaks.
-        traversal_txt = doctest.DocFileSuite('zope210traversal.txt')
+        traversal_txt = doctest.DocFileSuite('traversal.txt')
         traversal_txt.layer = testing_zcml_layer
     else:
-        traversal_txt = doctest.DocFileSuite('traversal.txt')
+        import tempfile
+        tmp = tempfile.NamedTemporaryFile()
+        test = open(os.path.join(os.path.dirname(__file__), 'traversal.txt')).read()
+        tmp.write(test.replace('LocationError', 'TraversalError'))
+        tmp.flush()
+        traversal_txt = doctest.DocFileSuite(tmp.name, module_relative=False)
         traversal_txt.layer = testing_zcml_layer        
 
     return unittest.TestSuite([

@@ -4,8 +4,8 @@ Changelog
 0.7.5 - unreleased
 ------------------
 
-* Split traversal tests for Zope2.10, not all traversal functionality is
-  supported on Zope 2.10 and different errors are raised.
+* Fix traversal tests on Zope 2.10 to handle TraversalError instead of
+  LocationError.
   [elro]
 
 * Revert [120798] as it breaks on Zope2.10 / Plone 3.3. We can deal with Zope
