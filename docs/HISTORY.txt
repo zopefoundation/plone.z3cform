@@ -1,12 +1,14 @@
 Changelog
 =========
 
-0.7.5 - unreleased
+0.7.5 - 2011-05-03
 ------------------
 
 * Fix traversal tests on Zope 2.10 to handle TraversalError instead of
   LocationError.
   [elro]
+
+* Fix traversal.py syntax to be python2.4 compatible.
 
 * Revert [120798] as it breaks on Zope2.10 / Plone 3.3. We can deal with Zope
   2.14 in 0.8.x.
