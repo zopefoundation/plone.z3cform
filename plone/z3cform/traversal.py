@@ -79,7 +79,9 @@ class FormWidgetTraversal(object):
                     raise TraversalError("'"+part+"' not valid index")
             elif hasattr(target,'widgets'): # Either base form, or subform
                 # Check to see if we can find a "Behaviour.widget"
-                new_target = self._form_traverse(target,part+'.'+parts[0]) if len(parts) > 0 else None
+                new_target = None
+                if len(parts) > 0:
+                    new_target = self._form_traverse(target,part+'.'+parts[0])
 
                 if new_target is not None:
                     # Remove widget name from stack too
@@ -90,7 +92,9 @@ class FormWidgetTraversal(object):
 
                 target = new_target
             elif hasattr(target,'subform'): # subform-containing widget, only option is to go into subform
-                target = target.subform if part=='widgets' else None
+                target = None
+                if part=='widgets':
+                    target = target.subform
             else:
                raise TraversalError('Cannot traverse through '+target.__repr__())
 
