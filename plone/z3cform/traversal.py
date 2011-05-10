@@ -72,11 +72,22 @@ class FormWidgetTraversal(object):
             part = parts.pop(0)
             if type(getattr(target,'widgets',None)) is list: # i.e. a z3c.form.widget.MultiWidget
                 try:
+                    # part should be integer index in list, look it up
                     target = target.widgets[int(part)]
                 except IndexError:
                     raise TraversalError("'"+part+"' not in range")
                 except ValueError:
-                    raise TraversalError("'"+part+"' not valid index")
+                    #HACK: part isn't integer. Iterate through widgets to
+                    # find matching name. This is required for 
+                    # DataGridField, which appends 'AA' and 'TT' rows to
+                    # it's widget list.
+                    prefix = util.expandPrefix(target.prefix)
+                    filtered = [w for w in target.widgets
+                                        if w.name[len(prefix):] == part]
+                    if len(filtered) == 1:
+                        target = filtered[0]
+                    else:
+                        raise TraversalError("'"+part+"' not valid index")
             elif hasattr(target,'widgets'): # Either base form, or subform
                 # Check to see if we can find a "Behaviour.widget"
                 new_target = None

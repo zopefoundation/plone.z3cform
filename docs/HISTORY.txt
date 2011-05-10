@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.7.6 - unreleased
+------------------
+
+* Add ability to find widgets with non-integer names in lists. This shouldn't
+  generally be something that happens, and ideally should be removed if
+  DataGridField looses it's 'AA' and 'TT' rows.
+  [lentinj]
+
 0.7.5 - 2011-05-03
 ------------------
 
