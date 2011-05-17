@@ -81,9 +81,9 @@ class FormWidgetTraversal(object):
                     # find matching name. This is required for 
                     # DataGridField, which appends 'AA' and 'TT' rows to
                     # it's widget list.
-                    prefix = util.expandPrefix(target.prefix)
+                    full_name = util.expandPrefix(target.prefix) + part
                     filtered = [w for w in target.widgets
-                                        if w.name[len(prefix):] == part]
+                                        if w.name == full_name]
                     if len(filtered) == 1:
                         target = filtered[0]
                     else:
