@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7.6 - unreleased
+0.7.6 - 2011-05-17
 ------------------
 
 * Add ability to find widgets with non-integer names in lists. This shouldn't
