@@ -49,7 +49,6 @@
         </thead>
         <tbody>
           <tal:block repeat="row view/subforms">
-            <a name="" tal:attributes="name string:edit-${row/content_id}" />
             <tr tal:content="structure row/render"
                 tal:attributes="class python:repeat['row'].odd() and 'even' or 'odd'" />
           </tal:block>
