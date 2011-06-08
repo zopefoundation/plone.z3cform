@@ -4,7 +4,10 @@ Changelog
 0.5.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+* Remove <a name=""/> elements from inside the CRUD table TBODY element
+  they were otherwise unused (and illegal in that location of the HTML content
+  model).
+  [mj]
 
 
 0.5.11 (2010-07-02)
