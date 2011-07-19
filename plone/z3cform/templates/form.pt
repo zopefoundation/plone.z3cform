@@ -7,7 +7,9 @@
 
     <body metal:fill-slot="body">
 
-        <h1 tal:content="view/label | nothing" />
+        <h1 tal:define="label view/label|nothing"
+            tal:omit-tag="not:label"
+            tal:content="label" />
 
         <div class="description"
            tal:condition="view/description | nothing"

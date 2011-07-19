@@ -4,6 +4,9 @@ Changelog
 0.7.8 - unreleased
 ------------------
 
+* Do not display h1 element if there is no label on view.
+  [thomasdesvenain]
+
 * Add Chinese translation.
   [jianaijun]
 
@@ -115,7 +118,7 @@ Changelog
 * Fixed tests in Plone 4
   [optilude]
 
-* Made it possible to distinguish wrapped and unwrapped forms via the 
+* Made it possible to distinguish wrapped and unwrapped forms via the
   IWrappedForm marker interface.
   [optilude]
 
@@ -145,7 +148,7 @@ Changelog
 
 * Don't do the rendering if there is a redirection, use the update/render
   pattern for that.
-  See http://dev.plone.org/plone/ticket/10022 for an example how 
+  See http://dev.plone.org/plone/ticket/10022 for an example how
   to adapt your code, in particular if you used FormWrapper with ViewletBase.
   [vincentfretin]
 
@@ -162,13 +165,13 @@ Changelog
   because macros.pt from plone.app.z3cform uses plone.z3cform translations.
   Added French translation and fixed German and Dutch translations
   for label_required and title_required messages.
-  [vincentfretin] 
+  [vincentfretin]
 
 0.5.5 - 2009-07-26
 ------------------
 
 * Removed explicit <includeOverrides /> call from configure.zcml. This causes
-  race condition type errors in ZCML loading when overrides are included 
+  race condition type errors in ZCML loading when overrides are included
   later.
   [optilude]
 
