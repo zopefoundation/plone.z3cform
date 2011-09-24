@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7.8 - unreleased
+0.7.8 - 2011-09-24
 ------------------
 
 * Do not display h1 element if there is no label on view.
