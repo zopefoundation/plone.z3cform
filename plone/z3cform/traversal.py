@@ -78,7 +78,7 @@ class FormWidgetTraversal(object):
                     raise TraversalError("'"+part+"' not in range")
                 except ValueError:
                     #HACK: part isn't integer. Iterate through widgets to
-                    # find matching name. This is required for 
+                    # find matching name. This is required for
                     # DataGridField, which appends 'AA' and 'TT' rows to
                     # it's widget list.
                     full_name = util.expandPrefix(target.prefix) + part

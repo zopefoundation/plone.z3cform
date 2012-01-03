@@ -82,7 +82,7 @@ def test_suite():
         tmp.write(test.replace('LocationError', 'TraversalError'))
         tmp.flush()
         traversal_txt = doctest.DocFileSuite(tmp.name, module_relative=False)
-        traversal_txt.layer = testing_zcml_layer        
+        traversal_txt.layer = testing_zcml_layer
 
     return unittest.TestSuite([
         layout_txt, inputs_txt, fieldsets_txt, traversal_txt,

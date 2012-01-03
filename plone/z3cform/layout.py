@@ -52,12 +52,12 @@ class FormWrapper(BrowserView):
 
         z2.switch_on(self, request_layer=self.request_layer)
         self.form_instance.update()
-        
+
         # If a form action redirected, don't render the wrapped form
         if self.request.response.getStatus() in (302, 303):
             self.contents = ""
             return
-        
+
         # A z3c.form.form.AddForm does a redirect in its render method.
         # So we have to render the form to see if we have a redirection.
         # In the case of redirection, we don't render the layout at all.
