@@ -4,6 +4,8 @@ Changelog
 0.7.9 - unreleased
 ------------------
 
+* Use form action URL as given by the view, instead of implementing it
+  in the template as a call to the ``getURL`` method of the request.
 
 0.7.8 - 2011-09-24
 ------------------

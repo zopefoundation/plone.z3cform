@@ -28,7 +28,7 @@
         </div>
 
         <form action="." method="post"
-              tal:attributes="action request/getURL; enctype view/enctype">
+              tal:attributes="action view/action; enctype view/enctype">
 
           <metal:block define-slot="formtop" />
 
