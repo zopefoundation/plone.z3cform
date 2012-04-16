@@ -1,11 +1,15 @@
 Changelog
 =========
 
-0.7.9 - unreleased
-------------------
+0.8 - unreleased
+----------------
 
 * Use form action URL as given by the view, instead of implementing it
   in the template as a call to the ``getURL`` method of the request.
+  [malthe]
+
+* Use plone.batching for batches instead of z3c.batching
+  [tom_gross]
 
 0.7.8 - 2011-09-24
 ------------------
