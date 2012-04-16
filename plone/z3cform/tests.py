@@ -92,11 +92,6 @@ def test_suite():
            setUp=testing.setUp, tearDown=testing.tearDown,
            ),
 
-        doctest.DocFileSuite(
-           'crud/batch.txt',
-           setUp=testing.setUp, tearDown=testing.tearDown,
-           ),
-
         doctest.DocTestSuite(
            'plone.z3cform.crud.crud',
            setUp=testing.setUp, tearDown=testing.tearDown,

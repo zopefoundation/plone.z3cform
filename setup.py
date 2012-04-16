@@ -9,7 +9,6 @@ def description():
     return (open('README.txt').read() + '\n' +
             open(join('fieldsets', 'README.txt')).read() + '\n' +
             open(join('crud', 'README.txt')).read() + '\n' +
-            open(join('crud', 'batch.txt')).read() + '\n' +
             open(os.path.join('docs', 'HISTORY.txt')).read() + '\n')
 
 setup(name='plone.z3cform',
@@ -38,8 +37,8 @@ setup(name='plone.z3cform',
       # feature of plone.recipe.zope2install.
       install_requires=[
           'setuptools',
+          'plone.batching',
           'z3c.form',
-          'z3c.batching',
           'zope.i18n>=3.4',
           'zope.component',
           'collective.monkeypatcher',

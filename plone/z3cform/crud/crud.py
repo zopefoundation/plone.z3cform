@@ -11,8 +11,9 @@ from z3c.form import form
 import z3c.form.widget
 from z3c.form.interfaces import DISPLAY_MODE, INPUT_MODE, NOVALUE
 from zope.app.pagetemplate import viewpagetemplatefile
-import z3c.batching.batch
 
+from plone.batching import Batch
+from plone.batching.browser import BatchView
 
 from plone.z3cform.widget import singlecheckboxwidget_factory
 from plone.z3cform import MessageFactory as _
@@ -72,6 +73,7 @@ class ICrudForm(interface.Interface):
         """Return a URL for this item's field or None.
         """
 
+
 class AbstractCrudForm(object):
     """The AbstractCrudForm is not a form but implements methods
     necessary to comply with the ``ICrudForm`` interface:
@@ -104,6 +106,15 @@ class AbstractCrudForm(object):
 
     def link(self, item, field):
         return None
+
+
+class CrudBatchView(BatchView):
+
+    prefix = ''
+
+    def make_link(self, pagenumber):
+        return "%s?%spage=%s" % (self.request.getURL(), self.prefix, pagenumber)
+
 
 class EditSubForm(form.EditForm):
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-row.pt')
@@ -183,37 +194,6 @@ class EditSubForm(form.EditForm):
             freakList.append(item.field.title)
         return freakList
 
-class BatchItem(object):
-    def __init__(self, label, link=None):
-        self.label = label
-        self.link = link
-
-class BatchNavigation(zope.publisher.browser.BrowserView):
-    template = viewpagetemplatefile.ViewPageTemplateFile('batch.pt')
-
-    def make_link(self, page):
-        raise NotImplementedError()
-
-    def __call__(self):
-        pages = []
-        batch = self.context
-        if batch.total == 1:
-            return u""
-        else:
-            if batch.number > 1:
-                pages.append(dict(label=_("Previous"),
-                                  link=self.make_link(page=batch.number-2)))
-
-            for index in range(batch.total):
-                link = (index != batch.number-1 and
-                        self.make_link(page=index) or None)
-                pages.append(dict(label=unicode(index+1), link=link))
-
-            if batch.number < batch.total:
-                pages.append(dict(label=_("Next"),
-                                  link=self.make_link(page=batch.number)))
-
-            return self.template(batch=batch, pages=pages)
 
 class EditForm(form.Form):
     label = _(u"Edit")
@@ -244,21 +224,13 @@ class EditForm(form.Form):
     def batch(self):
         items = self.context.get_items()
         batch_size = self.context.batch_size or sys.maxint
-        page = self._page()
-        return z3c.batching.batch.Batch(
-            items, start=page*batch_size, size=batch_size)
-    #batch = zope.cachedescriptors.property.CachedProperty(batch)
+        page = int(self.request.get('%spage' % self.prefix, 0))
+        return Batch.fromPagenumber(items, batch_size, page+1)
 
     def render_batch_navigation(self):
-        navigation = BatchNavigation(self.batch, self.request)
-        def make_link(page):
-            return "%s?%spage=%s" % (self.request.getURL(), self.prefix, page)
-        navigation.make_link = make_link
-        return navigation()
-
-    def _page(self):
-        name = '%spage' % self.prefix
-        return int(self.request.get(name, '0'))
+        bv = CrudBatchView(self.context, self.request)
+        bv.prefix = self.prefix
+        return bv(self.batch)
 
     @button.buttonAndHandler(_('Apply changes'),
                              name='edit',
