@@ -61,6 +61,7 @@ testing_zcml_path = os.path.join(os.path.dirname(__file__), 'testing.zcml')
 testing_zcml_layer = ZCMLLayer(
     testing_zcml_path, 'plone.z3cform', 'testing_zcml_layer')
 
+
 def test_suite():
     layout_txt = doctest.DocFileSuite('layout.txt')
     layout_txt.layer = testing_zcml_layer
@@ -71,18 +72,8 @@ def test_suite():
     fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
     fieldsets_txt.layer = testing_zcml_layer
 
-    if sys.version_info[:2] > (2, 4):
-        # Zope 2.10 raises TraversalError instead of LocationError
-        traversal_txt = doctest.DocFileSuite('traversal.txt')
-        traversal_txt.layer = testing_zcml_layer
-    else:
-        import tempfile
-        tmp = tempfile.NamedTemporaryFile()
-        test = open(os.path.join(os.path.dirname(__file__), 'traversal.txt')).read()
-        tmp.write(test.replace('LocationError', 'TraversalError'))
-        tmp.flush()
-        traversal_txt = doctest.DocFileSuite(tmp.name, module_relative=False)
-        traversal_txt.layer = testing_zcml_layer
+    traversal_txt = doctest.DocFileSuite('traversal.txt')
+    traversal_txt.layer = testing_zcml_layer
 
     return unittest.TestSuite([
         layout_txt, inputs_txt, fieldsets_txt, traversal_txt,
