@@ -16,13 +16,16 @@ import plone.z3cform.templates
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+
 def create_eventlog(event=interface.Interface):
     value = []
+
     @component.adapter(event)
     def log(event):
         value.append(event)
     component.provideHandler(log)
     return value
+
 
 def setup_defaults():
     # Set up z3c.form defaults
@@ -36,7 +39,8 @@ def setup_defaults():
         zope.traversing.namespace.view, (None, None), name='view')
 
     # Setup ploneform macros, simlulating the ZCML directive
-    plone.z3cform.templates.Macros.index = ViewPageTemplateFile(plone.z3cform.templates.path('macros.pt'))
+    plone.z3cform.templates.Macros.index = ViewPageTemplateFile(
+        plone.z3cform.templates.path('macros.pt'))
 
     component.provideAdapter(
         plone.z3cform.templates.Macros,
@@ -87,5 +91,4 @@ def test_suite():
            'plone.z3cform.crud.crud',
            setUp=testing.setUp, tearDown=testing.tearDown,
            ),
-
         ])
