@@ -4,6 +4,9 @@ Changelog
 0.8 - unreleased
 ----------------
 
+* Use plone.testing for functional test layer support.
+  [hannosch]
+
 * Use ViewPageTemplateFile from zope.browserpage.
   [hannosch]
 
