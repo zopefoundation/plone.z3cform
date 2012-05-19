@@ -9,7 +9,6 @@ from Acquisition import IAcquirer, ImplicitAcquisitionWrapper
 
 import os
 import zope.publisher.browser
-import zope.app.pagetemplate.viewpagetemplatefile
 
 import z3c.form.interfaces
 import z3c.form.form
@@ -25,7 +24,7 @@ try:
 except ImportError:
     # standard Zope page templates
     from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile as ZopeTwoPageTemplateFile
-    from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+    from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 import plone.z3cform
 import plone.z3cform.layout

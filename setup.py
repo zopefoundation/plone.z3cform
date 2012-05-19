@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.7.9dev'
+version = '0.8.0dev'
 
 
 def description():
@@ -31,15 +31,12 @@ setup(name='plone.z3cform',
       namespace_packages=['plone'],
       include_package_data=True,
       zip_safe=False,
-
-      # If in Zope 2, z3c.form or another Zope 3 package starts
-      # pulling incompatible dependencies, use the "fake zope eggs"
-      # feature of plone.recipe.zope2install.
       install_requires=[
           'setuptools',
           'plone.batching',
           'z3c.form',
           'zope.i18n>=3.4',
+          'zope.browserpage',
           'zope.component',
           'collective.monkeypatcher',
       ],

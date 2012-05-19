@@ -10,7 +10,7 @@ from z3c.form import field
 from z3c.form import form
 import z3c.form.widget
 from z3c.form.interfaces import DISPLAY_MODE, INPUT_MODE, NOVALUE
-from zope.app.pagetemplate import viewpagetemplatefile
+from zope.browserpage import viewpagetemplatefile
 
 from plone.batching import Batch
 from plone.batching.browser import BatchView
