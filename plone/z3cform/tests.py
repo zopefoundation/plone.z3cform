@@ -9,7 +9,6 @@ from zope.component import testing
 import zope.traversing.adapters
 import zope.traversing.namespace
 import zope.publisher.interfaces.browser
-import z3c.form.testing
 from z3c.form.interfaces import IFormLayer
 from zope.configuration import xmlconfig
 
@@ -34,6 +33,7 @@ def create_eventlog(event=interface.Interface):
 
 def setup_defaults():
     # Set up z3c.form defaults
+    import z3c.form.testing
     z3c.form.testing.setupFormDefaults()
 
     # Make traversal work; register both the default traversable
