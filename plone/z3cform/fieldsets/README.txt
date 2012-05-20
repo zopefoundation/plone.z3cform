@@ -38,7 +38,7 @@ set of fields directly on the form. This known as the default fieldset.
 This form should work as-is, i.e. we can update it. First we need to fake a
 request.
 
-  >>> from z3c.form.testing import TestRequest
+  >>> from plone.z3cform.tests import TestRequest
 
   >>> request = TestRequest()
   >>> request.other = {}

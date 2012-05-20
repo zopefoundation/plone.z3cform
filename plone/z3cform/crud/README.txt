@@ -57,7 +57,7 @@ Our simple form looks like this:
 This is all that we need to render a combined edit add form containing
 all our items:
 
-  >>> from z3c.form.testing import TestRequest
+  >>> from plone.z3cform.tests import TestRequest
   >>> print MyForm(None, TestRequest())() \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...Martha...Peter...</div>

@@ -18,7 +18,7 @@ interface:
 
 The widget can be instantiated only using the request:
 
-  >>> from z3c.form.testing import TestRequest
+  >>> from plone.z3cform.tests import TestRequest
   >>> request = TestRequest()
 
   >>> widget = textlines.TextLinesWidget(request)

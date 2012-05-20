@@ -10,9 +10,16 @@ import zope.traversing.adapters
 import zope.traversing.namespace
 import zope.publisher.interfaces.browser
 import z3c.form.testing
+from z3c.form.interfaces import IFormLayer
 from zope.configuration import xmlconfig
 
 import plone.z3cform.templates
+
+from zope.publisher.browser import TestRequest
+
+
+class TestRequest(TestRequest):
+    interface.implements(IFormLayer)
 
 
 def create_eventlog(event=interface.Interface):
