@@ -14,23 +14,6 @@
 
   <i18n:registerTranslations directory="locales"/>
 
-  <!-- Monkey patch BaseForm/GroupForm's update() to apply Zope 2 input
-       parameter processing. Without this, we'll get errors because Zope is
-       sending encoded str's when z3c.form wants decoded unicode's.
-    -->
-  <monkey:patch
-      description="Zope 2 integration - decode form inputs prior to form processing"
-      class="z3c.form.form.BaseForm"
-      original="update"
-      replacement=".patch.BaseForm_update"
-      />
-  <monkey:patch
-      description="Zope 2 integration - decode form inputs prior to form processing"
-      class="z3c.form.group.GroupForm"
-      original="update"
-      replacement=".patch.GroupForm_update"
-      />
-
   <!-- Override the FileUploadDataConverter from z3c.form.
        We register it for the class so that it is more specific than the one
        registered in z3c.form. This avoids the need for a messy

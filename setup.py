@@ -38,7 +38,6 @@ setup(name='plone.z3cform',
           'zope.i18n>=3.4',
           'zope.browserpage',
           'zope.component',
-          'collective.monkeypatcher',
       ],
       extras_require={
         'test': ['lxml',

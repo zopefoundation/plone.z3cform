@@ -9,9 +9,6 @@ import z3c.form.browser.checkbox
 import z3c.form.interfaces
 
 class SingleCheckBoxWidget(z3c.form.browser.checkbox.SingleCheckBoxWidget):
-    """XXX: We need to refactor this and patch z3c.form where
-    it makes sense.
-    """
 
     def update(self):
         self.ignoreContext = True

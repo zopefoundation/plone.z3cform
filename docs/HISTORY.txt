@@ -4,6 +4,9 @@ Changelog
 0.8 - unreleased
 ----------------
 
+* Remove backwards-compatibility code for Zope < 2.12
+  [davisagli]
+
 * Use plone.testing for functional test layer support.
   [hannosch]
 

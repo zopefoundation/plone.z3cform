@@ -8,11 +8,7 @@ from Products.Five import BrowserView
 
 from zope.pagetemplate.interfaces import IPageTemplate
 
-try:
-    from Products.Five.browser.pagetemplatefile import BoundPageTemplate
-    HAS_BOUND_PAGETEMPLATE = True
-except ImportError:
-    HAS_BOUND_PAGETEMPLATE = False
+from Products.Five.browser.pagetemplatefile import BoundPageTemplate
 
 from plone.z3cform import interfaces
 from plone.z3cform import z2
@@ -84,10 +80,7 @@ class FormWrapper(BrowserView):
         if self.index is None:
             template = zope.component.getMultiAdapter(
                 (self, self.request), IPageTemplate)
-            if HAS_BOUND_PAGETEMPLATE:
-                return BoundPageTemplate(template, self)()
-            else:
-                return template.__of__(self)(self)
+            return BoundPageTemplate(template, self)()
         return self.index()
 
     def label(self):

@@ -3,8 +3,7 @@ from zope import interface
 from zope.publisher.browser import isCGI_NAME
 from zope.publisher.interfaces.browser import IBrowserApplicationRequest
 
-from zope.i18n.interfaces import IUserPreferredLanguages, IUserPreferredCharsets
-from zope.i18n.locales import locales, LoadLocaleError
+from zope.i18n.interfaces import IUserPreferredCharsets
 
 import z3c.form.interfaces
 
@@ -62,34 +61,6 @@ def _decode(text, charsets):
             pass
     return text
 
-# This is ripped from zope.publisher.http.HTTPRequest; it is only
-# necessary in Zope < 2.11
-def setup_locale(request):
-    envadapter = IUserPreferredLanguages(request, None)
-    if envadapter is None:
-        return None
-
-    langs = envadapter.getPreferredLanguages()
-    for httplang in langs:
-        parts = (httplang.split('-') + [None, None])[:3]
-        try:
-            return locales.getLocale(*parts)
-        except LoadLocaleError:
-            # Just try the next combination
-            pass
-    else:
-        # No combination gave us an existing locale, so use the default,
-        # which is guaranteed to exist
-        return locales.getLocale(None, None, None)
-
-# XXX Add a getURL method on the request object; this is only necessary in
-# Zope < 2.11
-def add_getURL(request):
-    def getURL(level=0, path_only=False):
-        assert level == 0 and path_only == False
-        return request['ACTUAL_URL']
-    request.getURL = getURL
-
 def switch_on(view, request_layer=z3c.form.interfaces.IFormLayer):
     """Fix up the request and apply the given layer. This is mainly useful
     in Zope < 2.10 when using a wrapper layout view.
@@ -103,9 +74,3 @@ def switch_on(view, request_layer=z3c.form.interfaces.IFormLayer):
 
         interface.alsoProvides(request, IFixedUpRequest)
         interface.alsoProvides(request, request_layer)
-
-        if getattr(request, 'locale', None) is None:
-            request.locale = setup_locale(request)
-
-        if not hasattr(request, 'getURL'):
-            add_getURL(request)

@@ -28,3 +28,7 @@ def GroupForm_update(self):
 
     processInputs(self.request)
     _original_GroupForm_update(self)
+
+def apply_patch():
+    BaseForm.update = BaseForm_update
+    GroupForm.update = GroupForm_update
