@@ -6,15 +6,11 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope import component
 from zope import interface
 from zope.component import testing
-import zope.traversing.adapters
-import zope.traversing.namespace
-import zope.publisher.interfaces.browser
-from z3c.form.interfaces import IFormLayer
 from zope.configuration import xmlconfig
+from zope.publisher.browser import TestRequest
+from z3c.form.interfaces import IFormLayer
 
 import plone.z3cform.templates
-
-from zope.publisher.browser import TestRequest
 
 
 class TestRequest(TestRequest):
@@ -33,8 +29,59 @@ def create_eventlog(event=interface.Interface):
 
 def setup_defaults():
     # Set up z3c.form defaults
-    import z3c.form.testing
-    z3c.form.testing.setupFormDefaults()
+    import os.path
+    import zope.schema
+    from zope.pagetemplate.interfaces import IPageTemplate
+    from z3c.form import browser, button, converter, datamanager, error, field
+    from z3c.form import interfaces, validator, widget
+    from z3c.form.browser import text
+
+    def getPath(filename):
+        return os.path.join(os.path.dirname(browser.__file__), filename)
+
+    component.provideAdapter(validator.SimpleFieldValidator)
+    component.provideAdapter(validator.InvariantsValidator)
+    component.provideAdapter(datamanager.AttributeField)
+    component.provideAdapter(field.FieldWidgets)
+
+    component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.ITextLine, interfaces.IFormLayer))
+    component.provideAdapter(
+        text.TextFieldWidget,
+        adapts=(zope.schema.interfaces.IInt, interfaces.IFormLayer))
+
+    component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('text_input.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ITextWidget),
+        IPageTemplate, name=interfaces.INPUT_MODE)
+    component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('text_display.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ITextWidget),
+        IPageTemplate, name=interfaces.DISPLAY_MODE)
+
+    component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('checkbox_input.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ICheckBoxWidget),
+        IPageTemplate, name=interfaces.INPUT_MODE)
+    component.provideAdapter(
+        widget.WidgetTemplateFactory(
+        getPath('checkbox_display.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ICheckBoxWidget),
+        IPageTemplate, name=interfaces.DISPLAY_MODE)
+    # Submit Field Widget
+    component.provideAdapter(
+        widget.WidgetTemplateFactory(getPath('submit_input.pt'), 'text/html'),
+        (None, None, None, None, interfaces.ISubmitWidget),
+        IPageTemplate, name=interfaces.INPUT_MODE)
+
+    component.provideAdapter(converter.FieldDataConverter)
+    component.provideAdapter(converter.FieldWidgetDataConverter)
+    component.provideAdapter(
+        button.ButtonAction, provides=interfaces.IButtonAction)
+    component.provideAdapter(button.ButtonActions)
+    component.provideAdapter(button.ButtonActionHandler)
+    component.provideAdapter(error.StandardErrorViewTemplate)
 
     # Make traversal work; register both the default traversable
     # adapter and the ++view++ namespace adapter
@@ -61,10 +108,10 @@ def setup_defaults():
         (None, None),
         IPageTemplate)
 
+    from z3c.form.interfaces import IErrorViewSnippet
     component.provideAdapter(
-        z3c.form.error.ErrorViewSnippet,
-        (None, None, None, None, None, None),
-        z3c.form.interfaces.IErrorViewSnippet)
+        error.ErrorViewSnippet,
+        (None, None, None, None, None, None), IErrorViewSnippet)
 
 
 class P3FLayer(Layer):
@@ -75,6 +122,8 @@ class P3FLayer(Layer):
             zca.stackConfigurationContext(self.get('configurationContext'))
         import plone.z3cform
         xmlconfig.file('testing.zcml', plone.z3cform, context=context)
+        import z3c.form
+        xmlconfig.file('configure.zcml', z3c.form, context=context)
 
     def tearDown(self):
         del self['configurationContext']
