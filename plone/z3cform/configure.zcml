@@ -8,7 +8,6 @@
 
   <include file="templates.zcml" />
 
-  <include package="collective.monkeypatcher" file="meta.zcml" />
   <include package="z3c.form" file="meta.zcml" />
   <include package="z3c.form" />
 
