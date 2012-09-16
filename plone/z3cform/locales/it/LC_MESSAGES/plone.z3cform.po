@@ -1,27 +1,30 @@
+# Translation of Solgema.fullcalendar.pot to Italian
+# Giacomo Spettoli <giacomo.spettoli@gmail.com>, 2011.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: plone.z3cform\n"
 "POT-Creation-Date: 2012-09-16 22:09+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Silva i18n team <walco@infrae.com>\n"
+"PO-Revision-Date: 2012-09-16 22:09+0200\n"
+"Last-Translator: Giacomo Spettoli <giacomo.spettoli@gmail.com>\n"
+"Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0\n"
-"Language-Code: en\n"
-"Language-Name: English\n"
+"Plural-Forms: nplurals=2; plural=n!=1\n"
+"Language-Code: it\n"
+"Language-Name: Italiano\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: DOMAIN\n"
-"Generated-By: zope/app/translation_files/extract.py\n"
+"Domain: plone.z3cform\n"
+"X-Is-Fallback-For: it-ch it-it\n"
 
 #: ../crud/crud.py:309
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #: ../crud/crud.py:235
 msgid "Apply changes"
-msgstr ""
+msgstr "Applica le modifiche"
 
 #: ../fieldsets/extensible.py:55
 msgid "Default"
@@ -29,51 +32,51 @@ msgstr ""
 
 #: ../crud/crud.py:274
 msgid "Delete"
-msgstr ""
+msgstr "Elimina"
 
 #: ../crud/crud.py:199
 msgid "Edit"
-msgstr ""
+msgstr "Modifica"
 
 #: ../crud/crud.py:334
 msgid "Item added successfully."
-msgstr ""
+msgstr "Elementi aggiunti con successo."
 
 #: ../crud/crud.py:241
 msgid "No changes made."
-msgstr ""
+msgstr "Nessuna modifica apportata."
 
 #: ../crud/crud.py:294
 msgid "Please select items to delete."
-msgstr ""
+msgstr "Seleziona gli elementi da eliminare"
 
 #: ../crud/crud.py:240
 msgid "Some of your changes could not be applied."
-msgstr ""
+msgstr "Alcune delle modifiche non possono essere applicate."
 
 #: ../crud/crud.py:278
 msgid "Successfully deleted items."
-msgstr ""
+msgstr "Elementi eliminati con successo."
 
 #: ../crud/crud.py:239
 msgid "Successfully updated"
-msgstr ""
+msgstr "Aggiornato con successo"
 
 #: ../crud/crud.py:288
 msgid "Unable to remove one or more items."
-msgstr ""
+msgstr "Impossibile rimuovere uno o più elementi."
 
 #. Default: "(Required)"
 #: ../templates/macros.pt:56
 msgid "label_required"
-msgstr ""
+msgstr "(Obbligatorio)"
 
 #: ../crud/crud.py:160
 msgid "select"
-msgstr ""
+msgstr "seleziona"
 
 #. Default: "Required"
 #: ../templates/macros.pt:56
 msgid "title_required"
-msgstr ""
+msgstr "Obbligatorio"
 
