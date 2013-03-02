@@ -2,8 +2,8 @@
 plone.z3cform
 =============
 
-plone.z3cform is a library that enables the use of `z3c.form`_ in Zope 2.
-It depends only on Zope 2 and z3c.form.
+plone.z3cform is a library that enables the use of `z3c.form`_ in Zope.
+It depends only on Zope and z3c.form.
 
 For Plone integration, there is also `plone.app.z3cform`_, which can be
 installed to make the default form templates more Ploneish. That package
@@ -49,13 +49,13 @@ on the request *before* any values in the request are used. For example::
 
     from plone.z3cform.z2 import processInputs
     from z3c.form import form
-    
+
     ...
-    
+
     class MyForm(form.Form):
-        
+
         ...
-        
+
         def update(self):
             processInputs(self.request)
             ...
@@ -66,14 +66,14 @@ For example::
     from zope.interface import Interface
     from zope import schema
     from z3c.form import form, button
-    
+
     class IMyFormSchema(Interface):
         field1 = schema.TextLine(title=u"A field")
         field2 = schema.Int(title=u"Another field")
-    
+
     class MyForm(form.Form):
         fields = field.Fields(IMyformSchema)
-        
+
         @button.buttonAndHandler(u'Submit')
         def handleApply(self, action):
             data, errors = self.extractData()
@@ -94,11 +94,11 @@ a custom template, you should do so by setting the ``template`` class variable
 instead of using the ``template`` attribute of the ZCML directive::
 
     from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-    
+
     class MyForm(form.Form):
         fields = field.Fields(IMyformSchema)
         template = ViewPageTemplateFile('mytemplate.pt')
-        
+
         @button.buttonAndHandler(u'Submit')
         def handleApply(self, action):
             data, errors = self.extractData()
@@ -141,21 +141,21 @@ function::
     from zope.interface import Interface
     from zope import schema
     from z3c.form import form, button
-    
+
     from plone.z3cform import layout
-    
+
     class IMyFormSchema(Interface):
         field1 = schema.TextLine(title=u"A field")
         field2 = schema.Int(title=u"Another field")
-    
+
     class MyForm(form.Form):
         fields = field.Fields(IMyformSchema)
-        
+
         @button.buttonAndHandler(u'Submit')
         def handleApply(self, action):
             data, errors = self.extractData()
             # do something
-    
+
     MyFormView = layout.wrap_form(MyForm)
 
 You can now register the (generated) ``MyFormView`` class as a browser view::
@@ -184,7 +184,7 @@ The default ``FormWrapper`` class exposes a few methods and properties:
 * ``render()`` is called to render the wrapper view. If a template has
   been set (normally via the ``template`` attribute of the
   ``<browser:page />`` directive), it will be rendered here. Otherwise,
-  a default page template is found by adapting the view (``self``) and 
+  a default page template is found by adapting the view (``self``) and
   the request to ``zope.pagetemplate.interfaces.IPageTemplate``, in the
   same way that ``z3c.form`` does for its views. A default template is
   supplied with this package (and customised in `plone.app.z3cform`_ to
@@ -244,7 +244,7 @@ layout, error message display, and so on. It contains the following macros:
 * ``field`` renders a single field. It expects the variable ``widget`` to be
   defined in the TAL scope, referring to a z3c.form widget instance. It will
   output an error message if there is a field validation error, a label,
-  a marker to say whether the field is required, the field description, and 
+  a marker to say whether the field is required, the field description, and
   the widget itself (normally just an ``<input />`` element).
 * ``actions`` renders all actions (buttons) on the form. This normally results
   in a row of ``<input type="submit" ... />`` elements.
@@ -283,15 +283,15 @@ suffice, but if you need Zope 2 semantics for any reason, you can use
 ``plone.z3cform.templates.ZopeTwoWidgetTemplateFactory``.
 
 As an example, here are the default registrations from this package::
-    
+
     import z3c.form.interfaces
     import plone.z3cform.interfaces
-    
+
     from plone.z3cform.templates import ZopeTwoFormTemplateFactory
     from plone.z3cform.templates import FormTemplateFactory
-    
+
     path = lambda p: os.path.join(os.path.dirname(plone.z3cform.__file__), 'templates', p)
-    
+
     layout_factory = ZopeTwoFormTemplateFactory(path('layout.pt'),
         form=plone.z3cform.interfaces.IFormWrapper
     )
@@ -315,7 +315,7 @@ These are registered in ZCML like so::
   <!-- Form templates for wrapped layout use case -->
   <adapter factory=".templates.layout_factory" />
   <adapter factory=".templates.wrapped_form_factory" />
-  
+
   <!-- Form templates for standalone form use case -->
   <adapter factory=".templates.standalone_form_factory" />
   <adapter factory=".templates.subform_factory" />
@@ -356,7 +356,7 @@ of the standard ``z3c.form`` widgets). For example::
 
     from Acquisition import Explicit
     from z3c.form.widget import Widget
-    
+
     class MyWidget(Widget, Explicit):
         ...
 
@@ -378,9 +378,9 @@ To do the latter, you can use ``implementsOnly()``, e.g.::
     from zope.interface import implementsOnly
     from Acquisition import Explicit
     from z3c.form.widget import Widget
-    
+
     ...
-    
+
     class MyWidget(Widget, Explicit):
         implementsOnly(IMyWidget) # or just IWdget from z3c.form
         ...
