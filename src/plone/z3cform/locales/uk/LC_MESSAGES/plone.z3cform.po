@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2013-03-12 22:10+0000\n"
+"PO-Revision-Date: 2013-03-12 22:10+0000\n"
+"Last-Translator: Roman Kozlovskyi <krzroman@gmail.com>\n"
+"Language-Team: Plone i18n <plone-i18n@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: uk\n"
+"Language-Name: Ukrainian\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone.z3cform\n"
+"Generated-By: zope/app/translation_files/extract.py\n"
+
+#: ../crud/crud.py:309
+msgid "Add"
+msgstr "Додати"
+
+#: ../crud/crud.py:235
+msgid "Apply changes"
+msgstr "Застосувати зміни"
+
+#: ../fieldsets/extensible.py:55
+msgid "Default"
+msgstr "За замовчуванням"
+
+#: ../crud/crud.py:274
+msgid "Delete"
+msgstr "Видалити"
+
+#: ../crud/crud.py:199
+msgid "Edit"
+msgstr "Редагувати"
+
+#: ../crud/crud.py:334
+msgid "Item added successfully."
+msgstr "Елемент успішно додано."
+
+#: ../crud/crud.py:241
+msgid "No changes made."
+msgstr "Змін не внесені."
+
+#: ../crud/crud.py:294
+msgid "Please select items to delete."
+msgstr "Будь ласка, виберіть елементи для видалення."
+
+#: ../crud/crud.py:240
+msgid "Some of your changes could not be applied."
+msgstr "Деякі зміни не можуть бути застосовані."
+
+#: ../crud/crud.py:278
+msgid "Successfully deleted items."
+msgstr "Успішно видалено елементи."
+
+#: ../crud/crud.py:239
+msgid "Successfully updated"
+msgstr "Оновлено успішно"
+
+#: ../crud/crud.py:288
+msgid "Unable to remove one or more items."
+msgstr "Не вдається видалити один або декілька елементів."
+
+#. Default: "(Required)"
+#: ../templates/macros.pt:56
+msgid "label_required"
+msgstr "(Обов'язково)"
+
+#: ../crud/crud.py:160
+msgid "select"
+msgstr "вибрати"
+
+#. Default: "Required"
+#: ../templates/macros.pt:56
+msgid "title_required"
+msgstr "Обов'язково"
+
