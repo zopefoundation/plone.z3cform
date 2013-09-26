@@ -110,8 +110,8 @@ class CrudBatchView(BatchView):
     prefix = ''
 
     def make_link(self, pagenumber):
-        return "%s?%spage=%s" % (
-            self.request.getURL(), self.prefix, pagenumber)
+        start = max(pagenumber - 1, 0)
+        return "%s?%spage=%s" % (self.request.getURL(), self.prefix, start)
 
 
 class EditSubForm(form.EditForm):
