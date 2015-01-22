@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-__version__ = '0.8.1.dev0'
+__version__ = '0.8.1'
 
 
 def description():
