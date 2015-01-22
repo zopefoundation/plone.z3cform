@@ -4,6 +4,9 @@ Changelog
 0.8.1 (unreleased)
 ------------------
 
+- Added Ukrainian translation
+  [kroman0]
+
 - Added Italian translation
   [giacomos]
 
