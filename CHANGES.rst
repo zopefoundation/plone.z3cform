@@ -4,6 +4,10 @@ Changelog
 0.8.1 (unreleased)
 ------------------
 
+- Feature: take group class from parent-form if given. If not given it uses
+  the default class.
+  [jensens]
+
 - Added Italian translation
   [giacomos]
 
