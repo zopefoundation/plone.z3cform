@@ -1,17 +1,15 @@
-from zope.interface import implements
-from zope.component import getAdapters
-
+from plone.z3cform import MessageFactory as _
+from plone.z3cform.fieldsets import utils
 from plone.z3cform.fieldsets.interfaces import IExtensibleForm
 from plone.z3cform.fieldsets.interfaces import IFormExtender
-
 from z3c.form.group import GroupForm
+from zope.component import getAdapters
+from zope.interface import implements
 
-from plone.z3cform.fieldsets import utils
-
-from plone.z3cform import MessageFactory as _
 
 def order_key(adapter_tuple):
     return adapter_tuple[1].order
+
 
 class FormExtender(object):
     """Base class for IFormExtender adapters with convenience APIs
@@ -41,12 +39,19 @@ class FormExtender(object):
 
         return utils.remove(self.form, field_name, prefix=prefix)
 
-    def move(self, field_name, before=None, after=None, prefix=None, relative_prefix=None):
+    def move(
+            self,
+            field_name,
+            before=None,
+            after=None,
+            prefix=None,
+            relative_prefix=None):
         """Move the field with the given name before or after another field.
         """
 
         utils.move(self.form, field_name, before=before, after=after,
-                    prefix=prefix, relative_prefix=relative_prefix)
+                   prefix=prefix, relative_prefix=relative_prefix)
+
 
 class ExtensibleForm(GroupForm):
     implements(IExtensibleForm)
@@ -59,6 +64,10 @@ class ExtensibleForm(GroupForm):
         super(ExtensibleForm, self).update()
 
     def updateFields(self):
-        extenders = getAdapters((self.context, self.request, self), IFormExtender)
+        extenders = getAdapters(
+            (self.context,
+             self.request,
+             self),
+            IFormExtender)
         for name, extender in sorted(extenders, key=order_key):
             extender.update()

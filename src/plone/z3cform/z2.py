@@ -1,15 +1,14 @@
 from zope import interface
-
+from zope.i18n.interfaces import IUserPreferredCharsets
 from zope.publisher.browser import isCGI_NAME
 from zope.publisher.interfaces.browser import IBrowserApplicationRequest
-
-from zope.i18n.interfaces import IUserPreferredCharsets
-
 import z3c.form.interfaces
+
 
 class IFixedUpRequest(interface.Interface):
     """Marker interface used to ensure we don't fix up the request twice
     """
+
 
 class IProcessedRequest(interface.Interface):
     """Marker interface used to ensure we don't process the request inputs
@@ -17,6 +16,7 @@ class IProcessedRequest(interface.Interface):
     """
 
 # Safer versions of the functions in Products.Five.browser.decode
+
 
 def processInputs(request, charsets=None):
     """Process the values in request.form to decode strings to unicode, using
@@ -52,6 +52,7 @@ def processInputs(request, charsets=None):
 
     interface.alsoProvides(request, IProcessedRequest)
 
+
 def _decode(text, charsets):
     for charset in charsets:
         try:
@@ -61,6 +62,7 @@ def _decode(text, charsets):
             pass
     return text
 
+
 def switch_on(view, request_layer=z3c.form.interfaces.IFormLayer):
     """Fix up the request and apply the given layer. This is mainly useful
     in Zope < 2.10 when using a wrapper layout view.
@@ -68,9 +70,9 @@ def switch_on(view, request_layer=z3c.form.interfaces.IFormLayer):
 
     request = view.request
 
-    if (not IFixedUpRequest.providedBy(request) and
+    if (
+        not IFixedUpRequest.providedBy(request) and
         not IBrowserApplicationRequest.providedBy(request)
     ):
-
         interface.alsoProvides(request, IFixedUpRequest)
         interface.alsoProvides(request, request_layer)

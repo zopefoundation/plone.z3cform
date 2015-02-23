@@ -1,7 +1,7 @@
+from plone.z3cform.fieldsets.group import GroupFactory
 from z3c.form.field import Fields
 from z3c.form.util import expandPrefix
 
-from plone.z3cform.fieldsets.group import GroupFactory
 
 def add(form, *args, **kwargs):
     """Add one or more fields. Keyword argument 'index' can be used to
@@ -29,8 +29,9 @@ def add(form, *args, **kwargs):
         else:
             field_names = source.fields.keys()
             source.fields = source.fields.select(*field_names[:index]) + \
-                            new_fields + \
-                            source.fields.select(*field_names[index:])
+                new_fields + \
+                source.fields.select(*field_names[index:])
+
 
 def remove(form, field_name, prefix=None):
     """Get rid of a field. The omitted field will be returned.
@@ -50,7 +51,14 @@ def remove(form, field_name, prefix=None):
                 group.fields = group.fields.omit(field_name)
                 return field
 
-def move(form, field_name, before=None, after=None, prefix=None, relative_prefix=None):
+
+def move(
+        form,
+        field_name,
+        before=None,
+        after=None,
+        prefix=None,
+        relative_prefix=None):
     """Move the field with the given name before or after another field.
     """
     if prefix:
@@ -111,7 +119,8 @@ def move(form, field_name, before=None, after=None, prefix=None, relative_prefix
     if index is None:
         raise KeyError("Field %s not found" % relative)
 
-    add(form, field, group=group, index=index+offset)
+    add(form, field, group=group, index=index + offset)
+
 
 def find_source(form, group=None):
     if group is not None:

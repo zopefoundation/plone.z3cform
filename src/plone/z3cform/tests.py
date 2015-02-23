@@ -1,16 +1,14 @@
-import doctest
-import unittest
-
-from plone.testing import Layer, z2, zca
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone.testing import Layer, z2, zca
+from z3c.form.interfaces import IFormLayer
 from zope import component
 from zope import interface
 from zope.component import testing
 from zope.configuration import xmlconfig
 from zope.publisher.browser import TestRequest
-from z3c.form.interfaces import IFormLayer
-
+import doctest
 import plone.z3cform.templates
+import unittest
 
 
 class TestRequest(TestRequest):
@@ -29,12 +27,12 @@ def create_eventlog(event=interface.Interface):
 
 def setup_defaults():
     # Set up z3c.form defaults
-    import os.path
-    import zope.schema
-    from zope.pagetemplate.interfaces import IPageTemplate
     from z3c.form import browser, button, converter, datamanager, error, field
     from z3c.form import interfaces, validator, widget
     from z3c.form.browser import text
+    from zope.pagetemplate.interfaces import IPageTemplate
+    import os.path
+    import zope.schema
 
     def getPath(filename):
         return os.path.join(os.path.dirname(browser.__file__), filename)
@@ -61,12 +59,19 @@ def setup_defaults():
         IPageTemplate, name=interfaces.DISPLAY_MODE)
 
     component.provideAdapter(
-        widget.WidgetTemplateFactory(getPath('checkbox_input.pt'), 'text/html'),
-        (None, None, None, None, interfaces.ICheckBoxWidget),
-        IPageTemplate, name=interfaces.INPUT_MODE)
+        widget.WidgetTemplateFactory(
+            getPath('checkbox_input.pt'),
+            'text/html'),
+        (None,
+         None,
+         None,
+         None,
+         interfaces.ICheckBoxWidget),
+        IPageTemplate,
+        name=interfaces.INPUT_MODE)
     component.provideAdapter(
         widget.WidgetTemplateFactory(
-        getPath('checkbox_display.pt'), 'text/html'),
+            getPath('checkbox_display.pt'), 'text/html'),
         (None, None, None, None, interfaces.ICheckBoxWidget),
         IPageTemplate, name=interfaces.DISPLAY_MODE)
     # Submit Field Widget
@@ -131,7 +136,7 @@ class P3FLayer(Layer):
 
 P3F_FIXTURE = P3FLayer()
 FUNCTIONAL_TESTING = z2.FunctionalTesting(bases=(P3F_FIXTURE, ),
-    name="plone.z3cform:Functional")
+                                          name="plone.z3cform:Functional")
 
 
 def test_suite():
@@ -151,12 +156,12 @@ def test_suite():
         layout_txt, inputs_txt, fieldsets_txt, traversal_txt,
 
         doctest.DocFileSuite(
-           'crud/README.txt',
-           setUp=testing.setUp, tearDown=testing.tearDown,
-           ),
+            'crud/README.txt',
+            setUp=testing.setUp, tearDown=testing.tearDown,
+        ),
 
         doctest.DocTestSuite(
-           'plone.z3cform.crud.crud',
-           setUp=testing.setUp, tearDown=testing.tearDown,
-           ),
-        ])
+            'plone.z3cform.crud.crud',
+            setUp=testing.setUp, tearDown=testing.tearDown,
+        ),
+    ])

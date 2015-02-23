@@ -1,17 +1,12 @@
 from Acquisition import aq_inner
-import z3c.form.interfaces
-
-import zope.interface
-import zope.component
-
 from Products.Five import BrowserView
-
-from zope.pagetemplate.interfaces import IPageTemplate
-
 from Products.Five.browser.pagetemplatefile import BoundPageTemplate
-
 from plone.z3cform import interfaces
 from plone.z3cform import z2
+from zope.pagetemplate.interfaces import IPageTemplate
+import z3c.form.interfaces
+import zope.component
+import zope.interface
 
 
 class FormWrapper(BrowserView):
@@ -25,8 +20,8 @@ class FormWrapper(BrowserView):
     """
     zope.interface.implements(interfaces.IFormWrapper)
 
-    form = None # override this with a form class.
-    index = None # override with a page template, or rely on an adapter
+    form = None  # override this with a form class.
+    index = None  # override with a page template, or rely on an adapter
     request_layer = z3c.form.interfaces.IFormLayer
 
     def __init__(self, context, request):
@@ -44,7 +39,9 @@ class FormWrapper(BrowserView):
         """
 
         if not z3c.form.interfaces.ISubForm.providedBy(self.form_instance):
-            zope.interface.alsoProvides(self.form_instance, interfaces.IWrappedForm)
+            zope.interface.alsoProvides(
+                self.form_instance,
+                interfaces.IWrappedForm)
 
         z2.switch_on(self, request_layer=self.request_layer)
         self.form_instance.update()

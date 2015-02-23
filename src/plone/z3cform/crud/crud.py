@@ -1,22 +1,19 @@
-import sys
-
 from ZODB.POSException import ConflictError
-from zope import interface
-import zope.event
-import zope.lifecycleevent
-import zope.publisher.browser
+from plone.batching import Batch
+from plone.batching.browser import BatchView
+from plone.z3cform import MessageFactory as _
+from plone.z3cform.widget import singlecheckboxwidget_factory
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
-import z3c.form.widget
 from z3c.form.interfaces import DISPLAY_MODE, INPUT_MODE, NOVALUE
+from zope import interface
 from zope.browserpage import viewpagetemplatefile
-
-from plone.batching import Batch
-from plone.batching.browser import BatchView
-
-from plone.z3cform.widget import singlecheckboxwidget_factory
-from plone.z3cform import MessageFactory as _
+import sys
+import z3c.form.widget
+import zope.event
+import zope.lifecycleevent
+import zope.publisher.browser
 
 
 class ICrudForm(interface.Interface):
@@ -98,7 +95,8 @@ class AbstractCrudForm(object):
     def add(self, data):
         raise NotImplementedError
 
-    def remove(self, (id, item)):
+    def remove(self, xxx_todo_changeme1):
+        (id, item) = xxx_todo_changeme1
         raise NotImplementedError
 
     def before_update(self, item, data):
@@ -109,11 +107,11 @@ class AbstractCrudForm(object):
 
 
 class CrudBatchView(BatchView):
-
     prefix = ''
 
     def make_link(self, pagenumber):
-        return "%s?%spage=%s" % (self.request.getURL(), self.prefix, pagenumber)
+        return "%s?%spage=%s" % (
+            self.request.getURL(), self.prefix, pagenumber)
 
 
 class EditSubForm(form.EditForm):
@@ -199,7 +197,7 @@ class EditForm(form.Form):
     label = _(u"Edit")
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-table.pt')
 
-    #exposes the edit sub form for your own derivatives
+    # exposes the edit sub form for your own derivatives
     editsubform_factory = EditSubForm
 
     @property
@@ -223,9 +221,9 @@ class EditForm(form.Form):
     @property
     def batch(self):
         items = self.context.get_items()
-        batch_size = self.context.batch_size or sys.maxint
+        batch_size = self.context.batch_size or sys.maxsize
         page = int(self.request.get('%spage' % self.prefix, 0))
-        return Batch.fromPagenumber(items, batch_size, page+1)
+        return Batch.fromPagenumber(items, batch_size, page + 1)
 
     def render_batch_navigation(self):
         bv = CrudBatchView(self.context, self.request)
@@ -265,10 +263,11 @@ class EditForm(form.Form):
 
                 # If there were changes, we'll update the view widgets
                 # again, so that they'll actually display the changes
-                for widget in  subform.widgets.values():
+                for widget in subform.widgets.values():
                     if widget.mode == DISPLAY_MODE:
                         widget.update()
-                        zope.event.notify(z3c.form.widget.AfterWidgetUpdateEvent(widget))
+                        zope.event.notify(
+                            z3c.form.widget.AfterWidgetUpdateEvent(widget))
         self.status = status
 
     @button.buttonAndHandler(_('Delete'), name='delete')
@@ -288,7 +287,8 @@ class EditForm(form.Form):
                     self.status = _(u'Unable to remove one or more items.')
                     break
 
-            # We changed the amount of entries, so we update the subforms again.
+            # We changed the amount of entries, so we update the subforms
+            # again.
             self._update_subforms()
         else:
             self.status = _(u"Please select items to delete.")
@@ -302,6 +302,7 @@ class EditForm(form.Form):
             else:
                 tuples.append((subform.content_id, subform.content))
         return tuples
+
 
 class AddForm(form.Form):
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-add.pt')
@@ -327,13 +328,15 @@ class AddForm(form.Form):
             return
         try:
             item = self.context.add(data)
-        except zope.schema.ValidationError, e:
+        except zope.schema.ValidationError as e:
             self.status = e
         else:
             zope.event.notify(zope.lifecycleevent.ObjectCreatedEvent(item))
             self.status = _(u"Item added successfully.")
 
+
 class NullForm(object):
+
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -344,6 +347,7 @@ class NullForm(object):
     def render(self):
         return ''
     __call__ = render
+
 
 class CrudForm(AbstractCrudForm, form.Form):
     template = viewpagetemplatefile.ViewPageTemplateFile('crud-master.pt')

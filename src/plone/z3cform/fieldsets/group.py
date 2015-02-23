@@ -7,7 +7,6 @@ from zope.interface import implementer
 
 @implementer(IDescriptiveGroup)
 class Group(group.Group):
-
     __name__ = u""
     label = u""
     description = u""
