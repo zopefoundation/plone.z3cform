@@ -1,8 +1,8 @@
-from zope.interface import Interface, Attribute
-from zope import schema
-
-from zope.pagetemplate.interfaces import IPageTemplate
 from z3c.form.interfaces import IForm
+from zope import schema
+from zope.interface import Interface, Attribute
+from zope.pagetemplate.interfaces import IPageTemplate
+
 
 class IFormWrapper(Interface):
     """Form wrapper class.
@@ -28,25 +28,27 @@ class IFormWrapper(Interface):
     form = Attribute("The form class. Should be set at class level")
 
     form_instance = schema.Object(
-        title = u"Instance of the form being rendered",
-        description = u"Set by the wrapper code during __init__()",
-        readonly = True,
-        schema = IForm
-        )
+        title=u"Instance of the form being rendered",
+        description=u"Set by the wrapper code during __init__()",
+        readonly=True,
+        schema=IForm
+    )
 
     index = schema.Object(
-        title = u"Page template instance",
-        description = (u"If not set, a template will be found "
-                       u"via an adapter lookup"),
+        title=u"Page template instance",
+        description=(u"If not set, a template will be found "
+                     u"via an adapter lookup"),
         required = False,
         schema = IPageTemplate
-        )
+    )
+
 
 class IWrappedForm(Interface):
     """Marker interface applied to wrapped forms during rendering.
 
     This allows different handling of templates, for example.
     """
+
 
 class IDeferSecurityCheck(Interface):
     """Marker interface applied to the request during traversal.

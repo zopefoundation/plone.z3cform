@@ -21,19 +21,16 @@ import zope.interface
 import zope.schema.interfaces
 
 try:
-
     # z3c.form 2.0 or later
-
-    from z3c.form.interfaces import ITextLinesWidget
-    from z3c.form.browser.textlines import TextLinesWidget
     from z3c.form.browser.textlines import TextLinesFieldWidget
     from z3c.form.browser.textlines import TextLinesFieldWidgetFactory
+    from z3c.form.browser.textlines import TextLinesWidget
     from z3c.form.converter import TextLinesConverter
+    from z3c.form.interfaces import ITextLinesWidget
 
 except ImportError:
 
     # backport for z3c.form 1.9
-
 
     from z3c.form import interfaces
     from z3c.form import widget
@@ -47,11 +44,9 @@ except ImportError:
         """Input type sequence widget implementation."""
         zope.interface.implementsOnly(ITextLinesWidget)
 
-
     def TextLinesFieldWidget(field, request):
         """IFieldWidget factory for TextLinesWidget."""
         return widget.FieldWidget(field, TextLinesWidget(request))
-
 
     @zope.interface.implementer(interfaces.IFieldWidget)
     def TextLinesFieldWidgetFactory(field, value_type, request):
@@ -66,14 +61,14 @@ except ImportError:
 
         def toWidgetValue(self, value):
             """Convert from text lines to HTML representation."""
-            # if the value is the missing value, then an empty list is produced.
+            # if the value is the missing value, then an empty list is
+            # produced.
             if value is self.field.missing_value:
                 return u''
             return u'\n'.join(unicode(v) for v in value)
 
         def toFieldValue(self, value):
             """See interfaces.IDataConverter"""
-            widget = self.widget
             collectionType = self.field._type
             if isinstance(collectionType, tuple):
                 collectionType = collectionType[-1]
@@ -85,6 +80,7 @@ except ImportError:
             return collectionType(valueType(v) for v in value.split())
 
 # additional
+
 
 class TextLinesSetConverter(TextLinesConverter):
     """Data converter for ITextLinesWidget operating on a set."""
@@ -98,6 +94,7 @@ class TextLinesSetConverter(TextLinesConverter):
         if value is self.field.missing_value:
             return u''
         return u'\n'.join(unicode(v) for v in sorted(value))
+
 
 class TextLinesFrozenSetConverter(TextLinesConverter):
     """Data converter for ITextLinesWidget operating on a frozenset."""

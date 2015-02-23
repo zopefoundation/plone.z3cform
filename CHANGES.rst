@@ -1,8 +1,21 @@
 Changelog
 =========
 
-0.8.1 (unreleased)
+0.8.2 (unreleased)
 ------------------
+
+- Nothing changed yet.
+
+
+0.8.1 (2015-01-22)
+------------------
+
+- Feature: take group class from parent-form if given. If not given it uses
+  the default class.
+  [jensens]
+
+- Added Ukrainian translation
+  [kroman0]
 
 - Added Italian translation
   [giacomos]
