@@ -23,6 +23,8 @@ Fixes:
 
 - Pep8.
   [thet]
+- Fix batching navigation in  CRUD form
+  [petschki]
 
 
 0.8.1 (2015-01-22)
