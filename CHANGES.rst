@@ -4,7 +4,8 @@ Changelog
 0.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Pep8.
+  [thetet]
 
 
 0.8.1 (2015-01-22)
