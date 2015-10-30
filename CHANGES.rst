@@ -4,7 +4,13 @@ Changelog
 0.8.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+New:
+
+- *add item here*
+
+Fixes:
+
+- *add item here*
 
 
 0.8.1 (2015-03-21)
