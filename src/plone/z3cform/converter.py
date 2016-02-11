@@ -14,6 +14,7 @@ class FileUploadDataConverter(z3c.form.converter.FileUploadDataConverter):
     this little class that will do the right thing when a Zope 2
     FileUpload object is received.
     """
+
     def toFieldValue(self, value):
         """See interfaces.IDataConverter"""
         if isinstance(value, ZPublisher.HTTPRequest.FileUpload):
