@@ -10,7 +10,7 @@ New:
 
 Fixes:
 
-- *add item here*
+- QA: pep8.  [maurits]
 
 
 0.8.1 (2015-03-21)
