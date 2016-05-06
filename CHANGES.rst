@@ -13,6 +13,7 @@ Fixes:
 - Added two missing German translations.
   One of those fixes https://github.com/plone/Products.CMFPlone/issues/1580
   [jensens]
+
 - QA: pep8.  [maurits]
 
 
