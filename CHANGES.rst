@@ -10,7 +10,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Added two missing German translations.
+  One of those fixes https://github.com/plone/Products.CMFPlone/issues/1580
+  [jensens]
 
 
 0.8.1 (2015-03-21)
