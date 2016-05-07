@@ -1,12 +1,13 @@
 Changelog
 =========
 
-0.8.2 (unreleased)
+0.9.0 (unreleased)
 ------------------
 
 New:
 
-- *add item here*
+- Enable groups aka fieldsets to be orderable.
+  [jensens]
 
 Fixes:
 
