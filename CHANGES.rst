@@ -23,6 +23,21 @@ Fixes:
 
 - Pep8.
   [thet]
+- Fix batching navigation in  CRUD form
+  [petschki]
+
+- Added two missing German translations.
+  One of those fixes https://github.com/plone/Products.CMFPlone/issues/1580
+  [jensens]
+
+- QA: pep8.  [maurits]
+
+
+0.8.1 (2015-03-21)
+------------------
+
+- Pep8.
+  [thet]
 
 
 0.8.1 (2015-01-22)

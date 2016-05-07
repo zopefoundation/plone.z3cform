@@ -42,15 +42,15 @@ Our simple form looks like this:
 
   >>> class MyForm(crud.CrudForm):
   ...     update_schema = IPerson
-  ... 
+  ...
   ...     def get_items(self):
   ...         return sorted(storage.items(), key=lambda x: x[1].name)
-  ... 
+  ...
   ...     def add(self, data):
   ...         person = Person(**data)
   ...         storage[str(person.name)] = person
   ...         return person
-  ... 
+  ...
   ...     def remove(self, (id, item)):
   ...         del storage[id]
 
@@ -391,7 +391,7 @@ than the 'edit' and 'delete' ones:
   ...     view_schema = IPerson
   ...     editform_factory = MyEditForm
   ...     addform_factory = crud.NullForm     # We don't want an add part.
-  ... 
+  ...
   ...     def get_items(self):
   ...         return sorted(storage.items(), key=lambda x: x[1].name)
 
@@ -427,7 +427,7 @@ We *cannot* use any of the other buttons:
 Customizing sub forms
 ---------------------
 
-The EditForm class allows you to specify an editsubform_factory-a classs 
+The EditForm class allows you to specify an editsubform_factory-a classs
 inherits from EditSubForm.  This allows you to say, override the crud-row.pt
 page template and customize the look of the fields.
 
@@ -474,6 +474,13 @@ as many items displayed per page.
   (True, True)
   >>> "THOMAS" in html
   False
+
+Make sure, the batch link to the next page is available
+
+  >>> 'crud-edit.form.page=1' in html
+  True
+
+Show next page and check content
 
   >>> request.form['crud-edit.form.page'] = '1'
   >>> html = MyBatchingForm(None, request)()
