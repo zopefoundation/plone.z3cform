@@ -38,8 +38,8 @@ class IFormWrapper(Interface):
         title=u"Page template instance",
         description=(u"If not set, a template will be found "
                      u"via an adapter lookup"),
-        required = False,
-        schema = IPageTemplate
+        required=False,
+        schema=IPageTemplate
     )
 
 

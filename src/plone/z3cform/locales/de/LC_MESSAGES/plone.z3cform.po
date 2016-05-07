@@ -28,7 +28,7 @@ msgstr "Aktualisieren"
 
 #: ../fieldsets/extensible.py:55
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 #: ../crud/crud.py:274
 msgid "Delete"
@@ -64,7 +64,7 @@ msgstr "Erfolgreich aktualisiert"
 
 #: ../crud/crud.py:288
 msgid "Unable to remove one or more items."
-msgstr ""
+msgstr "Es ist nicht möglich einen, bzw. mehrere Einträge zu entfernen."
 
 #. Default: "(Required)"
 #: ../templates/macros.pt:56
