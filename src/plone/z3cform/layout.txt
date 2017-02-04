@@ -104,7 +104,7 @@ ViewPageTemplateFile is unnecessary when outside of a test.  We can
 now make the actual call to ``wrap_form`` and register the view class
 it returns.  Normally, you'd register this view class using ZCML, like
 with any other view.
-    
+
     >>> from plone.z3cform.layout import wrap_form
     >>> view_class = wrap_form(MyForm, index=layout, label=u"My label")
     >>> provideAdapter(adapts=(Interface, IBrowserRequest),
@@ -115,7 +115,7 @@ with any other view.
 Let's render this view:
 
     >>> view = getMultiAdapter(
-    ...     (context, request), name=u"test-form2").__of__(context)
+    ...     (context, request), name=u"test-form2")
     >>> print view() # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
     <html>Hello, this is your layout speaking:...My label...Age...</html>
 
@@ -128,7 +128,7 @@ label from the form instance:
     ...         return 'Another label'
 
     >>> view_class = wrap_form(MyLabelledForm, index=layout)
-    >>> view = view_class(context, request).__of__(context)
+    >>> view = view_class(context, request)
     >>> print view() # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
     <html>Hello, this is your layout speaking:...Another label...Age...</html>
 
@@ -167,13 +167,13 @@ template, in fact) from the plone.z3cform directory. For your own purposes,
 you probably just want to specify a filename relative to your package.
 
     >>> new_view_class = wrap_form(MyLabelledForm)
-    >>> view = new_view_class(context, request).__of__(context)
-    
+    >>> view = new_view_class(context, request)
+
     >>> from plone.z3cform.templates import ZopeTwoFormTemplateFactory
     >>> layout_factory = ZopeTwoFormTemplateFactory(
     ...     path, form=new_view_class)
 
-Note that the 'form' parameter here should be the wrapper view class, or an 
+Note that the 'form' parameter here should be the wrapper view class, or an
 interface implemented by it, not the form class itself.
 
     >>> provideAdapter(layout_factory)
