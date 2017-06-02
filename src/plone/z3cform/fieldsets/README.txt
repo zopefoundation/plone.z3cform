@@ -15,16 +15,16 @@ To use this, you have to mix it into another form as the *first* base class:
 
   >>> from zope.annotation import IAttributeAnnotatable
   >>> from z3c.form import form, field, tests, group
-  >>> from zope.interface import Interface, implements
+  >>> from zope.interface import Interface, implementer
   >>> from zope import schema
 
   >>> class ITest(Interface):
   ...     title = schema.TextLine(title=u"Title")
 
+  >>> @implementer(ITest, IAttributeAnnotatable)
   >>> class Test(object):
   ...     # avoid needing an acl_users for this test in Zope 2.10
   ...     __allow_access_to_unprotected_subobjects__ = 1
-  ...     implements(ITest, IAttributeAnnotatable)
   ...     title = u""
   ...     def getPhysicalRoot(self): # needed for template to acquire REQUEST in Zope 2.10
   ...         return self
@@ -61,7 +61,8 @@ convenience base class to make it easier to manipulate the fields of the
 form.
 
   >>> from plone.z3cform.fieldsets.interfaces import IFormExtender
-  >>> from zope.component import adapts, provideAdapter
+  >>> from zope.component import adapter
+  >>> from zope.component import provideAdapter
   
   >>> class IExtraBehavior(Interface):
   ...     foo = schema.TextLine(title=u"Foo")
@@ -75,9 +76,9 @@ One plausible implementation is to use an annotation to store this data.
   >>> from zope.annotation import factory
   >>> from zope.annotation.attribute import AttributeAnnotations
   >>> from persistent import Persistent
+  >>> @implementer(IExtraBehavior)
+  >>> @adapter(Test)
   >>> class ExtraBehavior(Persistent):
-  ...     implements(IExtraBehavior)
-  ...     adapts(Test)
   ...     
   ...     foo = u""
   ...     bar = u""
@@ -93,8 +94,8 @@ We can now write the extender. The base class gives us some helper methods
 to add, remove and move fields. Here, we do a bit of unnecessary work just
 to exercise these methods.
  
+  >>> @adapter(Test, TestRequest, TestForm) # context, request, form
   >>> class ExtraBehaviorExtender(extensible.FormExtender):
-  ...     adapts(Test, TestRequest, TestForm) # context, request, form
   ...
   ...     def __init__(self, context, request, form):
   ...         self.context = context

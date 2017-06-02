@@ -11,8 +11,9 @@ import plone.z3cform.templates
 import unittest
 
 
+@interface.implementer(IFormLayer)
 class TestRequest(TestRequest):
-    interface.implements(IFormLayer)
+    """ A test request which implements IFormLayer """
 
 
 def create_eventlog(event=interface.Interface):

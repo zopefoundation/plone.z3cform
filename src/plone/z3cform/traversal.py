@@ -5,38 +5,21 @@ from plone.z3cform.interfaces import IDeferSecurityCheck
 from plone.z3cform.interfaces import IFormWrapper
 from z3c.form import util
 from z3c.form.interfaces import IForm
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import alsoProvides
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import noLongerProvides
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.traversing.interfaces import ITraversable
 from zope.traversing.interfaces import TraversalError
 
 
+@implementer(ITraversable)
+@adapter(IForm, IBrowserRequest)
 class FormWidgetTraversal(object):
     """Allow traversal to widgets via the ++widget++ namespace. The context
     is the from itself (used when the layout wrapper view is not used).
-
-    Note that to support security in Zope 2.10, the widget being traversed to
-    must have an __of__ method, i.e. it must support acquisition. The easiest
-    way to do that, is to mix in Acquisition.Explicit. The acquisition parent
-    will be the layout form wrapper view.
-
-    In Zope 2.12, this is not necessary, because we also set the __parent__
-    pointer of the returned widget to be the traversal context.
-
-    Unfortunately, if you mix in Acquisition.Explicit in Zope 2.12 *and* the
-    class implements IAcquirer, Zope may complain because the view probably
-    does *not* implement acquisition (in Zope 2.12, views no longer mix in
-    Acquisiton.Explicit). To support both Zope 2.10 and Zope 2.12, you will
-    need to cheat and mix in Acquisition.Explicit, but use implementsOnly()
-    or some other mechanism to make sure the instance does not provide
-    IAcquirer.
     """
-
-    implements(ITraversable)
-    adapts(IForm, IBrowserRequest)
 
     def __init__(self, context, request=None):
         self.context = context
@@ -105,10 +88,7 @@ class FormWidgetTraversal(object):
                 target = new_target
             # subform-containing widget, only option is to go into subform
             elif hasattr(target, 'subform'):
-                if part == 'widgets':
-                    target = target.subform
-                else:
-                    target = None
+                target = target.subform if part == 'widgets' else None
             else:
                 raise TraversalError(
                     'Cannot traverse through ' +
@@ -118,10 +98,7 @@ class FormWidgetTraversal(object):
             if target is None:
                 raise TraversalError(part)
 
-        # Make the parent of the widget the traversal parent.
-        # This is required for security to work in Zope 2.12
         if target is not None:
-            target.__parent__ = aq_inner(self.context)
             return target
         raise TraversalError(name)
 
@@ -137,14 +114,13 @@ class FormWidgetTraversal(object):
                 return group.widgets.get(name)
 
 
+@adapter(IFormWrapper, IBrowserRequest)
 class WrapperWidgetTraversal(FormWidgetTraversal):
     """Allow traversal to widgets via the ++widget++ namespace. The context
     is the from layout wrapper.
 
     The caveat about security above still applies!
     """
-
-    adapts(IFormWrapper, IBrowserRequest)
 
     def _prepareForm(self):
         form = self.context.form_instance

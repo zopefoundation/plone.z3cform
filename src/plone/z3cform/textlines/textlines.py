@@ -40,9 +40,9 @@ except ImportError:
     class ITextLinesWidget(interfaces.IWidget):
         """Text lines widget."""
 
+    @zope.interface.implementerOnly(ITextLinesWidget)
     class TextLinesWidget(textarea.TextAreaWidget):
         """Input type sequence widget implementation."""
-        zope.interface.implementsOnly(ITextLinesWidget)
 
     def TextLinesFieldWidget(field, request):
         """IFieldWidget factory for TextLinesWidget."""

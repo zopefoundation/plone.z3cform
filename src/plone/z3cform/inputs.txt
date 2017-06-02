@@ -28,10 +28,10 @@ Then we create and register a simple form that expects unicode text input:
     ...     text = schema.TextLine(title=u"Text")
 
     >>> from z3c.form.interfaces import IFieldsForm
-    >>> from zope.interface import implements
+    >>> from zope.interface import implementer
 
+    >>> @implementer(IFieldsForm)
     >>> class MyForm(form.Form):
-    ...     implements(IFieldsForm)
     ...     fields = field.Fields(MySchema)
     ...     ignoreContext = True # don't use context to get widget data
     ...
@@ -52,13 +52,13 @@ Then we create and register a simple form that expects unicode text input:
 For our context, we define a class that inherits from Acquisition.
 
     >>> from Acquisition import Implicit
+    >>> @implementer(Interface)
     >>> class Bar(Implicit):
     ...     __allow_access_to_unprotected_subobjects__ = 1
-    ...     implements(Interface)
 
 Let's now look this up with some form data that is not encoded:
 
-    >>> from zope.interface import Interface, implements
+    >>> from zope.interface import Interface
     >>> from zope.component import getMultiAdapter
     
     >>> context = Bar()

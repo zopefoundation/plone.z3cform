@@ -4,25 +4,6 @@ Traversal
 plone.z3cform allows you to traverse to a widget using the ++widget++
 namespace adapter on a form wrapper view or standalone form view.
 
-Note that widgets may need to mix in Acquisition.Explicit to be truly
-traversable in Zope 2.10. In Zope 2.12, that is not required. However, you
-may get an error if you mix in Explicit in Zope 2.12 and the parent view
-(normally the form or the form layout wrapper) does not, as is likely to be
-the case. To be compatible with both Zope 2.10 and 2.12, you'll need to
-mix in Acquisition.Explicit, but make sure the widget does *not* provide the
-IAcquirer interface. One way to do that is by using implementsOnly(), e.g.::
-    
-    class MyWidget(Aquisition.Explicit):
-        implementsOnly(IMyWidget)
-        
-        ...
-
-If you are only targeting Zope 2.12 and later, you can avoid mixing in any
-kind of acquisition altogether.
-
-The ++widget++ namespace works both in the case of a layout wrapper view,
-and in the case of a form used directly (in Zope 2.12 or later).
-
 Traversal on a standalone form
 ------------------------------
 
@@ -40,9 +21,9 @@ First, we create a simple form and context.
     ...     age = schema.Int(title=u"Age")
 
     >>> from z3c.form.interfaces import IFieldsForm
-    >>> from zope.interface import implements
+    >>> from zope.interface import implementer
+    >>> @implementer(IFieldsForm)
     >>> class MyForm(form.Form):
-    ...     implements(IFieldsForm)
     ...     fields = field.Fields(MySchema)
     ...     
     ...     def update(self):
@@ -59,9 +40,9 @@ First, we create a simple form and context.
     ...                name=u"test-form")
 
     >>> from Acquisition import Implicit
+    >>> @implementer(Interface,MySchema)
     >>> class Bar(Implicit):
     ...     __allow_access_to_unprotected_subobjects__ = 1
-    ...     implements(Interface,MySchema)
     ...     age = 48
 
 And define a helper to make a request and traverse to ++widget++
@@ -110,8 +91,8 @@ contains some values for it.
     >>> class MyListSchema(interface.Interface):
     ...     list_field = schema.List(__name__='list_field',title=u"Object Field",value_type=schema.Int(title=u"Age"))
 
+    >>> @implementer(IFieldsForm)
     >>> class MyListForm(form.Form):
-    ...     implements(IFieldsForm)
     ...     fields = field.Fields(MyListSchema)
     ...     
     ...     def update(self):
@@ -123,9 +104,9 @@ contains some values for it.
     ...                factory=MyListForm,
     ...                name=u"test-list-form")
 
+    >>> @implementer(Interface, MyListSchema)
     >>> class Bar(Implicit):
     ...     __allow_access_to_unprotected_subobjects__ = 1
-    ...     implements(Interface, MyListSchema)
     ...     list_field = [48,49,50]
 
 Make a request. We should be able to find the list_field
@@ -179,8 +160,8 @@ Now create a schema that contains an object with a list of ages within it
     >>> class MyParentSchema(interface.Interface):
     ...     obj_field = schema.Object(__name__='obj_field',title=u"Object Field",schema=MyListSchema)
 
+    >>> @implementer(IFieldsForm)
     >>> class MyParentForm(form.Form):
-    ...     implements(IFieldsForm)
     ...     fields = field.Fields(MyParentSchema)
     ...     
     ...     def update(self):
@@ -192,14 +173,14 @@ Now create a schema that contains an object with a list of ages within it
     ...                factory=MyParentForm,
     ...                name=u"test-parent-form")
 
+    >>> @implementer(Interface, MyListSchema)
     >>> class Baz(Implicit):
     ...     __allow_access_to_unprotected_subobjects__ = 1
-    ...     implements(Interface, MyListSchema)
     ...     list_field = [48,49,50]
 
+    >>> @implementer(Interface, MyParentSchema)
     >>> class Bar(Implicit):
     ...     __allow_access_to_unprotected_subobjects__ = 1
-    ...     implements(Interface, MyParentSchema)
     ...     obj_field = Baz()
 
 
@@ -267,10 +248,8 @@ Again, we create a simple form and context.
     >>> class MySchema(interface.Interface):
     ...     age = schema.Int(title=u"Age")
 
-    >>> from z3c.form.interfaces import IFieldsForm
-    >>> from zope.interface import implements
+    >>> @implementer(IFieldsForm)
     >>> class MyForm(form.Form):
-    ...     implements(IFieldsForm)
     ...     fields = field.Fields(MySchema)
     ...     ignoreContext = True # don't use context to get widget data
     ...     
@@ -292,9 +271,9 @@ Again, we create a simple form and context.
     ...                name=u"test-form")
 
     >>> from Acquisition import Implicit
+    >>> @implementer(Interface)
     >>> class Bar(Implicit):
     ...     __allow_access_to_unprotected_subobjects__ = 1
-    ...     implements(Interface)
 
     >>> from zope.component import getMultiAdapter
     >>> context = Bar()

@@ -71,6 +71,7 @@ class ICrudForm(interface.Interface):
         """
 
 
+@interface.implementer(ICrudForm)
 class AbstractCrudForm(object):
     """The AbstractCrudForm is not a form but implements methods
     necessary to comply with the ``ICrudForm`` interface:
@@ -79,7 +80,6 @@ class AbstractCrudForm(object):
       >>> verifyClass(ICrudForm, AbstractCrudForm)
       True
     """
-    interface.implements(ICrudForm)
 
     update_schema = None
     view_schema = None
