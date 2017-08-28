@@ -4,14 +4,6 @@ Changelog
 0.9.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Remove deprecated __of__ calls on BrowserViews
