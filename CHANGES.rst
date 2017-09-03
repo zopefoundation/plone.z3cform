@@ -1,6 +1,18 @@
 Changelog
 =========
 
+0.9.2 (Unreleased)
+------------------
+
+Bug fixes:
+
+- * Add item here *
+
+New features:
+
+- * Add item here *
+
+
 0.9.1 (2017-09-03)
 ------------------
 
