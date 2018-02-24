@@ -38,7 +38,7 @@ Then we create and register a simple form that expects unicode text input:
     ...     @button.buttonAndHandler(u'Apply')
     ...     def handleApply(self, action):
     ...         data, errors = self.extractData()
-    ...         print repr(data['text'])
+    ...         print(repr(data['text']))
 
     >>> from zope.component import provideAdapter
     >>> from zope.publisher.interfaces.browser import IBrowserRequest
@@ -60,7 +60,7 @@ Let's now look this up with some form data that is not encoded:
 
     >>> from zope.interface import Interface, implements
     >>> from zope.component import getMultiAdapter
-    
+
     >>> context = Bar()
     >>> request = make_request(form={'form.widgets.text': 'foo'})
 

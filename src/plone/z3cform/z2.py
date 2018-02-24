@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
 from zope import interface
 from zope.i18n.interfaces import IUserPreferredCharsets
 from zope.publisher.browser import isCGI_NAME
 from zope.publisher.interfaces.browser import IBrowserApplicationRequest
+
+import six
 import z3c.form.interfaces
 
 
@@ -56,7 +59,7 @@ def processInputs(request, charsets=None):
 def _decode(text, charsets):
     for charset in charsets:
         try:
-            text = unicode(text, charset)
+            text = six.text_type(text, charset)
             break
         except UnicodeError:
             pass

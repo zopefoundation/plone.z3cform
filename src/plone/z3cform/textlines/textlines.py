@@ -16,6 +16,7 @@ $Id: __init__.py 97 2007-03-29 22:58:27Z rineichen $
 """
 __docformat__ = "reStructuredText"
 
+import six
 import zope.component
 import zope.interface
 import zope.schema.interfaces
@@ -65,7 +66,7 @@ except ImportError:
             # produced.
             if value is self.field.missing_value:
                 return u''
-            return u'\n'.join(unicode(v) for v in value)
+            return u'\n'.join(six.text_type(v) for v in value)
 
         def toFieldValue(self, value):
             """See interfaces.IDataConverter"""
@@ -93,7 +94,7 @@ class TextLinesSetConverter(TextLinesConverter):
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
             return u''
-        return u'\n'.join(unicode(v) for v in sorted(value))
+        return u'\n'.join(six.text_type(v) for v in sorted(value))
 
 
 class TextLinesFrozenSetConverter(TextLinesConverter):
@@ -107,4 +108,4 @@ class TextLinesFrozenSetConverter(TextLinesConverter):
         # if the value is the missing value, then an empty list is produced.
         if value is self.field.missing_value:
             return u''
-        return u'\n'.join(unicode(v) for v in sorted(value))
+        return u'\n'.join(six.text_type(v) for v in sorted(value))

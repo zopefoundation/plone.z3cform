@@ -2,6 +2,8 @@ from plone.z3cform.fieldsets.group import GroupFactory
 from z3c.form.field import Fields
 from z3c.form.util import expandPrefix
 
+import six
+
 
 def add(form, *args, **kwargs):
     """Add one or more fields. Keyword argument 'index' can be used to
@@ -15,7 +17,7 @@ def add(form, *args, **kwargs):
 
     new_fields = Fields(*args, **kwargs)
 
-    if not group or isinstance(group, basestring):
+    if not group or isinstance(group, six.string_types):
         source = find_source(form, group=group)
     else:
         source = group

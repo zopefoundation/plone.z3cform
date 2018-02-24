@@ -6,11 +6,13 @@ Changelog
 
 Bug fixes:
 
-- * Add item here *
+- Provide an up-to-date bootstrap.py
+  [ale-rt]
 
 New features:
 
-- * Add item here *
+- Prepare for Python 2 / 3 compatibility
+  [pbauer, davilima6]
 
 
 0.9.1 (2017-09-03)

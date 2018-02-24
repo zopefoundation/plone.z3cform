@@ -41,6 +41,7 @@ setup(
     install_requires=[
         'setuptools',
         'plone.batching',
+        'six',
         'z3c.form',
         'zope.i18n>=3.4',
         'zope.browserpage',
