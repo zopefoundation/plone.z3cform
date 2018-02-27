@@ -25,8 +25,8 @@ First, let's define an interface and a class to play with:
   ...     name = schema.TextLine()
   ...     age = schema.Int()
 
-  >>> class Person(object):
-  ...     interface.implements(IPerson)
+  >>> @interface.implementer(IPerson)
+  ... class Person(object):
   ...     def __init__(self, name=None, age=None):
   ...         self.name, self.age = name, age
   ...     def __repr__(self):

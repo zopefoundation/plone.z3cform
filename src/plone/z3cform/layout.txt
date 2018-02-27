@@ -41,9 +41,9 @@ Then we create a simple form:
     ...     age = schema.Int(title=u'Age')
 
     >>> from z3c.form.interfaces import IFieldsForm
-    >>> from zope.interface import implements
-    >>> class MyForm(form.Form):
-    ...     implements(IFieldsForm)
+    >>> from zope.interface import implementer
+    >>> @implementer(IFieldsForm)
+    ... class MyForm(form.Form):
     ...     fields = field.Fields(MySchema)
     ...     ignoreContext = True  # don't use context to get widget data
     ...
@@ -70,9 +70,9 @@ This is to satisfy permission checking later on, and it'll allow the
 layout view to call ``aq_inner`` on the context:
 
     >>> from Acquisition import Implicit
-    >>> class Bar(Implicit):
+    >>> @implementer(Interface)
+    ... class Bar(Implicit):
     ...     __allow_access_to_unprotected_subobjects__ = 1
-    ...     implements(Interface)
 
 Let's verify that worked:
 
@@ -136,8 +136,8 @@ label from the form instance:
 Send bad data to the form:
 
     >>> request = make_request(form={'form.widgets.age': '12.1'})
-    >>> from zope.interface import Interface, implements
-    >>> formWrapper = getMultiAdapter((context, request), name=u'test-form')
+    >>> from zope.interface import Interface
+    >>> formWrapper = getMultiAdapter((context, request), name=u"test-form")
     >>> form = formWrapper.form(context, request)
     >>> form.update()
     >>> data, errors = form.extractData()
@@ -149,7 +149,7 @@ Send bad data to the form:
 And then send correct data to the form:
 
     >>> request = make_request(form={'form.widgets.age': '12'})
-    >>> from zope.interface import Interface, implements
+    >>> from zope.interface import Interface
     >>> from Acquisition import Implicit
     >>> formWrapper = getMultiAdapter((context, request), name=u'test-form')
     >>> form = formWrapper.form(context, request)

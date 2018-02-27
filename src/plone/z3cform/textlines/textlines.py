@@ -21,6 +21,7 @@ import zope.component
 import zope.interface
 import zope.schema.interfaces
 
+
 try:
     # z3c.form 2.0 or later
     from z3c.form.browser.textlines import TextLinesFieldWidget
@@ -54,11 +55,12 @@ except ImportError:
         """IFieldWidget factory for TextLinesWidget."""
         return TextLinesFieldWidget(field, request)
 
+    @zope.component.adapter(
+        zope.schema.interfaces.ISequence,
+        ITextLinesWidget,
+    )
     class TextLinesConverter(converter.BaseDataConverter):
         """Data converter for ITextLinesWidget."""
-
-        zope.component.adapts(
-            zope.schema.interfaces.ISequence, ITextLinesWidget)
 
         def toWidgetValue(self, value):
             """Convert from text lines to HTML representation."""
@@ -83,11 +85,12 @@ except ImportError:
 # additional
 
 
+@zope.component.adapter(
+    zope.schema.interfaces.ISet,
+    ITextLinesWidget,
+)
 class TextLinesSetConverter(TextLinesConverter):
     """Data converter for ITextLinesWidget operating on a set."""
-
-    zope.component.adapts(
-        zope.schema.interfaces.ISet, ITextLinesWidget)
 
     def toWidgetValue(self, value):
         """Convert from text lines to HTML representation."""
@@ -97,11 +100,12 @@ class TextLinesSetConverter(TextLinesConverter):
         return u'\n'.join(six.text_type(v) for v in sorted(value))
 
 
+@zope.component.adapter(
+    zope.schema.interfaces.IFrozenSet,
+    ITextLinesWidget,
+)
 class TextLinesFrozenSetConverter(TextLinesConverter):
     """Data converter for ITextLinesWidget operating on a frozenset."""
-
-    zope.component.adapts(
-        zope.schema.interfaces.IFrozenSet, ITextLinesWidget)
 
     def toWidgetValue(self, value):
         """Convert from text lines to HTML representation."""

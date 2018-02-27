@@ -7,6 +7,7 @@ Changelog
 Bug fixes:
 
 - Provide an up-to-date bootstrap.py
+- Python 3 compatibility: use the adapter and implementer decorators
   [ale-rt]
 
 New features:

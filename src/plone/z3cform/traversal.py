@@ -5,15 +5,17 @@ from plone.z3cform.interfaces import IDeferSecurityCheck
 from plone.z3cform.interfaces import IFormWrapper
 from z3c.form import util
 from z3c.form.interfaces import IForm
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import alsoProvides
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface import noLongerProvides
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.traversing.interfaces import ITraversable
 from zope.traversing.interfaces import TraversalError
 
 
+@adapter(IForm, IBrowserRequest)
+@implementer(ITraversable)
 class FormWidgetTraversal(object):
     """Allow traversal to widgets via the ++widget++ namespace. The context
     is the from itself (used when the layout wrapper view is not used).
@@ -34,9 +36,6 @@ class FormWidgetTraversal(object):
     or some other mechanism to make sure the instance does not provide
     IAcquirer.
     """
-
-    implements(ITraversable)
-    adapts(IForm, IBrowserRequest)
 
     def __init__(self, context, request=None):
         self.context = context
@@ -137,14 +136,13 @@ class FormWidgetTraversal(object):
                 return group.widgets.get(name)
 
 
+@adapter(IFormWrapper, IBrowserRequest)
 class WrapperWidgetTraversal(FormWidgetTraversal):
     """Allow traversal to widgets via the ++widget++ namespace. The context
     is the from layout wrapper.
 
     The caveat about security above still applies!
     """
-
-    adapts(IFormWrapper, IBrowserRequest)
 
     def _prepareForm(self):
         form = self.context.form_instance

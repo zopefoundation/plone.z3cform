@@ -11,9 +11,9 @@ import plone.z3cform.templates
 import unittest
 
 
+@interface.implementer(IFormLayer)
 class TestRequest(TestRequest):
-    interface.implements(IFormLayer)
-
+    pass
 
 def create_eventlog(event=interface.Interface):
     value = []

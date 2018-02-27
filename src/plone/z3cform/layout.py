@@ -9,6 +9,7 @@ import zope.component
 import zope.interface
 
 
+@zope.interface.implementer(interfaces.IFormWrapper)
 class FormWrapper(BrowserView):
     """Use this as a base class for your Five view and override the
     'form' attribute with your z3c.form form class.  Your form will
@@ -18,7 +19,6 @@ class FormWrapper(BrowserView):
     Use the 'wrap' function in this module if you don't like defining
     classes.
     """
-    zope.interface.implements(interfaces.IFormWrapper)
 
     form = None  # override this with a form class.
     index = None  # override with a page template, or rely on an adapter
