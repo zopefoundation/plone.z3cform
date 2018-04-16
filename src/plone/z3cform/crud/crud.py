@@ -54,7 +54,7 @@ class ICrudForm(interface.Interface):
         a problem with the add form data.
         """
 
-    def remove((id, item)):
+    def remove(id_item):
         """Subclasses must implement this method to remove the given
         item from the site.
 
@@ -95,8 +95,8 @@ class AbstractCrudForm(object):
     def add(self, data):
         raise NotImplementedError
 
-    def remove(self, xxx_todo_changeme1):
-        (id, item) = xxx_todo_changeme1
+    def remove(self, id_item):
+        (id, item) = id_item
         raise NotImplementedError
 
     def before_update(self, item, data):

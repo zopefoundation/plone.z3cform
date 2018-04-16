@@ -51,7 +51,8 @@ Our simple form looks like this:
   ...         storage[str(person.name)] = person
   ...         return person
   ...
-  ...     def remove(self, (id, item)):
+  ...     def remove(self, id_item):
+  ...         id, item = id_item
   ...         del storage[id]
 
 This is all that we need to render a combined edit add form containing
