@@ -6,6 +6,9 @@ Changelog
 
 Bug fixes:
 
+- Removal of tuple parameter unpacking in method definition (Fixes #14)
+  [ale-rt]
+
 - Provide an up-to-date bootstrap.py
 - Python 3 compatibility: use the adapter and implementer decorators
   [ale-rt]
