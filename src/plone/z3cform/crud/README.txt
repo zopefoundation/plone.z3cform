@@ -59,7 +59,7 @@ This is all that we need to render a combined edit add form containing
 all our items:
 
   >>> from plone.z3cform.tests import TestRequest
-  >>> print MyForm(None, TestRequest())() \
+  >>> print(MyForm(None, TestRequest())()) \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...Martha...Peter...</div>
 
@@ -107,7 +107,7 @@ Now that we renamed Peter to Franz, it would be also nice to have
 Franz use 'Franz' as the id in the storage, wouldn't it?
 
   >>> storage['Peter']
-  <Person with name=u'Franz', age=16>
+  <Person with name='Franz', age=16>
 
 We can override the CrudForm's ``before_update`` method to perform a
 rename whenever the name of a person is changed:
@@ -186,7 +186,7 @@ clicking the "Delete" button:
   >>> 'Franz' in html
   False
   >>> storage
-  {'Maria': <Person with name=u'Maria', age=50>}
+  {'Maria': <Person with name='Maria', age=50>}
 
 Add an item with our form
 -------------------------
@@ -209,7 +209,7 @@ Added items should show up right away:
   True
 
   >>> storage['Daniel']
-  <Person with name=u'Daniel', age=28>
+  <Person with name='Daniel', age=28>
   >>> log.pop().object == storage['Daniel']
   True
   >>> log
@@ -262,7 +262,7 @@ wanted the name of our persons to be viewable only in the table:
   ...     view_schema = field.Fields(IPerson).select('name')
   ...     add_schema = IPerson
 
-  >>> print MyAdvancedForm(None, TestRequest())() \
+  >>> print(MyAdvancedForm(None, TestRequest())()) \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...Daniel...Maria...</div>
 
@@ -293,7 +293,7 @@ We can still add a Person using both name and age:
   >>> len(storage)
   3
   >>> storage['Thomas']
-  <Person with name=u'Thomas', age=28>
+  <Person with name='Thomas', age=28>
 
 Our form can also contain links to our items:
 
@@ -302,7 +302,7 @@ Our form can also contain links to our items:
   ...         if field == 'name':
   ...             return 'http://en.wikipedia.org/wiki/%s' % item.name
 
-  >>> print MyAdvancedLinkingForm(None, TestRequest())() \
+  >>> print(MyAdvancedLinkingForm(None, TestRequest())()) \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...
   ...<a href="http://en.wikipedia.org/wiki/Daniel"...
@@ -318,7 +318,7 @@ What if we wanted the name to be both used for linking to the item
   ...     view_schema = field.Fields(IPerson).select('name')
   ...     add_schema = IPerson
 
-  >>> print MyAdvancedLinkingForm(None, TestRequest())() \
+  >>> print(MyAdvancedLinkingForm(None, TestRequest())()) \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...
   ...<a href="http://en.wikipedia.org/wiki/Thomas"...Thomas...</a>...
@@ -329,12 +329,12 @@ Wikipedia link immediately:
 
   >>> request = TestRequest()
   >>> for name in 'Daniel', 'Maria', 'Thomas':
-  ...     request.form['crud-edit.%s.widgets.name' % name] = unicode(storage[name].name)
-  ...     request.form['crud-edit.%s.widgets.age' % name] = unicode(storage[name].age)
+  ...     request.form['crud-edit.%s.widgets.name' % name] = storage[name].name
+  ...     request.form['crud-edit.%s.widgets.age' % name] = storage[name].age
   >>> request.form['crud-edit.Thomas.widgets.name'] = u'Dracula'
   >>> request.form['crud-edit.form.buttons.edit'] = u'Apply Changes'
 
-  >>> print MyAdvancedLinkingForm(None, request)() \
+  >>> print(MyAdvancedLinkingForm(None, request)()) \
   ... # doctest: +ELLIPSIS +NORMALIZE_WHITESPACE
   <div class="crud-form">...
   ...<a href="http://en.wikipedia.org/wiki/Dracula"...Dracula...</a>...
@@ -401,9 +401,9 @@ than the 'edit' and 'delete' ones:
   >>> "Delete" in html, "Apply changes" in html, "Capitalize" in html
   (False, False, True)
   >>> pprint(storage)
-  {'Daniel': <Person with name=u'Daniel', age=35>,
-   'Maria': <Person with name=u'Maria', age=40>,
-   'Thomas': <Person with name=u'Thomas', age=28>}
+  {'Daniel': <Person with name='Daniel', age=35>,
+   'Maria': <Person with name='Maria', age=40>,
+   'Thomas': <Person with name='Thomas', age=28>}
 
   >>> request.form['crud-edit.Thomas.widgets.select'] = ['selected']
   >>> request.form['crud-edit.form.buttons.capitalize'] = u'Capitalize'
@@ -411,9 +411,9 @@ than the 'edit' and 'delete' ones:
   >>> "Capitalized items" in html
   True
   >>> pprint(storage)
-  {'Daniel': <Person with name=u'Daniel', age=35>,
-   'Maria': <Person with name=u'Maria', age=40>,
-   'Thomas': <Person with name=u'THOMAS', age=28>}
+  {'Daniel': <Person with name='Daniel', age=35>,
+   'Maria': <Person with name='Maria', age=40>,
+   'Thomas': <Person with name='THOMAS', age=28>}
 
 We *cannot* use any of the other buttons:
 
