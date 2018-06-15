@@ -59,9 +59,9 @@ def processInputs(request, charsets=None):
 def _decode(text, charsets):
     for charset in charsets:
         try:
-            text = text.encode(charset)
+            text = text.decode(charset)
             break
-        except UnicodeError:
+        except (UnicodeError, AttributeError):
             pass
     return text
 
