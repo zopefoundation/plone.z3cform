@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.testing import Layer, z2, zca
 from z3c.form.interfaces import IFormLayer
@@ -145,30 +146,23 @@ FUNCTIONAL_TESTING = z2.FunctionalTesting(bases=(P3F_FIXTURE, ),
 class Py23DocChecker(doctest.OutputChecker):
     def check_output(self, want, got, optionflags):
         if six.PY2:
-            got = re.sub('zope.location.interfaces.LocationError', 'LocationError', got)
-            got = re.sub('zope.interface.interfaces.ComponentLookupError', 'ComponentLookupError', got)
-            got = re.sub('zope.testbrowser.browser.LinkNotFoundError', 'LinkNotFoundError', got)
-            got = re.sub("u'(.*?)'", "'\\1'", want)
-            # want = re.sub("b'(.*?)'", "'\\1'", want)
+            got = re.sub('LocationError', 'zope.location.interfaces.LocationError', got)
+            got = re.sub("u'(.*?)'", "'\\1'", got)
         return doctest.OutputChecker.check_output(self, want, got, optionflags)
 
 
 def test_suite():
-    layout_txt = doctest.DocFileSuite('layout.txt')
+    layout_txt = doctest.DocFileSuite('layout.txt', checker=Py23DocChecker())
     layout_txt.layer = FUNCTIONAL_TESTING
-    layout_txt.checker = Py23DocChecker()
 
-    inputs_txt = doctest.DocFileSuite('inputs.txt')
+    inputs_txt = doctest.DocFileSuite('inputs.txt', checker=Py23DocChecker())
     inputs_txt.layer = FUNCTIONAL_TESTING
-    inputs_txt.checker = Py23DocChecker()
 
-    fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
+    fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt', checker=Py23DocChecker())
     fieldsets_txt.layer = FUNCTIONAL_TESTING
-    fieldsets_txt.checker = Py23DocChecker()
 
-    traversal_txt = doctest.DocFileSuite('traversal.txt')
+    traversal_txt = doctest.DocFileSuite('traversal.txt', checker=Py23DocChecker())
     traversal_txt.layer = FUNCTIONAL_TESTING
-    traversal_txt.checker = Py23DocChecker()
 
     return unittest.TestSuite([
         layout_txt, inputs_txt, fieldsets_txt, traversal_txt,

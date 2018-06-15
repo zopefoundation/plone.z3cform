@@ -80,8 +80,12 @@ Let's now try with some encoded data. The default encoding is utf-8.
     >>> testForm = getMultiAdapter((context, request), name=u"test-form")
     >>> testForm.update()
     >>> data, errors = testForm.extractData()
-    >>> data
-    {'text': 'foø'}
+    >>> import six
+    >>> if six.PY2:
+    ...     data == {'text': u'fo\xf8'}
+    ... else:
+    ...     data == {'text': 'foø'}
+    True
     >>> errors
     ()
 
