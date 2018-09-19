@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.testing import Layer, z2, zca
 from z3c.form.interfaces import IFormLayer
@@ -6,8 +7,11 @@ from zope import interface
 from zope.component import testing
 from zope.configuration import xmlconfig
 from zope.publisher.browser import TestRequest
+
 import doctest
 import plone.z3cform.templates
+import six
+import re
 import unittest
 
 
@@ -139,17 +143,25 @@ FUNCTIONAL_TESTING = z2.FunctionalTesting(bases=(P3F_FIXTURE, ),
                                           name="plone.z3cform:Functional")
 
 
+class Py23DocChecker(doctest.OutputChecker):
+    def check_output(self, want, got, optionflags):
+        if six.PY2:
+            got = re.sub('LocationError', 'zope.location.interfaces.LocationError', got)
+            got = re.sub("u'(.*?)'", "'\\1'", got)
+        return doctest.OutputChecker.check_output(self, want, got, optionflags)
+
+
 def test_suite():
-    layout_txt = doctest.DocFileSuite('layout.txt')
+    layout_txt = doctest.DocFileSuite('layout.txt', checker=Py23DocChecker())
     layout_txt.layer = FUNCTIONAL_TESTING
 
-    inputs_txt = doctest.DocFileSuite('inputs.txt')
+    inputs_txt = doctest.DocFileSuite('inputs.txt', checker=Py23DocChecker())
     inputs_txt.layer = FUNCTIONAL_TESTING
 
-    fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt')
+    fieldsets_txt = doctest.DocFileSuite('fieldsets/README.txt', checker=Py23DocChecker())
     fieldsets_txt.layer = FUNCTIONAL_TESTING
 
-    traversal_txt = doctest.DocFileSuite('traversal.txt')
+    traversal_txt = doctest.DocFileSuite('traversal.txt', checker=Py23DocChecker())
     traversal_txt.layer = FUNCTIONAL_TESTING
 
     return unittest.TestSuite([
@@ -157,11 +169,15 @@ def test_suite():
 
         doctest.DocFileSuite(
             'crud/README.txt',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=testing.setUp,
+            tearDown=testing.tearDown,
+            checker=Py23DocChecker(),
         ),
 
         doctest.DocTestSuite(
             'plone.z3cform.crud.crud',
-            setUp=testing.setUp, tearDown=testing.tearDown,
+            setUp=testing.setUp,
+            tearDown=testing.tearDown,
+            checker=Py23DocChecker(),
         ),
     ])

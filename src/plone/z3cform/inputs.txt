@@ -68,20 +68,24 @@ Let's now look this up with some form data that is not encoded:
     >>> testForm.update()
     >>> data, errors = testForm.extractData()
     >>> data
-    {'text': u'foo'}
+    {'text': 'foo'}
     >>> errors
     ()
 
 Let's now try with some encoded data. The default encoding is utf-8.
 
     >>> context = Bar()
-    >>> request = make_request(form={'form.widgets.text': 'fo\xc3\xb8'})
+    >>> request = make_request(form={'form.widgets.text': b'fo\xc3\xb8'})
 
     >>> testForm = getMultiAdapter((context, request), name=u"test-form")
     >>> testForm.update()
     >>> data, errors = testForm.extractData()
-    >>> data
-    {'text': u'fo\xf8'}
+    >>> import six
+    >>> if six.PY2:
+    ...     data == {'text': u'fo\xf8'}
+    ... else:
+    ...     data == {'text': 'foø'}
+    True
     >>> errors
     ()
 

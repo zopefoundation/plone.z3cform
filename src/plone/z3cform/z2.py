@@ -39,12 +39,12 @@ def processInputs(request, charsets=None):
 
     for name, value in request.form.items():
         if not (isCGI_NAME(name) or name.startswith('HTTP_')):
-            if isinstance(value, str):
+            if isinstance(value, six.binary_type):
                 request.form[name] = _decode(value, charsets)
             elif isinstance(value, (list, tuple,)):
                 newValue = []
                 for val in value:
-                    if isinstance(val, str):
+                    if isinstance(val, six.binary_type):
                         val = _decode(val, charsets)
                     newValue.append(val)
 
@@ -59,9 +59,9 @@ def processInputs(request, charsets=None):
 def _decode(text, charsets):
     for charset in charsets:
         try:
-            text = six.text_type(text, charset)
+            text = text.decode(charset)
             break
-        except UnicodeError:
+        except (UnicodeError, AttributeError):
             pass
     return text
 

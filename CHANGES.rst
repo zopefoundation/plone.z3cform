@@ -15,6 +15,9 @@ Bug fixes:
 
 New features:
 
+- Add support for Python 3
+  [pbauer]
+
 - Prepare for Python 2 / 3 compatibility
   [pbauer, davilima6]
 
