@@ -34,7 +34,7 @@ setup(
     keywords='zope cmf form widget',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
-    url='https://pypi.python.org/pypi/plone.z3cform',
+    url='https://pypi.org/project/plone.z3cform',
     license='ZPL 2.1',
     packages=find_packages('src'),
     package_dir={'': 'src'},
