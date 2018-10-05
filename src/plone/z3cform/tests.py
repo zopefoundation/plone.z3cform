@@ -181,7 +181,7 @@ class Py23DocChecker(doctest.OutputChecker):
 
 def test_suite():
     layout_txt = layered(
-        doctest.DocFileSuite('layout.txt', checker=Py23DocChecker()),
+        doctest.DocFileSuite('layout.rst', checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
     inputs_txt = layered(
@@ -197,6 +197,23 @@ def test_suite():
         doctest.DocFileSuite('traversal.txt', checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
+    crud_readme_txt = layered(
+        doctest.DocFileSuite('crud/README.txt', checker=Py23DocChecker()),
+        layer=zca.UNIT_TESTING,
+    )
+    crud_py = layered(
+        doctest.DocTestSuite(
+            'plone.z3cform.crud.crud',
+            setUp=testing.setUp,
+            tearDown=testing.tearDown,
+            checker=Py23DocChecker(),
+        ),
+        layer=zca.UNIT_TESTING,
+    )
+    traversal_txt = layered(
+        doctest.DocFileSuite('traversal.txt', checker=Py23DocChecker()),
+        layer=FUNCTIONAL_TESTING,
+    )
 
     return unittest.TestSuite(
         [
@@ -204,17 +221,7 @@ def test_suite():
             inputs_txt,
             fieldsets_txt,
             traversal_txt,
-            doctest.DocFileSuite(
-                'crud/README.txt',
-                setUp=testing.setUp,
-                tearDown=testing.tearDown,
-                checker=Py23DocChecker(),
-            ),
-            doctest.DocTestSuite(
-                'plone.z3cform.crud.crud',
-                setUp=testing.setUp,
-                tearDown=testing.tearDown,
-                checker=Py23DocChecker(),
-            ),
+            crud_readme_txt,
+            crud_py,
         ]
     )

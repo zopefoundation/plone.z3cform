@@ -13,7 +13,7 @@
       name="ploneform-macros"
       for="*"
       class=".templates.Macros"
-      template="templates/macros.pt"
+      template="pagetemplates/macros.pt"
       allowed_interface="zope.interface.common.mapping.IItemMapping"
       permission="zope.Public"
       />
