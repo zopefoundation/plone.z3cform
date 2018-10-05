@@ -1,32 +1,34 @@
 from setuptools import setup, find_packages
 import os
 
-__version__ = '0.9.2.dev0'
+__version__ = '1.0.0.dev0'
 
 
 def description():
     join = lambda *paths: os.path.join('src', 'plone', 'z3cform', *paths)
-    return (open('README.rst').read() + '\n' +
-            open(join('fieldsets', 'README.txt')).read() + '\n' +
-            open(join('crud', 'README.txt')).read() + '\n' +
-            open('CHANGES.rst').read() + '\n')
+    return (
+        open('README.rst').read()
+        + '\n'
+        + open(join('fieldsets', 'README.txt')).read()
+        + '\n'
+        + open(join('crud', 'README.txt')).read()
+        + '\n'
+        + open('CHANGES.rst').read()
+        + '\n'
+    )
 
 
 setup(
     name='plone.z3cform',
     version=__version__,
     description="plone.z3cform is a library that allows use of z3c.form "
-                "with Zope and the CMF.",
+    "with Zope and the CMF.",
     long_description=description(),
     classifiers=[
         "Framework :: Plone",
-        "Framework :: Plone :: 4.3",
-        "Framework :: Plone :: 5.0",
-        "Framework :: Plone :: 5.1",
         "Framework :: Plone :: 5.2",
         "Framework :: Zope2",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
@@ -49,10 +51,7 @@ setup(
         'zope.i18n>=3.4',
         'zope.browserpage',
         'zope.component',
-        'Zope2',
+        'Zope',
     ],
-    extras_require={
-        'test': ['lxml',
-                 'plone.testing']
-    }
+    extras_require={'test': ['lxml', 'plone.testing']},
 )
