@@ -181,7 +181,7 @@ class Py23DocChecker(doctest.OutputChecker):
 
 def test_suite():
     layout_txt = layered(
-        doctest.DocFileSuite('layout.txt', checker=Py23DocChecker()),
+        doctest.DocFileSuite('layout.rst', checker=Py23DocChecker()),
         layer=FUNCTIONAL_TESTING,
     )
     inputs_txt = layered(
