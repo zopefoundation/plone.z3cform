@@ -1,8 +1,13 @@
 Changelog
 =========
 
-0.9.2 (Unreleased)
+1.0.0 (Unreleased)
 ------------------
+
+New features:
+
+- Support for Python 3
+  [pbauer, davilima6, ale-rt, jensens]
 
 Bug fixes:
 
@@ -10,16 +15,11 @@ Bug fixes:
   [ale-rt]
 
 - Provide an up-to-date bootstrap.py
-- Python 3 compatibility: use the adapter and implementer decorators
   [ale-rt]
 
-New features:
+- Use the adapter and implementer decorators
+  [ale-rt]
 
-- Add support for Python 3
-  [pbauer]
-
-- Prepare for Python 2 / 3 compatibility
-  [pbauer, davilima6]
 
 
 0.9.1 (2017-09-03)
