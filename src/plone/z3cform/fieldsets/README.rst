@@ -49,7 +49,8 @@ request::
 
   >>> form = TestForm(context, request)
   >>> form.update()
-  >>> _ = form.render()
+  >>> form.fields.keys()
+  ['title']
 
 Now let's register an adapter that adds two new fields - one in the
 default fieldset as the first field, and one in a new group. To do this,
