@@ -1,8 +1,9 @@
 language: python
+sudo: false
 python:
-    - 2.7
+    - "2.7"
 install:
-    - python bootstrap.py
+    - pip install -r https://raw.githubusercontent.com/plone/buildout.coredev/5.2/requirements.txt
     - bin/buildout
 script:
     - bin/test -v1
