@@ -4,7 +4,7 @@ python:
     - "2.7"
 install:
     - pip install -r https://raw.githubusercontent.com/plone/buildout.coredev/5.2/requirements.txt
-    - bin/buildout
+    - buildout
 script:
     - bin/test -v1
 notifications:
