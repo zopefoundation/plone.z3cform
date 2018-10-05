@@ -9,7 +9,7 @@ def description():
     return (
         open('README.rst').read()
         + '\n'
-        + open(join('fieldsets', 'README.txt')).read()
+        + open(join('fieldsets', 'README.rst')).read()
         + '\n'
         + open(join('crud', 'README.txt')).read()
         + '\n'
