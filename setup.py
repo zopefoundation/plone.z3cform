@@ -53,5 +53,5 @@ setup(
         'zope.component',
         'Zope',
     ],
-    extras_require={'test': ['lxml', 'plone.testing']},
+    extras_require={'test': ['lxml', 'plone.testing[z2]']},
 )

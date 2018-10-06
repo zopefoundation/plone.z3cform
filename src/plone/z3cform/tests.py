@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from plone.testing import Layer
 from plone.testing import layered
-from plone.testing import zope
+from plone.testing import z2
 from plone.testing import zca
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form.interfaces import IFormLayer
@@ -146,7 +146,7 @@ def setup_defaults():
 
 
 class P3FLayer(Layer):
-    defaultBases = (zope.STARTUP,)
+    defaultBases = (z2.STARTUP,)
 
     def setUp(self):
         self['configurationContext'] = context = zca.stackConfigurationContext(
@@ -164,7 +164,7 @@ class P3FLayer(Layer):
 
 
 P3F_FIXTURE = P3FLayer()
-FUNCTIONAL_TESTING = zope.FunctionalTesting(
+FUNCTIONAL_TESTING = z2.FunctionalTesting(
     bases=(P3F_FIXTURE,), name="plone.z3cform:Functional"
 )
 
