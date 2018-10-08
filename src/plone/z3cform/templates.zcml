@@ -9,6 +9,10 @@
       <include package="five.pt"/>
   </configure>
 
+  <configure zcml:condition="installed Products.PageTemplates">
+      <include package="Products.PageTemplates" />
+  </configure>
+
   <browser:page
       name="ploneform-macros"
       for="*"
