@@ -11,6 +11,12 @@ New features:
 
 Bug fixes:
 
+- Test cleanup.
+  [jensens]
+
+- Rename folder templates to pagetemplates, because of ZCML browser directive warnings.
+  [jensens]
+
 - Removal of tuple parameter unpacking in method definition (Fixes #14)
   [ale-rt]
 

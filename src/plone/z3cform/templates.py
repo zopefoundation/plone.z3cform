@@ -4,9 +4,15 @@ registered to provide default form templates for forms and subforms.
 The default templates draw from a macro page template which you can use by
 itself to render parts of it.
 """
-from Acquisition import IAcquirer, ImplicitAcquisitionWrapper
+from Acquisition import IAcquirer
+from Acquisition import ImplicitAcquisitionWrapper
+from Products.Five.browser.pagetemplatefile import (
+    ViewPageTemplateFile as ZopeTwoPageTemplateFile
+)
 from z3c.form import util
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 from zope.pagetemplate.interfaces import IPageTemplate
+
 import os
 import plone.z3cform
 import plone.z3cform.layout
@@ -15,21 +21,12 @@ import z3c.form.interfaces
 import z3c.form.widget
 import zope.publisher.browser
 
-try:
-    # chameleon-compatible page templates
-    from five.pt.pagetemplate import ViewPageTemplateFile
-    from five.pt.pagetemplate import ViewPageTemplateFile as ZopeTwoPageTemplateFile  # noqa
-except ImportError:
-    # standard Zope page templates
-    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile as ZopeTwoPageTemplateFile  # noqa
-    from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
+def path(filename):
+    return os.path.join(
+        os.path.dirname(plone.z3cform.__file__), 'pagetemplates', filename
+    )
 
-path = lambda p: os.path.join(
-    os.path.dirname(
-        plone.z3cform.__file__),
-    'templates',
-    p)
 
 # Zope 2-compatible form and widget template factory classes.
 
@@ -44,17 +41,14 @@ class FormTemplateFactory(z3c.form.form.FormTemplateFactory):
     """
 
     def __init__(
-            self,
-            filename,
-            contentType='text/html',
-            form=None,
-            request=None):
+        self, filename, contentType='text/html', form=None, request=None
+    ):
         self.template = ViewPageTemplateFile(
-            filename,
-            content_type=contentType)
+            filename, content_type=contentType
+        )
         zope.component.adapter(
-            util.getSpecification(form),
-            util.getSpecification(request))(self)
+            util.getSpecification(form), util.getSpecification(request)
+        )(self)
         zope.interface.implementer(IPageTemplate)(self)
 
 
@@ -66,25 +60,21 @@ class ZopeTwoFormTemplateFactory(z3c.form.form.FormTemplateFactory):
     """
 
     def __init__(
-            self,
-            filename,
-            contentType='text/html',
-            form=None,
-            request=None):
+        self, filename, contentType='text/html', form=None, request=None
+    ):
         self.template = ZopeTwoPageTemplateFile(
-            filename,
-            content_type=contentType)
+            filename, content_type=contentType
+        )
         zope.component.adapter(
-            util.getSpecification(form),
-            util.getSpecification(request))(self)
+            util.getSpecification(form), util.getSpecification(request)
+        )(self)
         zope.interface.implementer(IPageTemplate)(self)
 
     def __call__(self, form, request):
         template = self.template
         if IAcquirer.providedBy(template):
             return ImplicitAcquisitionWrapper(template, form)
-        else:
-            return template
+        return template
 
 
 class ZopeTwoWidgetTemplateFactory(z3c.form.widget.WidgetTemplateFactory):
@@ -93,48 +83,55 @@ class ZopeTwoWidgetTemplateFactory(z3c.form.widget.WidgetTemplateFactory):
     extra Zope 2-isms of Five's ViewPageTemplateFile.
     """
 
-    def __init__(self, filename, contentType='text/html', context=None,
-                 request=None, view=None, field=None, widget=None
-                 ):
+    def __init__(
+        self,
+        filename,
+        contentType='text/html',
+        context=None,
+        request=None,
+        view=None,
+        field=None,
+        widget=None,
+    ):
         self.template = ViewPageTemplateFile(
-            filename,
-            content_type=contentType)
+            filename, content_type=contentType
+        )
         zope.component.adapter(
             util.getSpecification(context),
             util.getSpecification(request),
             util.getSpecification(view),
             util.getSpecification(field),
-            util.getSpecification(widget))(self)
+            util.getSpecification(widget),
+        )(self)
         zope.interface.implementer(IPageTemplate)(self)
+
 
 # View containing common macros
 
 
 class Macros(zope.publisher.browser.BrowserView):
-
     def __getitem__(self, key):
         return self.index.macros[key]
+
 
 # Default templates for the wrapped layout view use case
 
 layout_factory = ZopeTwoFormTemplateFactory(
-    path('layout.pt'),
-    form=plone.z3cform.interfaces.IFormWrapper)
+    path('layout.pt'), form=plone.z3cform.interfaces.IFormWrapper
+)
 
 wrapped_form_factory = FormTemplateFactory(
-    path('wrappedform.pt'),
-    form=plone.z3cform.interfaces.IWrappedForm,
+    path('wrappedform.pt'), form=plone.z3cform.interfaces.IWrappedForm
 )
 
 # Default templates for the standalone form use case
 
 standalone_form_factory = ZopeTwoFormTemplateFactory(
-    path('form.pt'),
-    form=z3c.form.interfaces.IForm)
+    path('form.pt'), form=z3c.form.interfaces.IForm
+)
 
 # Default templates for subforms
 
 subform_factory = FormTemplateFactory(
-    path('subform.pt'),
-    form=z3c.form.interfaces.ISubForm
+    path('subform.pt'), form=z3c.form.interfaces.ISubForm
 )
