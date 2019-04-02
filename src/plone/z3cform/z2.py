@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from ZPublisher import HTTPRequest
 from zope import interface
 from zope.i18n.interfaces import IUserPreferredCharsets
 from zope.publisher.browser import isCGI_NAME
@@ -52,10 +53,7 @@ def processInputs(request, charsets=None):
                     newValue = tuple(value)
 
                 request.form[name] = newValue
-            elif hasattr(value, '__dict__'):
-                # this considers HTTPRequest.record objects but in order
-                # to make a dependency on ZPublisher, we check for the
-                # attribute __dict__
+            elif isinstance(value, HTTPRequest.record):
                 newValue = {}
                 for key, val in value.items():
                     newValue[key] = _decode(val, charsets)
@@ -68,27 +66,10 @@ def _decode(text, charsets):
     for charset in charsets:
         try:
             # decode recursively
-            return _decode_recursive(text, charset)
+            return HTTPRequest._decode(text, charset)
         except (UnicodeError, AttributeError):
             pass
     return text
-
-
-def _decode_recursive(value, charset):
-    """Recursively look for string values and decode.
-       This is a copy from ZPublisher.HTTPRequest._decode to avoid
-       dependency on ZPublisher
-    """
-    __traceback_info__ = value, charset
-    if isinstance(value, list):
-        return [_decode_recursive(v, charset) for v in value]
-    elif isinstance(value, tuple):
-        return tuple(_decode_recursive(v, charset) for v in value)
-    elif isinstance(value, dict):
-        return dict((k, _decode_recursive(v, charset)) for k, v in value.items())  # noqa
-    elif isinstance(value, six.binary_type):
-        return six.text_type(value, charset, 'replace')
-    return value
 
 
 def switch_on(view, request_layer=z3c.form.interfaces.IFormLayer):
