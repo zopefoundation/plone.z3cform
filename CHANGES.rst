@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- enable ``:record[s]`` fields in ``z2.processInputs``
+  [petschki]
 
 Bug fixes:
 

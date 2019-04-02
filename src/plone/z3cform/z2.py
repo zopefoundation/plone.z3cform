@@ -52,6 +52,14 @@ def processInputs(request, charsets=None):
                     newValue = tuple(value)
 
                 request.form[name] = newValue
+            elif hasattr(value, '__dict__'):
+                # this considers HTTPRequest.record objects but in order
+                # to make a dependency on ZPublisher, we check for the
+                # attribute __dict__
+                newValue = {}
+                for key, val in value.items():
+                    newValue[key] = _decode(val, charsets)
+                request.form[name] = newValue
 
     interface.alsoProvides(request, IProcessedRequest)
 
@@ -59,11 +67,28 @@ def processInputs(request, charsets=None):
 def _decode(text, charsets):
     for charset in charsets:
         try:
-            text = text.decode(charset)
-            break
+            # decode recursively
+            return _decode_recursive(text, charset)
         except (UnicodeError, AttributeError):
             pass
     return text
+
+
+def _decode_recursive(value, charset):
+    """Recursively look for string values and decode.
+       This is a copy from ZPublisher.HTTPRequest._decode to avoid
+       dependency on ZPublisher
+    """
+    __traceback_info__ = value, charset
+    if isinstance(value, list):
+        return [_decode_recursive(v, charset) for v in value]
+    elif isinstance(value, tuple):
+        return tuple(_decode_recursive(v, charset) for v in value)
+    elif isinstance(value, dict):
+        return dict((k, _decode_recursive(v, charset)) for k, v in value.items())  # noqa
+    elif isinstance(value, six.binary_type):
+        return six.text_type(value, charset, 'replace')
+    return value
 
 
 def switch_on(view, request_layer=z3c.form.interfaces.IFormLayer):
