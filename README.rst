@@ -2,6 +2,8 @@
 plone.z3cform
 =============
 
+**WARNING: This repository is outdated! Please use the fork on https://github.com/plone/plone.z3cform**
+
 plone.z3cform is a library that enables the use of `z3c.form`_ in Zope.
 It depends only on Zope and z3c.form.
 
